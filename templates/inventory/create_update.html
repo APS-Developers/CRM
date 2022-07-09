@@ -1,0 +1,93 @@
+{% extends 'dashboardNavbar.html' %}
+
+{% block title %}
+{{name}}
+{% endblock %}
+
+{% block css %}
+
+<link rel="stylesheet" href="/static/assets/css/crmFormStyle.css">
+
+{% endblock %}
+
+{% block content %}
+
+<div id="aps_crm">
+    <div class="crm_header">
+        <h4 class="crm_title">{{name}} Product</h4>
+        <h6 class="crm_subtitle">
+            {% ifequal name 'Create' %}
+            Enter the details of product!
+            {% else %}
+            Edit product details!
+            {% endifequal %}
+        </h6>
+    </div>
+    <div class="crm_form">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <fieldset>
+                <label for="">Serial Number</label>
+                {{ form.Serial_Number }}
+            </fieldset>
+
+            <fieldset>
+                <label for="">Part Code</label>
+                {{ form.Part_Code }}
+            </fieldset>
+
+            <fieldset>
+                <label for="">Make</label>
+                {{ form.Make }}
+            </fieldset>
+
+            <fieldset>
+                <label for="">Item</label>
+                {{ form.Item }}
+            </fieldset>
+
+            <fieldset>
+                <label for="">Location</label>
+                {{ form.Location }}
+            </fieldset>
+
+            <fieldset>
+                <label for="">Purchase Date</label>
+                {{ form.Purchase_Date }}
+            </fieldset>
+
+            <fieldset>
+                <label for="">Item Dispatch Date</label>
+                {{ form.Item_dispatched_Date }}
+            </fieldset>
+
+            <fieldset>
+                <label for="">Organisation</label>
+                {{ form.Organisation }}
+            </fieldset>
+
+            <fieldset>
+                <label for="">Status</label>
+                {{ form.Status }}
+            </fieldset>
+
+            <fieldset>
+                <label for="">Slip</label>
+                {{ form.Slip }}
+            </fieldset>
+
+            <fieldset>
+                <button type="submit">Submit</button>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous">
+    </script>
+<script src="/static/assets/js/crmFormScript.js"></script>
+
+{% endblock %}

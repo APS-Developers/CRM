@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Delete {{type}}{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row my-4">
+    <div class="col-md-6 offset-md-3">
+        <div class="border p-3 bg-white">
+            {% ifequal type 'Customer' %}
+            <h4>Delete Customer</h4>
+            <hr>
+            <p>Are you sure you want to delete "{{customer.Name}}"?</p>
+            <form action="{% url 'deleteCustomer' customer.CustomerID %}" method="POST">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <a href="/showCustomer"><input class="btn btn-primary" type="button" value="Cancel"></a>
+                <input class="btn btn-danger" type="submit" value="Confirm">
+            </form>
+            {% else %}
+            <h4>Delete Organisation</h4>
+            <hr>
+            <p>Are you sure you want to delete "{{organisation.Name}}"?</p>
+            <form action="{% url 'deleteOrganisation' organisation.OrgID %}" method="POST">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <a href="/showOrganisation"><input class="btn btn-primary" type="button" value="Cancel"></a>
+                <input class="btn btn-danger" type="submit" value="Confirm">
+            </form>
+            {% endifequal %}
+        </div>
+    </div>
+</div>
+{% endblock %}

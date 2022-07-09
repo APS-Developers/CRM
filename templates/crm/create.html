@@ -1,0 +1,152 @@
+{% extends 'dashboardNavbar.html' %}
+
+{% block title %}
+{{type}}
+{% endblock %}
+
+
+{% block css %}
+
+<link rel="stylesheet" href="/static/assets/css/crmFormStyle.css">
+
+{% endblock %}
+
+
+{% block content %}
+
+{% ifequal type 'Customer' %}
+
+<div id="aps_crm">
+    <div class="crm_header">
+        <h4 class="crm_title">Customer Details</h4>
+        <h6 class="crm_subtitle">Enter the details of Customer</h6>
+    </div>
+    <div class="crm_form">
+        <form action="" method="post"  id="aps_crm_customer_form">
+            {% csrf_token %}
+            <fieldset>
+                <label for="" id="aps_crm_customer_name">Name</label>
+                {{ form.Name }}
+            </fieldset>
+
+            <fieldset>
+                <label for="" id="aps_crm_customer_organization">Organisation</label>
+                {{ form.Organisation }}
+            </fieldset>
+            
+            <fieldset>
+                <label for="" id="aps_crm_customer_email">Email Address</label>
+                {{ form.EmailAddress }}
+            </fieldset>
+
+            <fieldset>
+                <label for="" id="aps_crm_customer_phone">Phone</label>
+                {{ form.ContactNo }}
+            </fieldset>
+
+            <fieldset>
+                <button type="submit">Next &gt;</button>
+            </fieldset>
+        </form>
+    </div>
+</div>
+{% endifequal %}
+
+
+{% ifequal type 'Product' %}
+
+<div id="aps_crm">
+    <div class="crm_header">
+        <h4 class="crm_title">Product Details</h4>
+        <h6 class="crm_subtitle">Enter the details of Product</h6>
+    </div>
+    <div class="crm_form">
+        <form action="" method="post">
+            {% csrf_token %}
+
+            <fieldset>
+                <label for="">Serial Number</label>
+                {{ form.SerialNo }}
+            </fieldset>
+
+            <fieldset>
+                <label for="">Model Number</label>
+                {{ form.ModelNo }}
+            </fieldset>
+
+            <fieldset>
+                <label for="">Category</label>
+                {{ form.Category }}
+            </fieldset>
+
+            <fieldset>
+                <label for="">Sub Category</label>
+                {{ form.SubCategory }}
+            </fieldset>
+
+            <fieldset>
+                <button type="submit">Check in AMC &gt;</button>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+{% endifequal %}
+
+{% ifequal type 'Fault' %}
+
+<div id="aps_crm">
+    <div class="crm_header">
+        <h4 class="crm_title">Fault Details</h4>
+        <h6 class="crm_subtitle">Enter the details of Fault</h6>
+    </div>
+    <div class="crm_form">
+        <form action="" method="post">
+            {% csrf_token %}
+
+            <fieldset>
+                <label for="">Priority</label>
+                {{ form.Priority }}
+            </fieldset>
+
+            <fieldset>
+                <label for="">Fault Found Code</label>
+                {{ form.FaultFoundCode }}
+            </fieldset>
+
+            <fieldset>
+                <label for="">Resolution Code</label>
+                {{ form.ResolutionCode }}
+            </fieldset>
+
+            <fieldset>
+                <label for="">Resolution Remarks</label>
+                {{ form.ResolutionRemarks }}
+            </fieldset>
+
+            <fieldset>
+                <label for="">Online Resolvable</label>
+                {{ form.OnlineResolvable }}
+            </fieldset>
+
+            <fieldset>
+                <label for="">Summary</label>
+                {{ form.Summary }}
+            </fieldset>
+
+            <fieldset>
+                <button type="submit">Submit</button>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+
+{% endifequal %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous">
+    </script>
+    <script src="/static/assets/js/crmFormScript.js"></script>
+
+{% endblock %}
