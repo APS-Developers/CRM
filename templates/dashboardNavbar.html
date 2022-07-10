@@ -38,14 +38,25 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/dashboard">Dashboard <i class="bi bi-clipboard-fill aps_icons"></i></a>
                         </li>
+                        {% if user.userpermission.CRM_permission == True %}
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/showTicket">Ticket Management <i
+                            <a class="nav-link active" aria-current="page" href="/showTicket">Work Queue <i
+                                    class="bi bi-ticket-perforated-fill aps_icons"></i></a>
+                        </li>
+                        {% endif %}
+                        {% if user.userpermission.Inventory_permission == True %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/showInventory">Inventory <i class="bi bi-box2-fill aps_icons"></i></a>
+                        </li>
+                        {% endif %}
+                        {% if user.is_authenticated and user.is_staff and user.is_superuser %}
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/showTicket">Work Queue <i
                                     class="bi bi-ticket-perforated-fill aps_icons"></i></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/showInventory">Inventory <i class="bi bi-box2-fill aps_icons"></i></a>
                         </li>
-                        {% if user.is_authenticated and user.is_staff and user.is_superuser %}
                         <li class="nav-item">
                             <a class="nav-link" href="/showUser">Users <i
                                     class="bi bi-file-earmark-person-fill aps_icons"></i></a>
