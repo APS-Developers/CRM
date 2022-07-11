@@ -30,7 +30,7 @@ SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = config('DEBUG', cast=bool, default=False)
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'https://aps-crm.herokuapp.com/']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'aps-crm.herokuapp.com']
 
 
 # Application definition
