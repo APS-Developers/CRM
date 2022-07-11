@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from decouple import config
 import os
-import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -98,10 +97,6 @@ DATABASES = {
         'PORT': config('DB_PORT')
     }
 }
-
-db_from_env = dj_database_url.config(conn_max_age=600)
-DATABASES['default'].update(db_from_env)
-
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
