@@ -11,7 +11,7 @@ from .filters import UserFilter
 
 
 def index(request):
-    return render(request, 'home/index.html')
+    return render(request, 'index.html')
 
 
 @login_required(login_url='login')
