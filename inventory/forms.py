@@ -4,7 +4,7 @@ from .models import Csvs
 from customer.models import Organisation
  
 StatusChoice=[
-        ('None', 'None'),
+        ('', 'None'),
         ('Working','Working'),
         ('Not Working','Not Working')
     ]
@@ -41,7 +41,7 @@ class Form(forms.ModelForm):
         'rows': '2'
     }), label='')
 
-    Purchase_Date = forms.DateField(widget=forms.TextInput(attrs={
+    Purchase_Date = forms.DateField(required=False, widget=forms.TextInput(attrs={
         'id': '',
         'type': 'date'
     }), label='')    

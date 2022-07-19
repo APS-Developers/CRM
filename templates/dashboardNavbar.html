@@ -81,52 +81,6 @@
                 {% block content %}
                 {% endblock %}
 
-                {% ifequal type 'showUser' %}
-                {% if user.is_authenticated and user.is_staff and user.is_superuser %}
-                <br> 
-                <div class="row">
-                    <div class="col-sm-10 mx-auto">
-                        <h5>ALL USERS</h5>
-                        <hr>
-                        <div class="card card-body">
-                            <a class="btn btn-primary  btn-sm btn-block" href="/register">Create User</a>
-                            <table class="table table-sm">
-                                <tr>
-                                    <th>Username</th>
-                                    <th>Email</th>
-                                    <th>CRM Permission</th>
-                                    <th>Inventory Permission</th>
-                                    <th>Update</th>
-                                    <th>Remove</th>
-                                </tr>
-
-                                {% for user in all_users %}
-                                {% if not user.is_staff and not user.is_superuser %}
-                                <tr>
-                                    <td>{{user.username}}</td>
-                                    <td>{{user.email}}</td>
-                                    {% if user.userpermission.CRM_permission == True %}
-                                    <td>Yes</td>
-                                    {% else %}
-                                    <td>No</td>
-                                    {% endif %}
-                                    {% if user.userpermission.Inventory_permission == True %}
-                                    <td>Yes</td>
-                                    {% else %}
-                                    <td>No</td>
-                                    {% endif %}
-                                    <td><a class="btn btn-sm btn-info" href="{% url 'update' user.id %}">Update</a></td>
-                                    <td><a class="btn btn-sm btn-danger" href="{% url 'delete' user.id %}">Remove</a>
-                                    </td>
-                                </tr>
-                                {% endif %}
-                                {% endfor %}
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                {% endif %}
-                {% endifequal %}  
             </div>
         </div>
 

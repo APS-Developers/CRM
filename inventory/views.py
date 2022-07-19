@@ -1,6 +1,4 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from django.shortcuts import get_list_or_404, get_object_or_404                             
 from .models import Inventory
 from .forms import Form
 from .forms import CsvsModelForm
@@ -18,10 +16,8 @@ def inventoryPermission(username):
     user = User.objects.get(username=username)
     if not user.is_staff or not user.is_superuser:
         permission = UserPermission.objects.get(user_id=user.id).Inventory_permission
-    if user.is_staff or user.is_superuser or permission:
-        return True
-    else:
-        return False
+        return permission
+    return True
 
 
 @login_required(login_url='login')
