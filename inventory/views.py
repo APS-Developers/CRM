@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from authentication.models import User, UserPermission
+import json
 
 
 def inventoryPermission(username):
@@ -105,6 +106,15 @@ def updateInventory(request,pk):
         raise PermissionDenied    
 
 
+def inventoryDetails(serialNo):
+    product = Inventory.objects.get(Serial_Number=serialNo)
+    details = {'Make': product.Make, 'PartCode': product.Part_Code,
+        'SNo': product.Serial_Number, 'Item': product.Item,
+        'Location': product.Location, 'Item_dispatched_Date': product.Item_dispatched_Date,
+        'Organisation': product.Organisation_id, 'Status': product.Status}
+    return json.dumps(details)
+
+    
 # def deleteInventory(request, pk):
 # 	inventory = Inventory.objects.get(Serial_Number=pk)
 # 	if request.method == "POST":

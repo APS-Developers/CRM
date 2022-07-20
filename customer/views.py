@@ -4,6 +4,7 @@ from .models import *
 from .forms import CreateCustomerForm, CreateOrganisationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+import json
 
 # Create your views here.
 
@@ -122,6 +123,6 @@ def customerDetails(name, org):
     orgName, orgAddress = org.split(', ')
     orgID = Organisation.objects.filter(Name=orgName, Address=orgAddress).first().OrgID
     customer = Customer.objects.filter(Name=name, Organisation_id=orgID).first()
-    customer = {'name': customer.Name, 'contactNo': customer.ContactNo, 
+    details = {'name': customer.Name, 'contactNo': customer.ContactNo, 
     'email': customer.EmailAddress, 'organisation': customer.Organisation.Name}
-    return customer
+    return json.dumps(details)
