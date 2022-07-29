@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from authentication.models import User, UserPermission
 import json
-
+from django.http import JsonResponse
 
 def inventoryPermission(username):
     user = User.objects.get(username=username)
@@ -106,18 +106,19 @@ def updateInventory(request,pk):
         raise PermissionDenied    
 
 
-def inventoryDetails(serialNo):
-    product = Inventory.objects.get(Serial_Number=serialNo)
-    details = {'Make': product.Make, 'PartCode': product.Part_Code,
-        'SNo': product.Serial_Number, 'Item': product.Item,
-        'Location': product.Location, 'Item_dispatched_Date': product.Item_dispatched_Date,
-        'Organisation': product.Organisation_id, 'Status': product.Status}
-    return json.dumps(details)
-
-    
+def inventoryDetails(request):
+    try:
+        product = Inventory.objects.get(Serial_Number=request.GET.get("serial"))
+        details = {'Make': product.Make, 'PartCode': product.Part_Code,
+            'SNo': product.Serial_Number, 'Item': product.Item,
+            'Location': product.Location, 'Item_dispatched_Date': product.Item_dispatched_Date,
+            'Organisation': product.Organisation.__str__(),'OrganisationId':product.Organisation.OrgID, 'Status': product.Status}
+        return JsonResponse(details)
+    except Exception as e:
+        return JsonResponse({'error': 'No product found'},status=404)
 # def deleteInventory(request, pk):
 # 	inventory = Inventory.objects.get(Serial_Number=pk)
-# 	if request.method == "POST":
+# 	if request.method == "POST": 
 # 		inventory.delete()
 # 		return redirect('/')
 

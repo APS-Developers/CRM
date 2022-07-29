@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from authentication.models import User, UserPermission
 from django.contrib.auth.models import User
+from django.contrib import messages
 # from django.core.mail import EmailMessage
 # from django.conf import settings
 # from django.template.loader import render_to_string
@@ -88,24 +89,26 @@ def productDetails(request, customerID):
 
 
 @login_required(login_url='login')
-def faultDetails(request, ticketID):
+def createTicket(request):
     if crmPermission(request.user.username):
         form = FaultForm()
         if request.method == 'POST':
             form = FaultForm(request.POST)
             if form.is_valid():
-                fault = form.save(commit=False)
-                ticket = Ticket.objects.get(TicketID=ticketID)
-                ticket.Priority = fault.Priority
-                ticket.FaultFoundCode = fault.FaultFoundCode
-                ticket.ResolutionCode = fault.ResolutionCode
-                ticket.ResolutionRemarks = fault.ResolutionRemarks
-                ticket.OnlineResolvable = fault.OnlineResolvable
-                ticket.Summary = fault.Summary
-                ticket.save()
+                newTicket = form.save(commit=False)
+                if request.POST.get("customer_id"):
+                    newTicket.Customer_id = request.POST.get("customer_id")
+                else:
+                    customer = Customer(Name=request.POST["name"],EmailAddress=request.POST["email"],ContactNo=request.POST["phone"],Organisation_id=request.POST["organisation_id"])
+                    customer.save()
+                    newTicket.Customer = customer
+                newTicket.save()
+                messages.add_message(request, messages.SUCCESS, 'Ticket "%s" created successfully!'%newTicket.TicketID)
                 return redirect('showTicket')
-        context = {'form': form, 'type': 'Fault'}
-        return render(request, 'crm/create.html', context)
+            else:
+                messages.add_message(request, messages.ERROR, 'Please fill all the fields!')
+                return render(request,'crm/form.html')
+        return render(request, 'crm/form.html')
     else:
         raise PermissionDenied
 

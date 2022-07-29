@@ -62,12 +62,15 @@ class CustomerForm(ModelForm):
 
 class ProductForm(ModelForm):
 
-    SerialNo = forms.CharField(widget=forms.TextInput(attrs={
-        'id': '',
-        'type': 'text'
-    }), label='')
+        
+    class Meta:
+        model = Ticket
+        fields = []
 
-    ModelNo = forms.CharField(widget=forms.TextInput(attrs={
+
+class FaultForm(ModelForm):
+
+    SerialNo = forms.CharField(widget=forms.TextInput(attrs={
         'id': '',
         'type': 'text'
     }), label='')
@@ -81,13 +84,6 @@ class ProductForm(ModelForm):
         'id': '',
         'type': 'text'
     }), label='')
-        
-    class Meta:
-        model = Ticket
-        fields = ['SerialNo', 'ModelNo', 'Category', 'SubCategory' ]
-
-
-class FaultForm(ModelForm):
 
     Priority = forms.ChoiceField(choices=priorityChoices,
         widget=forms.Select(attrs={
@@ -95,28 +91,6 @@ class FaultForm(ModelForm):
     }), label='')
 
     FaultFoundCode = forms.ChoiceField(choices=faultChoices,
-        widget=forms.Select(attrs={
-        'id': ''
-        }), label='')
-
-    ResolutionCode = forms.ChoiceField(choices=resolutionChoices,
-        widget=forms.Select(attrs={
-        'id': ''
-        }), label='')
-
-    ResolutionRemarks = forms.CharField(widget=forms.Textarea(attrs={
-        'id': '',
-        'type': 'text',
-        'cols': '30',
-        'rows': '5'
-    }), label='')
-
-    OnlineResolvable = forms.ChoiceField(choices = boolChoices,
-        widget=forms.Select(attrs={
-        'id': ''
-    }), label='')
-
-    AlternateHW = forms.ModelChoiceField(required=False, queryset=Inventory.objects.filter(Organisation=None),
         widget=forms.Select(attrs={
         'id': ''
         }), label='')
@@ -130,8 +104,7 @@ class FaultForm(ModelForm):
 
     class Meta:
         model = Ticket
-        fields = ['Priority', 'FaultFoundCode', 'ResolutionCode', 'ResolutionRemarks', 
-        'OnlineResolvable', 'Summary', 'AlternateHW']
+        fields = ['SerialNo', 'Category', 'SubCategory' , 'Priority', 'FaultFoundCode',  'Summary']
 
 
 class UpdateForm(ModelForm):
