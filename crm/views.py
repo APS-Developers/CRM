@@ -156,9 +156,9 @@ def ticketLog(request, ticketID):
 
         all_history = list(ticket.history.all())
 
-        history_users = []
-        for i in range(len(all_history)):
-            history_users.append(User.objects.get(id=all_history[i].history_user_id).username)
+        # history_users = []
+        # for i in range(len(all_history)):
+        #     history_users.append(User.objects.get(id=all_history[i].history_user_id).username)
 
         context = {'ticket': ticket, 'type': 'History', 'all_history': all_history}
         return render(request, 'crm/show.html', context)
