@@ -1,15 +1,10 @@
 {% extends 'dashboardNavbar.html' %}
 
-
 {% block title %}
-{{type}}
+Ticket
 {% endblock %}
 
-
 {% block content %}
-
-{% ifequal type 'Ticket' %}
-
 
 <br>
 <div class="row">
@@ -31,7 +26,7 @@
         </div>
 
         <div class="card card-body">
-            <a class="btn btn-primary  btn-sm btn-block" href="/createTicket">Create Ticket</a>
+            <a class="btn btn-primary  btn-sm btn-block" href="/customerDetails">Create Ticket</a>
             <table class="table table-sm">
                 <tr>
                     <th>S.No</th>
@@ -50,11 +45,8 @@
                     <th>Resolution Remarks</th>
                     <th>Online Resolvable</th>
                     <th>Ticket ID</th>
-                    <th>Alternate HW</th>
                     <th>Update</th>
-                    {% if user.is_authenticated and user.is_staff and user.is_superuser %}
-                    <th>History</th>
-                    {% endif %}
+                    <th>Remove</th>
                 </tr>
 
                 {% for ticket in all_tickets %}
@@ -95,11 +87,8 @@
                         {% endifequal %}
                     </td>
                     <td>{{ticket.TicketID}}</td>
-                    <td>{{ticket.AlternateHW}}</td>
                     <td><a class="btn btn-sm btn-info" href="{% url 'updateTicket' ticket.TicketID %}">Update</a></td>
-                {% if user.is_authenticated and user.is_staff and user.is_superuser %}
-                    <td><a class="btn btn-sm btn-warning" href="{% url 'ticketLog' ticket.TicketID %}">Logs</a></td>
-                {% endif %}
+                    <td><a class="btn btn-sm btn-danger" href="{% url 'deleteTicket' ticket.TicketID %}">Remove</a></td>
                 </tr>
                 {% endfor %}
             </table>
@@ -109,87 +98,128 @@
 </div>
 </div>
 
-
-{% else %}
-
-<br>
-
-<div class="container">
-    <table class="table table-striped table-bordered">
-        <tr>
-            <th>S.No</th>
-            <th>User ID</th>
-            <th>Priority</th>
-            <th>Category</th>
-            <th>Sub Category</th>
-            <th>Model No</th>
-            <th>Serial No</th>
-            <th>Summary</th>
-            <th>AMC</th>
-            <th>Status</th>
-            <th>Fault Found Code</th>
-            <th>Resolution Code</th>
-            <th>Resolution Remarks</th>
-            <th>Online Resolvable</th>
-            <th>Ticket ID</th>
-            <th>Alternate HW</th>
-            <th>Date Updated</th>
-            <th>Change Type</th>
-        </tr>
-
-        {% for history in all_history %}
-                <tr>
-                    <td>{{forloop.counter}}</td>
-                    <td>{{history.history_user_id}}</td>
-                    <td>{{history.Priority}}</td>
-                    <td>{{history.Category}}</td>
-                    <td>{{history.SubCategory}}</td>
-                    <td>{{history.ModelNo}}</td>
-                    <td>{{history.SerialNo}}</td>
-                    <td>{{history.Summary}}</td>
-                    <td>
-                        {% ifequal history.AMC True %}
-                        Yes
-                        {% endifequal %}
-                        {% ifequal history.AMC False %}
-                        No
-                        {% endifequal %}
-                        {% ifequal history.AMC None %}
-                        Unknown
-                        {% endifequal %}
-                    </td>
-                    <td>{{history.Status}}</td>
-                    <td>{{history.FaultFoundCode}}</td>
-                    <td>{{history.ResolutionCode}}</td>
-                    <td>{{history.ResolutionRemarks}}</td>
-                    <td>
-                        {% ifequal history.OnlineResolvable True %}
-                        Yes
-                        {% endifequal %}
-                        {% ifequal history.OnlineResolvable False %}
-                        No
-                        {% endifequal %}
-                        {% ifequal history.OnlineResolvable None %}
-                        Unknown
-                        {% endifequal %}
-                    </td>
-                    <td>{{history.TicketID}}</td>
-                    <td>{{history.AlternateHW}}</td>
-                    <td>{{history.history_date}}</td>
-                    <td>
-                        {% ifequal history.history_type '+' %}
-                        Created
-                        {% endifequal %}
-                        {% ifequal history.history_type '~' %}
-                        Updated
-                        {% endifequal %}
-                    </td>
-                </tr>
-                {% endfor %}
-    </table>
-</div>
-
-{% endifequal %}
-
 {% endblock %}
 
+<!-- <!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #ebeff5;
+        }
+
+
+        #total-orders {
+            background-color: #4cb4c7;
+        }
+
+
+        #orders-delivered {
+            background-color: #7abecc;
+        }
+
+        #orders-pending {
+            background-color: #7CD1C0;
+        }
+
+        h5 {
+            text-align: center;
+          }
+
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">Users</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/showCustomer">Customers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/showOrganisation">Organisations</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/showTickets">CRM</a>
+                </li>
+            </ul>
+        </div>
+        <span><a href="/logout">Logout</a></span>
+    </nav> -->
+<!-- <div class="container-fluid">
+
+        <br>
+
+        <div class="row">
+            <div class="col">
+                <div class="col-md">
+                    <div class="card text-center text-white  mb-3" id="total-orders">
+                        <div class="card-header">
+                            <h5 class="card-title">Total Users</h5>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">{{total_users}}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="col-md">
+                    <div class="card text-center text-white  mb-3" id="orders-delivered">
+                        <div class="card-header">
+                            <h5 class="card-title">Orders Delivered</h5>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title"></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="col-md">
+                    <div class="card text-center text-white  mb-3" id="orders-pending">
+                        <div class="card-header">
+                            <h5 class="card-title">Orders Pending</h5>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title"></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+
+
+
+<!-- </div>
+    <hr>
+    <h5>Our footer</h5>
+
+</body>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+
+</html> -->

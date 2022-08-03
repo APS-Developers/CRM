@@ -14,26 +14,10 @@ Show
     <div class="col-sm-10 mx-auto">
         <h5>ALL USERS</h5>
         <hr>
-        <div class="row">
-            <div class="col">
-                <div style="width:700px; margin:0 auto;" class="card card-body">
-        
-                    <form method="get">
-                        {{user_filter.form}}
-        
-                    <button class="btn btn-primary" type="submit">Search</button>
-                  </form>
-        
-                </div>
-            </div>
-        </div>
-
         <div class="card card-body">
             <a class="btn btn-primary  btn-sm btn-block" href="/register">Create User</a>
             <table class="table table-sm">
                 <tr>
-                    <th>S.No</th>
-                    <th>User ID</th>
                     <th>Username</th>
                     <th>Email</th>
                     <th>CRM Permission</th>
@@ -45,8 +29,6 @@ Show
                 {% for user in all_users %}
                 {% if not user.is_staff and not user.is_superuser %}
                 <tr>
-                    <th>{{forloop.counter}}</th>
-                    <td>{{user.id}}</td>
                     <td>{{user.username}}</td>
                     <td>{{user.email}}</td>
                     {% if user.userpermission.CRM_permission == True %}
