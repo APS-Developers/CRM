@@ -1,8 +1,6 @@
 import django
 from django.db import models
 from customer.models import Customer
-from inventory.models import Inventory
-from simple_history.models import HistoricalRecords
 
 # Create your models here.
 
@@ -34,7 +32,7 @@ class Ticket(models.Model):
         ("456", "Modem faulty")
     ]
 
-    TicketID = models.AutoField('Ticket ID', primary_key=True)
+    TicketID = models.AutoField(primary_key=True)
     DateCreated = models.DateField('Date Created', default=django.utils.timezone.now)
     Category = models.CharField(max_length=100)
     SubCategory = models.CharField('Sub-Category', max_length=100)
@@ -49,8 +47,7 @@ class Ticket(models.Model):
     ResolutionRemarks = models.TextField('Resolution Remarks', max_length=500, blank=True)
     Customer = models.ForeignKey(Customer, on_delete=models.DO_NOTHING, null=True)
     OnlineResolvable = models.BooleanField('Can it be resolved online?', choices=boolChoices, null=True)
-    AlternateHW = models.ForeignKey(Inventory, on_delete=models.DO_NOTHING, blank=True, null=True) 
-    history = HistoricalRecords()
+    # AlternateHW = models.ForeignKey(Inventory, on_delete=models.DO_NOTHING))    
 
     def __str__(self):
         return str(self.TicketID)

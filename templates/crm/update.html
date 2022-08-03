@@ -22,21 +22,6 @@ Update
     <div class="crm_form">
         <form action="" method="post">
             {% csrf_token %}
-            
-            <fieldset>
-                <label for="">Ticket ID</label>
-                {{ form.TicketID }}
-            </fieldset>
-            
-            <fieldset>
-                <label for="">Date Created</label>
-                {{ form.DateCreated }}
-            </fieldset>
-
-            <fieldset>
-                <label for="">Status</label>
-                {{ form.Status }}
-            </fieldset>
 
             <fieldset>
                 <label for="">Status</label>
@@ -86,11 +71,6 @@ Update
             <fieldset>
                 <label for="">Online Resolvable</label>
                 {{ form.OnlineResolvable }}
-            </fieldset>
-
-            <fieldset>
-                <label for="">Alternate HW</label>
-                {{ form.AlternateHW }}
             </fieldset>
 
             <fieldset>

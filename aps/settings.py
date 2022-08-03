@@ -47,8 +47,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'phonenumber_field',
     'django_filters',
-    'inventory.apps.InventoryConfig',
-    'simple_history'
+    'inventory.apps.InventoryConfig'
 ]
 
 MIDDLEWARE = [
@@ -59,12 +58,8 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'simple_history.middleware.HistoryRequestMiddleware'
+    'django.middleware.clickjacking.XFrameOptionsMiddleware'
 ]
-
-SIMPLE_HISTORY_REVERT_DISABLED = True
-
 
 ROOT_URLCONF = 'aps.urls'
 

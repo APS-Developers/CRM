@@ -8,6 +8,5 @@ path('createInventory/',views.createInventory, name='createInventory'),
 path('upload_file/',views.upload_file),
 path('showInventory/',views.showInventory, name='showInventory'),
 path('updateInventory/<str:pk>/', views.updateInventory, name='updateInventory'),
-path('inventoryDetails/',views.inventoryDetails, name='inventoryDetails'),
 # path('deleteInventory/str:pk>/', views.deleteInventory, name='deleteInventory'),
 ]
