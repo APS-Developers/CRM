@@ -1,6 +1,4 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from django.shortcuts import get_list_or_404, get_object_or_404                             
 from .models import Inventory
 from .forms import Form
 from .forms import CsvsModelForm
@@ -12,16 +10,15 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from authentication.models import User, UserPermission
-
+import json
+from django.http import JsonResponse
 
 def inventoryPermission(username):
     user = User.objects.get(username=username)
     if not user.is_staff or not user.is_superuser:
         permission = UserPermission.objects.get(user_id=user.id).Inventory_permission
-    if user.is_staff or user.is_superuser or permission:
-        return True
-    else:
-        return False
+        return permission
+    return True
 
 
 @login_required(login_url='login')
@@ -109,9 +106,19 @@ def updateInventory(request,pk):
         raise PermissionDenied    
 
 
+def inventoryDetails(request):
+    try:
+        product = Inventory.objects.get(Serial_Number=request.GET.get("serial"))
+        details = {'Make': product.Make, 'PartCode': product.Part_Code,
+            'SNo': product.Serial_Number, 'Item': product.Item,
+            'Location': product.Location, 'Item_dispatched_Date': product.Item_dispatched_Date,
+            'Organisation': product.Organisation.__str__(),'OrganisationId':product.Organisation.OrgID, 'Status': product.Status}
+        return JsonResponse(details)
+    except Exception as e:
+        return JsonResponse({'error': 'No product found'},status=404)
 # def deleteInventory(request, pk):
 # 	inventory = Inventory.objects.get(Serial_Number=pk)
-# 	if request.method == "POST":
+# 	if request.method == "POST": 
 # 		inventory.delete()
 # 		return redirect('/')
 

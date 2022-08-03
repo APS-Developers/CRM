@@ -4,4 +4,4 @@ from .models import *
 class InventoryFilter(django_filters.FilterSet):
     class Meta:
         model = Inventory
-        fields=['Location','Organisation']
+        fields=['Serial_Number', 'Make', 'Part_Code', 'Item', 'Location','Organisation']

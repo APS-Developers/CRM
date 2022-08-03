@@ -8,6 +8,8 @@ from inventory.models import Inventory
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from authentication.models import User, UserPermission
+from django.contrib.auth.models import User
+from django.contrib import messages
 # from django.core.mail import EmailMessage
 # from django.conf import settings
 # from django.template.loader import render_to_string
@@ -19,10 +21,8 @@ def crmPermission(username):
     user = User.objects.get(username=username)
     if not user.is_staff or not user.is_superuser:
         permission = UserPermission.objects.get(user_id=user.id).CRM_permission
-    if user.is_staff or user.is_superuser or permission:
-        return True
-    else:
-        return False
+        return permission
+    return True
 
 
 @login_required(login_url='login')
@@ -89,37 +89,37 @@ def productDetails(request, customerID):
 
 
 @login_required(login_url='login')
-def faultDetails(request, ticketID):
+def createTicket(request):
     if crmPermission(request.user.username):
         form = FaultForm()
         if request.method == 'POST':
             form = FaultForm(request.POST)
             if form.is_valid():
-                fault = form.save(commit=False)
-                ticket = Ticket.objects.get(TicketID=ticketID)
-                print(fault.Priority)
-                ticket.Priority = fault.Priority
-                ticket.FaultFoundCode = fault.FaultFoundCode
-                ticket.ResolutionCode = fault.ResolutionCode
-                ticket.ResolutionRemarks = fault.ResolutionRemarks
-                ticket.OnlineResolvable = fault.OnlineResolvable
-                ticket.Summary = fault.Summary
-                ticket.save()
+                newTicket = form.save(commit=False)
+                if request.POST.get("customer_id"):
+                    newTicket.Customer_id = request.POST.get("customer_id")
+                else:
+                    customer = Customer(Name=request.POST["name"],EmailAddress=request.POST["email"],ContactNo=request.POST["phone"],Organisation_id=request.POST["organisation_id"])
+                    customer.save()
+                    newTicket.Customer = customer
+                newTicket.save()
+                messages.add_message(request, messages.SUCCESS, 'Ticket "%s" created successfully!'%newTicket.TicketID)
                 return redirect('showTicket')
-        context = {'form': form, 'type': 'Fault'}
-        return render(request, 'crm/create.html', context)
+            else:
+                messages.add_message(request, messages.ERROR, 'Please fill all the fields!')
+                return render(request,'crm/form.html')
+        return render(request, 'crm/form.html')
     else:
         raise PermissionDenied
 
 
 @login_required(login_url='login')
 def showTicket(request):
-    print(request.user.username)
     if crmPermission(request.user.username):
         all_tickets = Ticket.objects.all()
         ticket_filter = TicketFilter(request.GET, queryset=all_tickets)
         all_tickets = ticket_filter.qs
-        context = {'all_tickets': all_tickets, 'ticket_filter': ticket_filter}
+        context = {'all_tickets': all_tickets, 'ticket_filter': ticket_filter, 'type': 'Ticket'}
         return render(request, 'crm/show.html', context)
     else:     
         raise PermissionDenied
@@ -134,7 +134,13 @@ def updateTicket(request, ticketID):
         if request.method == 'POST':
             form = UpdateForm(request.POST, instance=ticket)
             if form.is_valid():
-                form.save()
+                updates = form.save(commit=False)
+                serialNo = updates.AlternateHW
+                if serialNo is not None:
+                    product = Inventory.objects.get(Serial_Number=serialNo)
+                    product.Organisation_id = updates.Customer.Organisation_id
+                    product.save()
+                updates.save()
                 return redirect('showTicket')
                 
         context = {'form': form}
@@ -144,16 +150,19 @@ def updateTicket(request, ticketID):
 
 
 @login_required(login_url='login')
-def deleteTicket(request, ticketID):
-    if crmPermission(request.user.username):
+def ticketLog(request, ticketID):
+    if request.user.username == 'admin':
         ticket = Ticket.objects.get(TicketID=ticketID)
 
-        if request.method == 'POST':
-            ticket.delete()
-            return redirect('showTicket')
+        all_history = list(ticket.history.all())
 
-        context = {'ticket': ticket}
-        return render(request, 'crm/delete.html', context)
+        # history_users = []
+        # for i in range(len(all_history)):
+        #     history_users.append(User.objects.get(id=all_history[i].history_user_id).username)
+
+        context = {'ticket': ticket, 'type': 'History', 'all_history': all_history}
+        return render(request, 'crm/show.html', context)
+
     else:
         raise PermissionDenied
 
