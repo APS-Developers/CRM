@@ -1,5 +1,4 @@
 from django.forms import ModelForm
-from inventory.models import Inventory
 from .models import Ticket
 from customer.models import Customer, Organisation
 from django import forms 
@@ -62,15 +61,12 @@ class CustomerForm(ModelForm):
 
 class ProductForm(ModelForm):
 
-        
-    class Meta:
-        model = Ticket
-        fields = []
-
-
-class FaultForm(ModelForm):
-
     SerialNo = forms.CharField(widget=forms.TextInput(attrs={
+        'id': '',
+        'type': 'text'
+    }), label='')
+
+    ModelNo = forms.CharField(widget=forms.TextInput(attrs={
         'id': '',
         'type': 'text'
     }), label='')
@@ -84,6 +80,13 @@ class FaultForm(ModelForm):
         'id': '',
         'type': 'text'
     }), label='')
+        
+    class Meta:
+        model = Ticket
+        fields = ['SerialNo', 'ModelNo', 'Category', 'SubCategory' ]
+
+
+class FaultForm(ModelForm):
 
     Priority = forms.ChoiceField(choices=priorityChoices,
         widget=forms.Select(attrs={
@@ -95,6 +98,23 @@ class FaultForm(ModelForm):
         'id': ''
         }), label='')
 
+    ResolutionCode = forms.ChoiceField(choices=resolutionChoices,
+        widget=forms.Select(attrs={
+        'id': ''
+        }), label='')
+
+    ResolutionRemarks = forms.CharField(widget=forms.Textarea(attrs={
+        'id': '',
+        'type': 'text',
+        'cols': '30',
+        'rows': '5'
+    }), label='')
+
+    OnlineResolvable = forms.ChoiceField(choices = boolChoices,
+        widget=forms.Select(attrs={
+        'id': ''
+    }), label='')
+
     Summary = forms.CharField(widget=forms.Textarea(attrs={
         'id': '',
         'type': 'text',
@@ -104,18 +124,10 @@ class FaultForm(ModelForm):
 
     class Meta:
         model = Ticket
-        fields = ['SerialNo', 'Category', 'SubCategory' , 'Priority', 'FaultFoundCode',  'Summary']
+        fields = ['Priority', 'FaultFoundCode', 'ResolutionCode', 'ResolutionRemarks', 'OnlineResolvable', 'Summary']
 
 
 class UpdateForm(ModelForm):
-
-    TicketID = forms.CharField(widget=forms.TextInput(attrs={
-        'readonly':'readonly'
-        }), label='')
-    
-    DateCreated = forms.CharField(widget=forms.TextInput(attrs={
-        'readonly':'readonly'
-        }), label='')
 
     Status = forms.ChoiceField(choices=statusChoices,
         widget=forms.Select(attrs={
@@ -169,11 +181,6 @@ class UpdateForm(ModelForm):
         'rows': '5'
     }), label='')
 
-    AlternateHW = forms.ModelChoiceField(required=False, queryset=Inventory.objects.filter(Organisation=None),
-        widget=forms.Select(attrs={
-        'id': ''
-        }), label='')
-
     Summary = forms.CharField(required=False, widget=forms.Textarea(attrs={
         'id': '',
         'type': 'text',
@@ -183,5 +190,5 @@ class UpdateForm(ModelForm):
 
     class Meta:
         model = Ticket
-        fields = ['DateCreated', 'TicketID', 'Status', 'Category', 'SubCategory', 'ModelNo', 'SerialNo', 'Summary', 
-        'Priority', 'FaultFoundCode', 'ResolutionCode', 'ResolutionRemarks', 'OnlineResolvable', 'AlternateHW']
+        fields = ['Status', 'Category', 'SubCategory', 'ModelNo', 'SerialNo', 'Summary', 
+        'Priority', 'FaultFoundCode', 'ResolutionCode', 'ResolutionRemarks', 'OnlineResolvable']
