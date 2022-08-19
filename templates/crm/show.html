@@ -20,23 +20,18 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Filters</h5>
+                <h5 class="modal-title">Filter Tickets</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form action="" method="post">
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Open this select menu</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Submit</button>
-            </div>
+            <form method="get" class="aps_filter_form">
+                <div class="modal-body">
+                    {{ticket_filter.form}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -44,23 +39,10 @@
     <div class="col-sm-12 mx-auto">
         <h5>ALL TICKETS</h5>
         <hr>
-        <div class="row">
-            <div class="col">
-                <div style="width:1000px; margin:0 auto;" class="card card-body">
-
-                    <form method="get">
-                        {{ticket_filter.form}}
-
-                        <button class="btn btn-primary" type="submit">Search</button>
-                    </form>
-
-                </div>
-            </div>
-        </div>
     </div>
     <div class="container-fluid table-responsive mx-2 px-0 aps_table_container">
         <a class="btn btn-primary  btn-sm btn-block" href="/createTicket">Create Ticket</a>
-        <table class="aps_table table table-striped table-bordered table-hover align-middle">
+        <table class="aps_table table table-bordered table-hover align-middle">
             <thead class="aps_table_head">
                 <tr class="align-middle">
                     <th>S.No</th>
@@ -128,7 +110,7 @@
                     <td>{{ticket.AlternateHW}}</td>
                     <td><a class="btn btn-sm btn-info" href="{% url 'updateTicket' ticket.TicketID %}">Update</a></td>
                     {% if user.is_authenticated and user.is_staff and user.is_superuser %}
-                    <td><a class="btn btn-sm btn-warning" href="{% url 'ticketLog' ticket.TicketID %}">Logs</a></td>
+                    <td><a class="btn btn-sm btn-warning" href="{% url 'ticketLog' ticket.TicketID %}">View Logs</a></td>
                     {% endif %}
                 </tr>
                 {% endfor %}
@@ -161,7 +143,7 @@
         </div>
     </div>
     <div class="container-fluid table-responsive mx-2 px-0 aps_table_container">
-        <table class="aps_table table table-striped table-bordered table-hover align-middle">
+        <table class="aps_table table  table-bordered table-hover align-middle">
             <thead class="aps_table_head">
                 <tr class="align-middle">
                     <th>S.No</th>
@@ -181,7 +163,7 @@
                     <th>Ticket ID</th>
                     <th>Alternate HW</th>
                     <th>Date Updated</th>
-                    <th>Change Type</th>        
+                    <th>Change Type</th>
                 </tr>
             </thead>
             <tbody>
@@ -234,7 +216,7 @@
                     </td>
                 </tr>
                 {% endfor %}
-        
+
             </tbody>
         </table>
     </div>

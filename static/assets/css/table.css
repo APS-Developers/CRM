@@ -10,6 +10,13 @@
 .aps_table th {
     cursor: default;
 }
+.aps_filter_form label{
+display: block;
+}
+.aps_filter_form input, .aps_filter_form select{
+  /* display:block; */
+  width: 100%;
+}
   .aps_table th.aps_table_filter {
     cursor: pointer;
   }/*# sourceMappingURL=style.css.map */
