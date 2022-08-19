@@ -97,7 +97,6 @@ def faultDetails(request, ticketID):
             if form.is_valid():
                 fault = form.save(commit=False)
                 ticket = Ticket.objects.get(TicketID=ticketID)
-                print(fault.Priority)
                 ticket.Priority = fault.Priority
                 ticket.FaultFoundCode = fault.FaultFoundCode
                 ticket.ResolutionCode = fault.ResolutionCode
@@ -114,12 +113,11 @@ def faultDetails(request, ticketID):
 
 @login_required(login_url='login')
 def showTicket(request):
-    print(request.user.username)
     if crmPermission(request.user.username):
         all_tickets = Ticket.objects.all()
         ticket_filter = TicketFilter(request.GET, queryset=all_tickets)
         all_tickets = ticket_filter.qs
-        context = {'all_tickets': all_tickets, 'ticket_filter': ticket_filter}
+        context = {'all_tickets': all_tickets, 'ticket_filter': ticket_filter,'type':'Ticket'}
         return render(request, 'crm/show.html', context)
     else:     
         raise PermissionDenied
@@ -157,7 +155,22 @@ def deleteTicket(request, ticketID):
     else:
         raise PermissionDenied
 
+@login_required(login_url='login')
+def ticketLog(request, ticketID):
+    if request.user.username == 'admin':
+        ticket = Ticket.objects.get(TicketID=ticketID)
 
+        all_history = list(ticket.history.all())
+
+        # history_users = []
+        # for i in range(len(all_history)):
+        #     history_users.append(User.objects.get(id=all_history[i].history_user_id).username)
+
+        context = {'ticket': ticket, 'type': 'History', 'all_history': all_history}
+        return render(request, 'crm/show.html', context)
+
+    else:
+        raise PermissionDenied
     # show ticket ka nme se kia , int str se farak?
     # autofill, contact vala, 
     # .models matlab sare models ?

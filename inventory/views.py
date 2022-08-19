@@ -32,7 +32,6 @@ def upload_file(request):
             form.save()
             form=CsvsModelForm()
             obj=Csvs.objects.filter(activated=False).first()
-            print(obj.file_name.path)
             with open(obj.file_name.path, 'r',encoding='windows-1252') as f:
                 reader=csv.reader(f)
                 for i, row in enumerate(reader):
@@ -67,7 +66,6 @@ def createInventory(request):
         context ={}
     
         form = Form(request.POST or None,request.FILES or None)
-        print(form.is_valid())
         if form.is_valid():
             form.save()
             return redirect('showInventory')
