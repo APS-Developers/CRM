@@ -5,69 +5,93 @@
 Show
 {% endblock %}
 
-
+{% block css %}
+<link rel="stylesheet" href="/static/assets/css/table.css">
+{% endblock %}
 {% block content %}
 <br>
 <!-- main -->
 {% if user.is_authenticated and user.is_staff and user.is_superuser %}
-<div class="row">
-    <div class="col-sm-10 mx-auto">
-        <h5>ALL USERS</h5>
-        <hr>
-        <div class="row">
-            <div class="col">
-                <div style="width:700px; margin:0 auto;" class="card card-body">
-        
-                    <form method="get">
-                        {{user_filter.form}}
-        
-                    <button class="btn btn-primary" type="submit">Search</button>
-                  </form>
-        
-                </div>
+<div class="modal" id="aps_table_modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Filter Users</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <form method="get" class="aps_filter_form">
+                <div class="modal-body">
+                    {{user_filter.form}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
         </div>
+    </div>
+</div>
+<div class="col-sm-12 mx-auto">
+    <h5>ALL USERS</h5>
+    <hr>
+    <div class="row">
+        <div class="col">
 
-        <div class="card card-body">
+                <form method="get">
+                    {{user_filter.form}}
+
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </form>
+
+        </div>
+    </div>
+    <div class="col-sm-12 mx-auto">
+        <div class="container-fluid table-responsive px-0 py-1 aps_table_container">
             <a class="btn btn-primary  btn-sm btn-block" href="/register">Create User</a>
-            <table class="table table-sm">
-                <tr>
-                    <th>S.No</th>
-                    <th>User ID</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>CRM Permission</th>
-                    <th>Inventory Permission</th>
-                    <th>Update</th>
-                    <th>Remove</th>
-                </tr>
-
-                {% for user in all_users %}
-                {% if not user.is_staff and not user.is_superuser %}
-                <tr>
-                    <th>{{forloop.counter}}</th>
-                    <td>{{user.id}}</td>
-                    <td>{{user.username}}</td>
-                    <td>{{user.email}}</td>
-                    {% if user.userpermission.CRM_permission == True %}
-                    <td>Yes</td>
-                    {% else %}
-                    <td>No</td>
+            <table class="aps_table table table-bordered table-hover align-middle">
+                <thead class="aps_table_head">
+                    <tr class="align-middle">
+                        <th>S.No</th>
+                        <th>User ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>CRM Permission</th>
+                        <th>Inventory Permission</th>
+                        <th>Update</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in all_users %}
+                    {% if not user.is_staff and not user.is_superuser %}
+                    <tr>
+                        <th>{{forloop.counter}}</th>
+                        <td>{{user.id}}</td>
+                        <td>{{user.username}}</td>
+                        <td>{{user.email}}</td>
+                        {% if user.userpermission.CRM_permission == True %}
+                        <td>Yes</td>
+                        {% else %}
+                        <td>No</td>
+                        {% endif %}
+                        {% if user.userpermission.Inventory_permission == True %}
+                        <td>Yes</td>
+                        {% else %}
+                        <td>No</td>
+                        {% endif %}
+                        <td><a class="btn btn-sm btn-info" href="{% url 'update' user.id %}">Update</a></td>
+                        <td><a class="btn btn-sm btn-danger" href="{% url 'delete' user.id %}">Remove</a>
+                        </td>
+                    </tr>
                     {% endif %}
-                    {% if user.userpermission.Inventory_permission == True %}
-                    <td>Yes</td>
-                    {% else %}
-                    <td>No</td>
-                    {% endif %}
-                    <td><a class="btn btn-sm btn-info" href="{% url 'update' user.id %}">Update</a></td>
-                    <td><a class="btn btn-sm btn-danger" href="{% url 'delete' user.id %}">Remove</a>
-                    </td>
-                </tr>
-                {% endif %}
-                {% endfor %}
+                    {% endfor %}
+                </tbody>
             </table>
         </div>
     </div>
 </div>
 {% endif %}
+{% endblock %}
+{% block script %}
+<script src="/static/assets/js/table.js"></script>
 {% endblock %}

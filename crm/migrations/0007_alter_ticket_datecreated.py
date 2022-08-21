@@ -7,13 +7,15 @@ import django.utils.timezone
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('crm', '0006_ticket_datecreated'),
+        ("crm", "0006_ticket_datecreated"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='ticket',
-            name='DateCreated',
-            field=models.DateField(default=django.utils.timezone.now, verbose_name='Date Created'),
+            model_name="ticket",
+            name="DateCreated",
+            field=models.DateField(
+                default=django.utils.timezone.now, verbose_name="Date Created"
+            ),
         ),
     ]

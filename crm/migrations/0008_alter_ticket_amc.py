@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('crm', '0007_alter_ticket_datecreated'),
+        ("crm", "0007_alter_ticket_datecreated"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='ticket',
-            name='AMC',
-            field=models.BooleanField(choices=[(True, 'Yes'), (False, 'No')], null=True),
+            model_name="ticket",
+            name="AMC",
+            field=models.BooleanField(
+                choices=[(True, "Yes"), (False, "No")], null=True
+            ),
         ),
     ]

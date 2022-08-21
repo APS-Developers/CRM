@@ -1,18 +1,19 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.shortcuts import get_list_or_404, get_object_or_404                             
+from django.shortcuts import get_list_or_404, get_object_or_404
 from .models import Inventory
 from .forms import Form
 from .forms import CsvsModelForm
 from .filter1 import InventoryFilter
-from .models import Csvs 
+from .models import Csvs
 from datetime import datetime
 import csv
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from authentication.models import User, UserPermission
-
+import json
+from django.http import JsonResponse
 
 def inventoryPermission(username):
     user = User.objects.get(username=username)
@@ -24,87 +25,108 @@ def inventoryPermission(username):
         return False
 
 
-@login_required(login_url='login')
+@login_required(login_url="login")
 def upload_file(request):
     if inventoryPermission(request.user.username):
-        form = CsvsModelForm(request.POST or None , request.FILES or None)
+        form = CsvsModelForm(request.POST or None, request.FILES or None)
         if form.is_valid():
             form.save()
-            form=CsvsModelForm()
-            obj=Csvs.objects.filter(activated=False).first()
-            with open(obj.file_name.path, 'r',encoding='windows-1252') as f:
-                reader=csv.reader(f)
+            form = CsvsModelForm()
+            obj = Csvs.objects.filter(activated=False).first()
+            with open(obj.file_name.path, "r", encoding="windows-1252") as f:
+                reader = csv.reader(f)
                 for i, row in enumerate(reader):
-                    if i==0:
+                    if i == 0:
                         pass
                     else:
                         inv = Inventory.objects.create(
-                                Make = row[0],
-                                Part_Code=row[1],
-                                Serial_Number=row[2],
-                                Item=row[3],
-                                Location=row[4],
-                                Purchase_Date=None if not row[5] else row[5],
-                                Item_dispatched_Date=None if not row[6] else row[6],
-                                Organisation_id=row[7],
-                                Status=row[8],
-                                Slip=row[9])
+                            Make=row[0],
+                            Part_Code=row[1],
+                            Serial_Number=row[2],
+                            Item=row[3],
+                            Location=row[4],
+                            Purchase_Date=None if not row[5] else row[5],
+                            Item_dispatched_Date=None if not row[6] else row[6],
+                            Organisation_id=row[7],
+                            Status=row[8],
+                            Slip=row[9],
+                        )
                         inv.save()
-            obj.activated=True
+            obj.activated = True
             obj.save()
-        return render(request,'inventory/upload.html',{'form':form})
+        return render(request, "inventory/upload.html", {"form": form})
     else:
         raise PermissionDenied
 
-'''def show_product(request):
-    return HttpResponse()'''
+
+"""def show_product(request):
+    return HttpResponse()"""
 
 
-@login_required(login_url='login')
+@login_required(login_url="login")
 def createInventory(request):
     if inventoryPermission(request.user.username):
-        context ={}
-    
-        form = Form(request.POST or None,request.FILES or None)
+        context = {}
+
+        form = Form(request.POST or None, request.FILES or None)
         if form.is_valid():
             form.save()
-            return redirect('showInventory')
-            
-        context['form']= form
-        context['name']= 'Create'
+            return redirect("showInventory")
+
+        context["form"] = form
+        context["name"] = "Create"
         return render(request, "inventory/create_update.html", context)
     else:
         raise PermissionDenied
 
 
-@login_required(login_url='login')
+@login_required(login_url="login")
 def showInventory(request):
     if inventoryPermission(request.user.username):
         all_inventory = Inventory.objects.all()
         Inven_filter = InventoryFilter(request.GET, queryset=all_inventory)
-        all_inventory = Inven_filter.qs 
-        context = {'inventories': all_inventory, 'inventory_filter': Inven_filter}
-        return render(request,'inventory/show.html', context)
+        all_inventory = Inven_filter.qs
+        context = {"inventories": all_inventory, "inventory_filter": Inven_filter}
+        return render(request, "inventory/show.html", context)
     else:
         raise PermissionDenied
 
 
-@login_required(login_url='login')
-def updateInventory(request,pk):
+@login_required(login_url="login")
+def updateInventory(request, pk):
     if inventoryPermission(request.user.username):
         inventory = Inventory.objects.get(Serial_Number=pk)
         form = Form(instance=inventory)
 
-        if request.method == 'POST':
+        if request.method == "POST":
             form = Form(request.POST, instance=inventory)
             if form.is_valid():
                 form.save()
-                return redirect('showInventory')
+                return redirect("showInventory")
 
-        context = {'form':form, 'name': 'Update'}
-        return render(request, 'inventory/create_update.html', context)
+        context = {"form": form, "name": "Update"}
+        return render(request, "inventory/create_update.html", context)
     else:
-        raise PermissionDenied    
+        raise PermissionDenied
+
+
+def inventoryDetails(request):
+    try:
+        product = Inventory.objects.get(Serial_Number=request.GET.get("serial"))
+        details = {
+            "Make": product.Make,
+            "PartCode": product.Part_Code,
+            "SNo": product.Serial_Number,
+            "Item": product.Item,
+            "Location": product.Location,
+            "Item_dispatched_Date": product.Item_dispatched_Date,
+            "Organisation": product.Organisation.__str__(),
+            "OrganisationId": product.Organisation.OrgID,
+            "Status": product.Status,
+        }
+        return JsonResponse(details)
+    except Exception as e:
+        return JsonResponse({"error": "No product found"}, status=404)
 
 
 # def deleteInventory(request, pk):

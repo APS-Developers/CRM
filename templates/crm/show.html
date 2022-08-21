@@ -7,6 +7,7 @@
 
 {% block css %}
 <link rel="stylesheet" href="/static/assets/css/table.css">
+<link rel="stylesheet" href="/static/assets/css/show_ticket.css">
 {% endblock %}
 
 
@@ -40,8 +41,20 @@
         <h5>ALL TICKETS</h5>
         <hr>
     </div>
-    <div class="container-fluid table-responsive mx-2 px-0 aps_table_container">
-        <a class="btn btn-primary  btn-sm btn-block" href="/createTicket">Create Ticket</a>
+    <div class="col-sm-12 mx-auto">
+    <div class="container-fluid table-responsive px-0 py-1 aps_table_container">
+        <div class="" id="aps_create_ticket">+
+            <div>
+                <ul>
+                    <a href="/createTicket">
+                        <li>Create ticket</li>
+                    </a><a href="">
+                        <li>Upload from csv</li>
+                    </a>
+                </ul>
+            </div>
+        </div>
+
         <table class="aps_table table table-bordered table-hover align-middle">
             <thead class="aps_table_head">
                 <tr class="align-middle">
@@ -117,6 +130,7 @@
 
             </tbody>
         </table>
+    </div>
     </div>
 </div>
 

@@ -7,13 +7,18 @@ import inventory.validators
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('inventory', '0005_alter_inventory_organisation'),
+        ("inventory", "0005_alter_inventory_organisation"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='inventory',
-            name='Slip',
-            field=models.FileField(default=None, null=True, upload_to='', validators=[inventory.validators.validate_file_extension]),
+            model_name="inventory",
+            name="Slip",
+            field=models.FileField(
+                default=None,
+                null=True,
+                upload_to="",
+                validators=[inventory.validators.validate_file_extension],
+            ),
         ),
     ]

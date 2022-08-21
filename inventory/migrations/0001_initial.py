@@ -11,35 +11,70 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('customer', '0003_alter_customer_contactno'),
+        ("customer", "0003_alter_customer_contactno"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Csvs',
+            name="Csvs",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('file_name', models.FileField(upload_to='csvs')),
-                ('upload_date', models.DateTimeField(auto_now=True)),
-                ('activated', models.BooleanField(default=False)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("file_name", models.FileField(upload_to="csvs")),
+                ("upload_date", models.DateTimeField(auto_now=True)),
+                ("activated", models.BooleanField(default=False)),
             ],
         ),
         migrations.CreateModel(
-            name='Inventory',
+            name="Inventory",
             fields=[
-                ('Make', models.CharField(max_length=50)),
-                ('Part_Code', models.CharField(max_length=100)),
-                ('Serial_Number', models.TextField(primary_key=True, serialize=False)),
-                ('Item', models.CharField(max_length=50)),
-                ('Location', models.TextField()),
-                ('Purchase_Date', models.DateField(default=datetime.datetime.now, null=True)),
-                ('Item_dispatched_Date', models.DateField(null=True)),
-                ('Status', models.CharField(blank=True, choices=[('Working', 'Working'), ('Not Working', 'Not Working')], max_length=20, null=True)),
-                ('Slip', models.FileField(null=True, upload_to='', validators=[inventory.validators.validate_file_extension])),
-                ('OrgID', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='customer.organisation')),
+                ("Make", models.CharField(max_length=50)),
+                ("Part_Code", models.CharField(max_length=100)),
+                ("Serial_Number", models.TextField(primary_key=True, serialize=False)),
+                ("Item", models.CharField(max_length=50)),
+                ("Location", models.TextField()),
+                (
+                    "Purchase_Date",
+                    models.DateField(default=datetime.datetime.now, null=True),
+                ),
+                ("Item_dispatched_Date", models.DateField(null=True)),
+                (
+                    "Status",
+                    models.CharField(
+                        blank=True,
+                        choices=[
+                            ("Working", "Working"),
+                            ("Not Working", "Not Working"),
+                        ],
+                        max_length=20,
+                        null=True,
+                    ),
+                ),
+                (
+                    "Slip",
+                    models.FileField(
+                        null=True,
+                        upload_to="",
+                        validators=[inventory.validators.validate_file_extension],
+                    ),
+                ),
+                (
+                    "OrgID",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="customer.organisation",
+                    ),
+                ),
             ],
             options={
-                'db_table': 'Inventory',
+                "db_table": "Inventory",
             },
         ),
     ]

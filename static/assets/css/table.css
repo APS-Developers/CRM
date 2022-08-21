@@ -1,3 +1,7 @@
+.aps_table{
+  margin: 0px;
+  margin-top: 20px;
+}
 .aps_table .aps_table_head {
     background: #1e354e;
     color: #fff;
@@ -10,6 +14,7 @@
 .aps_table th {
     cursor: default;
 }
+
 .aps_filter_form label{
 display: block;
 }
