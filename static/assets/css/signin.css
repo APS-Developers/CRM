@@ -25,6 +25,13 @@ body{
     background-color: rgba(255,255,255,0.1);
 }
 
+.aps_login_form{
+    background: white;
+    color: black;
+}
+.aps_login_form_label{
+    color: black;
+}
 input{
 
     border-radius: 1rem;

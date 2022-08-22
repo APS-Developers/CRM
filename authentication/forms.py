@@ -65,7 +65,7 @@ class UserLoginForm(AuthenticationForm):
         super(UserLoginForm, self).__init__(*args, **kwargs)
 
     username = UsernameField(widget=forms.TextInput(attrs={
-        'class': 'form-control bg-dark text-white form-input',
+        'class': 'form-control aps_login_form',
         'id': 'floatingInput',
         'type': 'username',
         'placeholder': 'username',
@@ -73,7 +73,7 @@ class UserLoginForm(AuthenticationForm):
     
     password = forms.CharField(widget=forms.PasswordInput(
         attrs={
-            'class': 'form-control bg-dark text-white form-input',
+            'class': 'form-control aps_login_form',
             'placeholder': 'password',
             'id': 'floatingPassword',
             'type': 'password'

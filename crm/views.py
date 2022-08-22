@@ -10,6 +10,8 @@ from django.core.exceptions import PermissionDenied
 from authentication.models import User, UserPermission
 from django.contrib.auth.models import User
 from django.contrib import messages
+from datetime import timedelta
+from django.utils import timezone
 # from django.core.mail import EmailMessage
 # from django.conf import settings
 # from django.template.loader import render_to_string
@@ -166,8 +168,18 @@ def ticketLog(request, ticketID):
     else:
         raise PermissionDenied
 
-
     # show ticket ka nme se kia , int str se farak?
     # autofill, contact vala, 
     # .models matlab sare models ?
     # table me next ka option
+
+def priority(request, noDays):
+
+    p1Tickets = Ticket.objects.filter(DateCreated__lte=timezone.now() - timedelta(days=noDays), Priority="P1")
+    p2Tickets = Ticket.objects.filter(priority="P2")
+    p3Tickets = Ticket.objects.filter(priority="P3")
+    p4Tickets = Ticket.objects.filter(priority="P4")
+    context = {'p1Tickets': p1Tickets, 'p2Tickets': p2Tickets, 'p3Tickets': p3Tickets, 'p4Tickets': p4Tickets}
+    return render(request, 'crm/show.html', context)
+
+# priority, sla (72 hrs), status, -> past 1 week and 1 month, 
