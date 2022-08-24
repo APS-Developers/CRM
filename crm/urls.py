@@ -12,4 +12,7 @@ urlpatterns = [
     path("deleteTicket/<int:ticketID>/", views.deleteTicket, name="deleteTicket"),
     path("ticketLog/<int:ticketID>/", views.ticketLog, name="ticketLog"),
     path("showTicket/", views.showTicket, name="showTicket"),
+    path("dashboard/", views.dashboard, name="dashboard"),
+    path("slainfo",views.getTicketSla,name="slainfo")
+
 ]
