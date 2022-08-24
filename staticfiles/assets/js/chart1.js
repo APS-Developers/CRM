@@ -1,11 +1,16 @@
 const ctx = document.getElementById('piechart').getContext('2d');
 fetch("/slainfo").then((res) => res.json()).then((res) => {
-    createCharts(res);
+    createPieChart(res);
+}).catch((err) => {
+    alert(err);
+})
+fetch("/slainfomonthly").then((res) => res.json()).then((res) => {
+    createBarChart(res);
 }).catch((err) => {
     alert(err);
 })
 
-function createCharts(data) {
+function createPieChart(data) {
     const myChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
@@ -25,18 +30,21 @@ function createCharts(data) {
             responsive: true
         }
     });
+}
 
+function createBarChart(data){
+    
     var ctx2 = document.getElementById('linechart').getContext('2d');
     var myChart2 = new Chart(ctx2, {
         type: 'line',
         data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            labels: ['Month 1', 'Month 2', 'Month 3', 'Month 4', 'Month 5', 'Month 6'],
             datasets: [
 
                 {
                     type: 'line',
                     label: 'Total',
-                    data: [19, 11, 14, 12, 21, 31],
+                    data: data.total,
                     backgroundColor: '#F40090',
                     borderColor: '#F40090',
 
@@ -45,7 +53,7 @@ function createCharts(data) {
                 {
                     type: 'bar',
                     label: 'Within SLA',
-                    data: [12, 19, 3, 5, 2, 3],
+                    data: data.within,
                     backgroundColor: [
                         '#F0A07C',
 
@@ -56,7 +64,7 @@ function createCharts(data) {
                 {
                     type: 'bar',
                     label: 'Outside SLA',
-                    data: [18, 1, 13, 10, 2, 13],
+                    data: data.outside,
                     backgroundColor: [
                         '#4A274F',
 
