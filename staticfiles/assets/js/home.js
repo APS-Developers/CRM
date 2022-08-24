@@ -7,7 +7,7 @@ document.addEventListener("scroll",(e)=>{
         clearTimeout(timeout);
     }
     let currScroll = window.scrollY;
-    setTimeout(()=>{
+    timeout = setTimeout(()=>{
         for(let i=0;i<scrollStops.length;i++){
             if(currScroll>=scrollStops[i]+20){
                 if(i+1<scrollStops.length){
@@ -23,8 +23,11 @@ document.addEventListener("scroll",(e)=>{
     },500);
 });
 setInterval(()=>{
+    if(timeout){
+        clearTimeout(timeout);
+    }
     let scrollAmount = Math.round(window.scrollY+images[0].getBoundingClientRect().height);
-    if(scrollAmount>=document.getElementById("aps_main_carousel").scrollHeight){
+    if(scrollAmount+100>=document.getElementById("aps_main_carousel").scrollHeight){
         scrollAmount=0;
     }
     window.scrollTo({
