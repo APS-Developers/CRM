@@ -8,19 +8,29 @@ import inventory.validators
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('customer', '0003_alter_customer_contactno'),
-        ('inventory', '0007_alter_inventory_slip'),
+        ("customer", "0003_alter_customer_contactno"),
+        ("inventory", "0007_alter_inventory_slip"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='inventory',
-            name='Organisation',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='customer.organisation'),
+            model_name="inventory",
+            name="Organisation",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.DO_NOTHING,
+                to="customer.organisation",
+            ),
         ),
         migrations.AlterField(
-            model_name='inventory',
-            name='Slip',
-            field=models.FileField(blank=True, null=True, upload_to='', validators=[inventory.validators.validate_file_extension]),
+            model_name="inventory",
+            name="Slip",
+            field=models.FileField(
+                blank=True,
+                null=True,
+                upload_to="",
+                validators=[inventory.validators.validate_file_extension],
+            ),
         ),
     ]

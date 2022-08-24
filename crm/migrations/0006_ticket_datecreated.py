@@ -7,13 +7,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('crm', '0005_alter_ticket_customer'),
+        ("crm", "0005_alter_ticket_customer"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='ticket',
-            name='DateCreated',
-            field=models.DateField(default=datetime.date(2022, 7, 3), verbose_name='Date Created'),
+            model_name="ticket",
+            name="DateCreated",
+            field=models.DateField(
+                default=datetime.date(2022, 7, 3), verbose_name="Date Created"
+            ),
         ),
     ]

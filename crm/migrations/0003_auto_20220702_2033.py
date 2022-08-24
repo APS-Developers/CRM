@@ -6,18 +6,20 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('crm', '0002_auto_20220702_2031'),
+        ("crm", "0002_auto_20220702_2031"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='ticket',
-            name='AMC',
+            model_name="ticket",
+            name="AMC",
             field=models.BooleanField(null=True),
         ),
         migrations.AlterField(
-            model_name='ticket',
-            name='OnlineResolvable',
-            field=models.BooleanField(null=True, verbose_name='Can it be resolved online?'),
+            model_name="ticket",
+            name="OnlineResolvable",
+            field=models.BooleanField(
+                null=True, verbose_name="Can it be resolved online?"
+            ),
         ),
     ]

@@ -8,28 +8,34 @@ import phonenumber_field.modelfields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('customer', '0001_initial'),
+        ("customer", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='customer',
-            name='ContactNo',
-            field=phonenumber_field.modelfields.PhoneNumberField(max_length=128, region=None, unique=True, verbose_name='Contact No'),
+            model_name="customer",
+            name="ContactNo",
+            field=phonenumber_field.modelfields.PhoneNumberField(
+                max_length=128, region=None, unique=True, verbose_name="Contact No"
+            ),
         ),
         migrations.AlterField(
-            model_name='customer',
-            name='Organisation',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='customer.organisation'),
+            model_name="customer",
+            name="Organisation",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="customer.organisation"
+            ),
         ),
         migrations.AlterField(
-            model_name='organisation',
-            name='Address',
-            field=models.TextField(max_length=200, unique=True, verbose_name='Address'),
+            model_name="organisation",
+            name="Address",
+            field=models.TextField(max_length=200, unique=True, verbose_name="Address"),
         ),
         migrations.AlterField(
-            model_name='organisation',
-            name='ContactNo',
-            field=phonenumber_field.modelfields.PhoneNumberField(max_length=128, region=None, unique=True, verbose_name='Contact No'),
+            model_name="organisation",
+            name="ContactNo",
+            field=phonenumber_field.modelfields.PhoneNumberField(
+                max_length=128, region=None, unique=True, verbose_name="Contact No"
+            ),
         ),
     ]

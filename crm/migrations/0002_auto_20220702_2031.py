@@ -6,28 +6,41 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('crm', '0001_initial'),
+        ("crm", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='ticket',
-            name='OnlineResolvable',
-            field=models.NullBooleanField(verbose_name='Can it be resolved online?'),
+            model_name="ticket",
+            name="OnlineResolvable",
+            field=models.NullBooleanField(verbose_name="Can it be resolved online?"),
         ),
         migrations.AlterField(
-            model_name='ticket',
-            name='AMC',
+            model_name="ticket",
+            name="AMC",
             field=models.NullBooleanField(),
         ),
         migrations.AlterField(
-            model_name='ticket',
-            name='Priority',
-            field=models.CharField(blank=True, choices=[('P1', 'P1'), ('P2', 'P2'), ('P3', 'P3'), ('P4', 'P4')], max_length=2),
+            model_name="ticket",
+            name="Priority",
+            field=models.CharField(
+                blank=True,
+                choices=[("P1", "P1"), ("P2", "P2"), ("P3", "P3"), ("P4", "P4")],
+                max_length=2,
+            ),
         ),
         migrations.AlterField(
-            model_name='ticket',
-            name='Status',
-            field=models.CharField(blank=True, choices=[('Open', 'Open'), ('Resolved', 'Resolved'), ('Pending', 'Pending'), ('Closed', 'Closed')], max_length=10),
+            model_name="ticket",
+            name="Status",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ("Open", "Open"),
+                    ("Resolved", "Resolved"),
+                    ("Pending", "Pending"),
+                    ("Closed", "Closed"),
+                ],
+                max_length=10,
+            ),
         ),
     ]

@@ -1,40 +1,70 @@
 {% extends 'dashboardNavbar.html' %}
 
+
 {% block title %}
-Ticket
+{{type}}
 {% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="/static/assets/css/table.css">
+<link rel="stylesheet" href="/static/assets/css/show_ticket.css">
+{% endblock %}
+
 
 {% block content %}
 
+{% ifequal type 'Ticket' %}
+
+
 <br>
+<div class="modal" id="aps_table_modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Filter Tickets</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="get" class="aps_filter_form">
+                <div class="modal-body">
+                    {{ticket_filter.form}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-sm-12 mx-auto">
         <h5>ALL TICKETS</h5>
         <hr>
-        <div class="row">
-            <div class="col">
-                <div style="width:1000px; margin:0 auto;" class="card card-body">
-
-                    <form method="get">
-                        {{ticket_filter.form}}
-
-                        <button class="btn btn-primary" type="submit">Search</button>
-                    </form>
-
-                </div>
+    </div>
+    <div class="col-sm-12 mx-auto">
+    <div class="container-fluid table-responsive px-0 py-1 aps_table_container">
+<a href="/createTicket">
+        <div class="aps_create_ticket">+
+            <div>
+                <!-- <ul>
+                    <a href="/createTicket">
+                        <li>Create ticket</li>
+                    </a><a href="">
+                        <li>Upload from csv</li>
+                    </a>
+                </ul> -->
             </div>
         </div>
-
-        <div class="card card-body">
-            <a class="btn btn-primary  btn-sm btn-block" href="/customerDetails">Create Ticket</a>
-            <table class="table table-sm">
-                <tr>
+    </a>
+        <table class="aps_table table table-bordered table-hover align-middle">
+            <thead class="aps_table_head">
+                <tr class="align-middle">
                     <th>S.No</th>
                     <th>Customer Name</th>
                     <th>Date Created</th>
-                    <th>Priority</th>
-                    <th>Category</th>
-                    <th>Sub Category</th>
+                    <th class="aps_table_filter">Priority</th>
+                    <th class="aps_table_filter">Category</th>
+                    <th class="aps_table_filter">Sub Category</th>
                     <th>Model No</th>
                     <th>Serial No</th>
                     <th>Summary</th>
@@ -45,10 +75,14 @@ Ticket
                     <th>Resolution Remarks</th>
                     <th>Online Resolvable</th>
                     <th>Ticket ID</th>
+                    <th>Alternate HW</th>
                     <th>Update</th>
-                    <th>Remove</th>
+                    {% if user.is_authenticated and user.is_staff and user.is_superuser %}
+                    <th>History</th>
+                    {% endif %}
                 </tr>
-
+            </thead>
+            <tbody>
                 {% for ticket in all_tickets %}
                 <tr>
                     <td>{{forloop.counter}}</td>
@@ -87,139 +121,125 @@ Ticket
                         {% endifequal %}
                     </td>
                     <td>{{ticket.TicketID}}</td>
+                    <td>{{ticket.AlternateHW}}</td>
                     <td><a class="btn btn-sm btn-info" href="{% url 'updateTicket' ticket.TicketID %}">Update</a></td>
-                    <td><a class="btn btn-sm btn-danger" href="{% url 'deleteTicket' ticket.TicketID %}">Remove</a></td>
+                    {% if user.is_authenticated and user.is_staff and user.is_superuser %}
+                    <td><a class="btn btn-sm btn-warning" href="{% url 'ticketLog' ticket.TicketID %}">View Logs</a></td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
-            </table>
+
+            </tbody>
+        </table>
+    </div>
+    </div>
+</div>
+
+
+{% else %}
+
+<br>
+<div class="row">
+    <div class="col-sm-12 mx-auto">
+        <h5>ALL TICKETS</h5>
+        <hr>
+        <div class="row">
+            <div class="col">
+                <div style="width:1000px; margin:0 auto;" class="card card-body">
+
+                    <form method="get">
+                        {{ticket_filter.form}}
+
+                        <button class="btn btn-primary" type="submit">Search</button>
+                    </form>
+
+                </div>
+            </div>
         </div>
+    </div>
+    <div class="container-fluid table-responsive mx-2 px-0 aps_table_container">
+        <table class="aps_table table  table-bordered table-hover align-middle">
+            <thead class="aps_table_head">
+                <tr class="align-middle">
+                    <th>S.No</th>
+                    <th>User ID</th>
+                    <th>Priority</th>
+                    <th>Category</th>
+                    <th>Sub Category</th>
+                    <th>Model No</th>
+                    <th>Serial No</th>
+                    <th>Summary</th>
+                    <th>AMC</th>
+                    <th>Status</th>
+                    <th>Fault Found Code</th>
+                    <th>Resolution Code</th>
+                    <th>Resolution Remarks</th>
+                    <th>Online Resolvable</th>
+                    <th>Ticket ID</th>
+                    <th>Alternate HW</th>
+                    <th>Date Updated</th>
+                    <th>Change Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for history in all_history %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{history.history_user_id}}</td>
+                    <td>{{history.Priority}}</td>
+                    <td>{{history.Category}}</td>
+                    <td>{{history.SubCategory}}</td>
+                    <td>{{history.ModelNo}}</td>
+                    <td>{{history.SerialNo}}</td>
+                    <td>{{history.Summary}}</td>
+                    <td>
+                        {% ifequal history.AMC True %}
+                        Yes
+                        {% endifequal %}
+                        {% ifequal history.AMC False %}
+                        No
+                        {% endifequal %}
+                        {% ifequal history.AMC None %}
+                        Unknown
+                        {% endifequal %}
+                    </td>
+                    <td>{{history.Status}}</td>
+                    <td>{{history.FaultFoundCode}}</td>
+                    <td>{{history.ResolutionCode}}</td>
+                    <td>{{history.ResolutionRemarks}}</td>
+                    <td>
+                        {% ifequal history.OnlineResolvable True %}
+                        Yes
+                        {% endifequal %}
+                        {% ifequal history.OnlineResolvable False %}
+                        No
+                        {% endifequal %}
+                        {% ifequal history.OnlineResolvable None %}
+                        Unknown
+                        {% endifequal %}
+                    </td>
+                    <td>{{history.TicketID}}</td>
+                    <td>{{history.AlternateHW}}</td>
+                    <td>{{history.history_date}}</td>
+                    <td>
+                        {% ifequal history.history_type '+' %}
+                        Created
+                        {% endifequal %}
+                        {% ifequal history.history_type '~' %}
+                        Updated
+                        {% endifequal %}
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
         </table>
     </div>
 </div>
-</div>
+
+{% endifequal %}
 
 {% endblock %}
-
-<!-- <!DOCTYPE html>
-<html>
-
-<head>
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <style>
-        body {
-            background-color: #ebeff5;
-        }
-
-
-        #total-orders {
-            background-color: #4cb4c7;
-        }
-
-
-        #orders-delivered {
-            background-color: #7abecc;
-        }
-
-        #orders-pending {
-            background-color: #7CD1C0;
-        }
-
-        h5 {
-            text-align: center;
-          }
-
-    </style>
-</head>
-
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="/dashboard">Users</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/showCustomer">Customers</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/showOrganisation">Organisations</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/showTickets">CRM</a>
-                </li>
-            </ul>
-        </div>
-        <span><a href="/logout">Logout</a></span>
-    </nav> -->
-<!-- <div class="container-fluid">
-
-        <br>
-
-        <div class="row">
-            <div class="col">
-                <div class="col-md">
-                    <div class="card text-center text-white  mb-3" id="total-orders">
-                        <div class="card-header">
-                            <h5 class="card-title">Total Users</h5>
-                        </div>
-                        <div class="card-body">
-                            <h3 class="card-title">{{total_users}}</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="col-md">
-                    <div class="card text-center text-white  mb-3" id="orders-delivered">
-                        <div class="card-header">
-                            <h5 class="card-title">Orders Delivered</h5>
-                        </div>
-                        <div class="card-body">
-                            <h3 class="card-title"></h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="col-md">
-                    <div class="card text-center text-white  mb-3" id="orders-pending">
-                        <div class="card-header">
-                            <h5 class="card-title">Orders Pending</h5>
-                        </div>
-                        <div class="card-body">
-                            <h3 class="card-title"></h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-
-
-
-
-<!-- </div>
-    <hr>
-    <h5>Our footer</h5>
-
-</body>
-
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-    crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-    crossorigin="anonymous"></script>
-
-</html> -->
+{% block script %}
+<script src="/static/assets/js/table.js"></script>
+{% endblock %}

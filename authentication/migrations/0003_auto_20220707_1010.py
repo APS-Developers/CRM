@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('authentication', '0002_rename_userpermissions_userpermission'),
+        ("authentication", "0002_rename_userpermissions_userpermission"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='userpermission',
-            name='CRM_permission',
+            model_name="userpermission",
+            name="CRM_permission",
             field=models.BooleanField(default=False),
         ),
         migrations.AlterField(
-            model_name='userpermission',
-            name='Inventory_permission',
+            model_name="userpermission",
+            name="Inventory_permission",
             field=models.BooleanField(default=False),
         ),
     ]
