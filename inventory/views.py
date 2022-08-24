@@ -15,6 +15,7 @@ from authentication.models import User, UserPermission
 import json
 from django.http import JsonResponse
 
+
 def inventoryPermission(username):
     user = User.objects.get(username=username)
     if not user.is_staff or not user.is_superuser:

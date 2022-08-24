@@ -6,6 +6,7 @@ Inventory
 
 {% block css %}
 <link rel="stylesheet" href="/static/assets/css/table.css">
+<link rel="stylesheet" href="/static/assets/css/show_ticket.css">
 {% endblock %}
 
 {% block content %}
@@ -31,6 +32,17 @@ Inventory
 				</div>
 			</div>
 		</div>
+		<div class="aps_create_ticket" >+
+            <div>
+                <ul>
+                    <a href="/createInventory">
+                        <li>Add Item</li>
+                    </a><a href="/upload_file">
+                        <li>Upload from csv</li>
+                    </a>
+                </ul>
+            </div>
+        </div>
 		<div class="container py-5 float-right">
 			<div class="row">
 				<table id="example"  class="aps_table table  table-bordered table-hover align-middle" style="width:100%">

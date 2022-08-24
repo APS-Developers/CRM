@@ -5,10 +5,11 @@ main page
 {% endblock title %}
 
 {% block content %}
-<form action="" method="POST" class="ui form" enctype="multipart/form-data">
-   {% csrf_token %}
+<div class="container my-3">
+   <form action="" method="POST" class="ui form" enctype="multipart/form-data">
+      {% csrf_token %}
    {{ form }}
-   <button type="submit" class="ui form">Confirm</button>
-
+   <button type="submit" class="btn btn-primary">Confirm</button>
 </form>
+</div>
 {% endblock content%}

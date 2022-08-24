@@ -13,32 +13,32 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
-
+    <link rel="stylesheet" href="/static/assets/css/home.css">
     {% block css %}
     {% endblock %}
 </head>
 
 <body>
     <!-- navbar  -->
-    <nav class="navbar navbar-expand-lg" id="aps_navbar">
-        <div class="container">
-            <a class="navbar-brand" href="#" class="d-inline-block align-text-center">
-                <img src="/static/assets/images/logo.png" alt="" width="35%" height="60"
-                    class="d-inline-block align-text-center">
-                <span class="border-start border-light ps-2 m-0 text-light"
-                    style=" font-size: calc(100% + 0.3vw + 0.3vh);">Management 360&deg;</span>
-            </a>
-            <div class="aps_btn-wrapper">
-                    {% block button %}
-                    {% endblock %}
+    <div id="aps_navbar">
+        <div class="wrapper">
+            <div class="logo_wrapper">
+                <img src="/static/assets/images/logo.png" alt="">
             </div>
+            <h1 class="title">
+                Management 360&deg;
+            </h1>
         </div>
-        </div>
-    </nav>
+        <a href="/login">
+            <div class="aps_nav_login">
+                <button>Login</button>
+            </div>
+        </a>
+    </div>
 
     {% block content %}
     {% endblock %}
-
+    <script src="/static/assets/js/home.js"></script>
     <!-- Bootstrap script  -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous">

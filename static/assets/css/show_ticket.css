@@ -1,4 +1,4 @@
-#aps_create_ticket{
+.aps_create_ticket{
     position: fixed;
     z-index:20;
     display: inline-block;
@@ -20,7 +20,7 @@
     line-height: max(6vw,6vh);
     cursor: pointer;
 }
-#aps_create_ticket div{
+.aps_create_ticket div{
     display: none;
     position: absolute;
     top: 0%;
@@ -34,7 +34,7 @@
     height: 60px;
     line-height: 20px;
 }
-#aps_create_ticket div li{
+.aps_create_ticket div li{
     list-style: none;
     margin-top: 5px;
     margin-bottom: 5px;
@@ -44,18 +44,18 @@
     padding: 10px;
     border-radius: 10px;
 }
-#aps_create_ticket div li:hover{
+.aps_create_ticket div li:hover{
     color: orange;
 }
-#aps_create_ticket div a{
+.aps_create_ticket div a{
     text-decoration: none;
     color: #fff;
 }
-#aps_create_ticket:hover{
+.aps_create_ticket:hover{
     background: #fff;
     color: #1e354e;
     border: 2px solid #1e354e;
 }
-#aps_create_ticket:hover div{
+.aps_create_ticket:hover div{
     display: inline-block;
 }

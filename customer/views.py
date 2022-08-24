@@ -5,7 +5,8 @@ from .forms import CreateCustomerForm, CreateOrganisationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 import json
-from django.http import JsonResponse    
+from django.http import JsonResponse
+
 # Create your views here.
 
 
@@ -135,18 +136,24 @@ def deleteOrganisation(request, pk):
     return render(request, "customer/delete.html", context)
 
 
-
 def customerDetails(request):
     try:
-        name = request.GET.get('name')
-        org = request.GET.get('org')
-        orgName, orgAddress = org.split(', ')
-        customer = Customer.objects.filter(Name=name, Organisation__Name=orgName, Organisation__Address=orgAddress)
+        name = request.GET.get("name")
+        org = request.GET.get("org")
+        orgName, orgAddress = org.split(", ")
+        customer = Customer.objects.filter(
+            Name=name, Organisation__Name=orgName, Organisation__Address=orgAddress
+        )
         if not customer:
-            return JsonResponse({"error":"No customer found"},status=404)
+            return JsonResponse({"error": "No customer found"}, status=404)
         customer = customer.first()
-        details = {'name': customer.Name, 'contactNo': str(customer.ContactNo), 
-        'email': customer.EmailAddress, 'organisation': customer.Organisation.Name, 'id':customer.CustomerID}
+        details = {
+            "name": customer.Name,
+            "contactNo": str(customer.ContactNo),
+            "email": customer.EmailAddress,
+            "organisation": customer.Organisation.Name,
+            "id": customer.CustomerID,
+        }
         return JsonResponse(details)
     except Exception as e:
-        return JsonResponse({"error":str(e)},status=500)
+        return JsonResponse({"error": str(e)}, status=500)
