@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from authentication.models import UserPermission
 from .filters import UserFilter
+
 # Create your views here.
 
 
@@ -72,13 +73,13 @@ def dashboard(request):
     return render(request, "dashboardNavbar.html")
 
 
-@login_required(login_url='login')
+@login_required(login_url="login")
 def showUser(request):
     all_users = User.objects.all()
     user_filter = UserFilter(request.GET, queryset=all_users)
     all_users = user_filter.qs
-    context = {'all_users': all_users, 'user_filter': user_filter}
-    return render(request, 'authentication/show.html', context)
+    context = {"all_users": all_users, "user_filter": user_filter}
+    return render(request, "authentication/show.html", context)
 
 
 def logoutUser(request):

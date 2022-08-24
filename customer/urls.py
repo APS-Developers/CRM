@@ -18,5 +18,5 @@ urlpatterns = [
         views.deleteOrganisation,
         name="deleteOrganisation",
     ),
-    path('customerDetailsAutofill/', views.customerDetails, name='customerDetails'),
+    path("customerDetailsAutofill/", views.customerDetails, name="customerDetails"),
 ]
