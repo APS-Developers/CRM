@@ -12,7 +12,6 @@ urlpatterns = [
     path("register/", views.createUser, name="create"),
     path("login/", views.loginUser, name="login"),
     path("logout/", views.logoutUser, name="logout"),
-    path("dashboard/", views.dashboard, name="dashboard"),
     path("update/<str:pk>/", views.updateUser, name="update"),
     path("delete/<str:pk>/", views.deleteUser, name="delete"),
     path("showUser/", views.showUser, name="showUser"),
