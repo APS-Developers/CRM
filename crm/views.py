@@ -250,8 +250,12 @@ def dashboard(request):
     for priority,_ in Ticket.priorityChoices:
         priority_count[priority]=0
     for ticket in tickets:
-        status_count[ticket["Status"]]+=1
-        priority_count[ticket["Priority"]]+=1
+        status = ticket["Status"]
+        priority = ticket["Priority"]
+        if status in status_count.keys():
+            status_count[status]+=1
+        if priority in priority_count.keys():
+            priority_count[priority]+=1
     context = {"status_count":status_count,"priority_count":priority_count}
     return render(request, "crm/dashboard.html",context)
 
@@ -269,10 +273,17 @@ def getTicketSla(request):
 @login_required(login_url="login")
 def getTicketSlaMonthly(request):
     try:
-        sla_hours = 72
-        sla_time = datetime.now()-timedelta(hours=sla_hours)
-        total_tickets = Ticket.objects.count()
-        tickets_within_sla = Ticket.objects.filter(DateCreated__gte=sla_time).count()
-        return JsonResponse({"within":tickets_within_sla,"total":total_tickets,"outside":total_tickets-tickets_within_sla},status=200)
+        total_tickets = []
+        within = []
+        outside = []
+        for i in range(6):
+            sla_hours = 72
+            sla_time = datetime.now()-timedelta(hours=sla_hours)
+            tickets = Ticket.objects.count()
+            within_sla = Ticket.objects.filter(DateCreated__gte=sla_time).count()
+            total_tickets.append(tickets)
+            within.append(within_sla)
+            outside.append(tickets-within_sla)
+        return JsonResponse({"within":within,"total":total_tickets,"outside":outside},status=200)
     except Exception as e:
         return JsonResponse({"Error":"Internal Server Error"},status=500)

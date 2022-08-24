@@ -44,7 +44,7 @@ customer_name.addEventListener("input",()=>{
                 phone.value = "";
                 phone.removeAttribute("readonly");
             }
-        });
+        })
     })();
 });
 
@@ -58,6 +58,9 @@ serial_search_form.addEventListener("submit", (e) => {
     const url = serial_search_form.getAttribute("action")+'?'+new URLSearchParams({serial:serial}).toString();
     const method = serial_search_form.getAttribute("method");
     fetch(url, {method:method}).then((res)=>res.json()).then((data)=>{
+        if(res.data.error){
+            throw Error(res.data.error)
+        }
         serial_search_form.classList.toggle("d-none");
         crm_input_form.classList.toggle("d-none");
         fillForm(data);
