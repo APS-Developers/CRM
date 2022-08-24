@@ -1,0 +1,27 @@
+.aps_table{
+  margin: 0px;
+  margin-top: 20px;
+}
+.aps_table .aps_table_head {
+    background: #1e354e;
+    color: #fff;
+    border-color: #1e354e;
+}
+.aps_table th,.aps_table td{
+    min-width: 150px;
+    border: 1px solid #1E4D4E;
+}
+.aps_table th {
+    cursor: default;
+}
+
+.aps_filter_form label{
+display: block;
+}
+.aps_filter_form input, .aps_filter_form select{
+  /* display:block; */
+  width: 100%;
+}
+  .aps_table th.aps_table_filter {
+    cursor: pointer;
+  }/*# sourceMappingURL=style.css.map */
