@@ -13,7 +13,6 @@ urlpatterns = [
     path("ticketLog/<int:ticketID>/", views.ticketLog, name="ticketLog"),
     path("showTicket/", views.showTicket, name="showTicket"),
     path("dashboard/", views.dashboard, name="dashboard"),
-    path("slainfo",views.getTicketSla,name="slainfo"),
-    path("slainfomonthly",views.getTicketSlaMonthly,name="slainfomonthly")
-
+    path("slainfo", views.getTicketSla, name="slainfo"),
+    path("slainfomonthly", views.getTicketSlaMonthly, name="slainfomonthly"),
 ]
