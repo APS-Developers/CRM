@@ -13,6 +13,7 @@ from collections import defaultdict
 from django.views.decorators.cache import never_cache
 from datetime import datetime, timedelta
 from django.http import JsonResponse
+
 # from django.core.mail import EmailMessage
 # from django.conf import settings
 # from django.template.loader import render_to_string
@@ -169,7 +170,7 @@ def createTicket(request):
 @login_required(login_url="login")
 def showTicket(request):
     if crmPermission(request.user.username):
-        all_tickets = Ticket.objects.all()
+        all_tickets = Ticket.objects.all().order_by("-DateCreated")
         ticket_filter = TicketFilter(request.GET, queryset=all_tickets)
         all_tickets = ticket_filter.qs
         context = {
@@ -239,36 +240,46 @@ def ticketLog(request, ticketID):
 
 # @login_required(login_url="login")
 
+
 @never_cache
 @login_required(login_url="login")
 def dashboard(request):
-    tickets = Ticket.objects.values("Status","Priority")
+    tickets = Ticket.objects.values("Status", "Priority")
     status_count = dict()
     priority_count = dict()
-    for status,_ in Ticket.statusChoices:
-        status_count[status]=0
-    for priority,_ in Ticket.priorityChoices:
-        priority_count[priority]=0
+    for status, _ in Ticket.statusChoices:
+        status_count[status] = 0
+    for priority, _ in Ticket.priorityChoices:
+        priority_count[priority] = 0
     for ticket in tickets:
         status = ticket["Status"]
         priority = ticket["Priority"]
         if status in status_count.keys():
-            status_count[status]+=1
+            status_count[status] += 1
         if priority in priority_count.keys():
-            priority_count[priority]+=1
-    context = {"status_count":status_count,"priority_count":priority_count}
-    return render(request, "crm/dashboard.html",context)
+            priority_count[priority] += 1
+    context = {"status_count": status_count, "priority_count": priority_count}
+    return render(request, "crm/dashboard.html", context)
+
 
 @login_required(login_url="login")
 def getTicketSla(request):
     try:
         sla_hours = 72
-        sla_time = datetime.now()-timedelta(hours=sla_hours)
+        sla_time = datetime.now() - timedelta(hours=sla_hours)
         total_tickets = Ticket.objects.count()
         tickets_within_sla = Ticket.objects.filter(DateCreated__gte=sla_time).count()
-        return JsonResponse({"within":tickets_within_sla,"total":total_tickets,"outside":total_tickets-tickets_within_sla},status=200)
+        return JsonResponse(
+            {
+                "within": tickets_within_sla,
+                "total": total_tickets,
+                "outside": total_tickets - tickets_within_sla,
+            },
+            status=200,
+        )
     except Exception as e:
-        return JsonResponse({"Error":"Internal Server Error"},status=500)
+        return JsonResponse({"Error": "Internal Server Error"}, status=500)
+
 
 @login_required(login_url="login")
 def getTicketSlaMonthly(request):
@@ -278,12 +289,14 @@ def getTicketSlaMonthly(request):
         outside = []
         for i in range(6):
             sla_hours = 72
-            sla_time = datetime.now()-timedelta(hours=sla_hours)
+            sla_time = datetime.now() - timedelta(hours=sla_hours)
             tickets = Ticket.objects.count()
             within_sla = Ticket.objects.filter(DateCreated__gte=sla_time).count()
             total_tickets.append(tickets)
             within.append(within_sla)
-            outside.append(tickets-within_sla)
-        return JsonResponse({"within":within,"total":total_tickets,"outside":outside},status=200)
+            outside.append(tickets - within_sla)
+        return JsonResponse(
+            {"within": within, "total": total_tickets, "outside": outside}, status=200
+        )
     except Exception as e:
-        return JsonResponse({"Error":"Internal Server Error"},status=500)
+        return JsonResponse({"Error": "Internal Server Error"}, status=500)
