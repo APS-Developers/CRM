@@ -134,23 +134,25 @@ class UserPasswordResetForm(PasswordResetForm):
 
 class UserPasswordChangeForm(SetPasswordForm):
 
-    password1 = forms.CharField(
+    new_password1 = forms.CharField(
         widget=forms.TextInput(
             attrs={
                 "class": "form-control form-input",
                 "type": "password",
                 "id": "floatingPassword",
+                "name": "new_password1",
             }
         ),
         label="",
     )
 
-    password2 = forms.CharField(
+    new_password2 = forms.CharField(
         widget=forms.TextInput(
             attrs={
                 "class": "form-control form-input",
                 "type": "password",
                 "id": "floatingPassword",
+                "name": "new_password2",
             }
         ),
         label="",
