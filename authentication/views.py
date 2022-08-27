@@ -70,7 +70,7 @@ def loginUser(request):
 
 @login_required(login_url="login")
 def showUser(request):
-    all_users = User.objects.all()
+    all_users = User.objects.filter(is_staff=False, is_superuser=False)
     user_filter = UserFilter(request.GET, queryset=all_users)
     all_users = user_filter.qs
     context = {"all_users": all_users, "user_filter": user_filter}
