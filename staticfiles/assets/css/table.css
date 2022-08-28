@@ -87,3 +87,12 @@ display: block;
 .aps_create_button:hover div{
     display: inline-block;
 }
+.page-link{
+    color: #1e354e !important;
+    cursor: pointer;
+}
+.page-item.active .page-link{
+    background: #1e354e !important;
+    border-color: #1e354e !important;
+    color: #fff !important;
+}

@@ -13,6 +13,7 @@ from collections import defaultdict
 from django.views.decorators.cache import never_cache
 from datetime import datetime, timedelta
 from django.http import JsonResponse
+from django.core.paginator import Paginator
 
 # from django.core.mail import EmailMessage
 # from django.conf import settings
@@ -173,10 +174,15 @@ def showTicket(request):
         all_tickets = Ticket.objects.all().order_by("-DateCreated")
         ticket_filter = TicketFilter(request.GET, queryset=all_tickets)
         all_tickets = ticket_filter.qs
+        page_number = request.GET.get("page", 1)
+        paginator = Paginator(all_tickets, 25)
+        page_obj = paginator.get_page(page_number)
+        page_range = paginator.page_range
         context = {
-            "all_tickets": all_tickets,
+            "page_obj": page_obj,
             "ticket_filter": ticket_filter,
             "type": "Ticket",
+            "page_range": page_range,
         }
         return render(request, "crm/show.html", context)
     else:

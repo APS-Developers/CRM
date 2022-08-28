@@ -27,7 +27,9 @@ class Ticket(models.Model):
     resolutionChoices = [("123", "Router faulty"), ("456", "Modem faulty")]
 
     TicketID = models.AutoField("Ticket ID", primary_key=True)
-    DateCreated = models.DateField("Date Created (mm/dd/yyyy)", default=django.utils.timezone.now)
+    DateCreated = models.DateField(
+        "Date Created (mm/dd/yyyy)", default=django.utils.timezone.now
+    )
     Category = models.CharField(max_length=100)
     SubCategory = models.CharField("Sub-Category", max_length=100)
     ModelNo = models.CharField("Model No", max_length=100)
