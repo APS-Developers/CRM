@@ -8,4 +8,4 @@ class TicketFilter(django_filters.FilterSet):
 
     class Meta:
         model = Ticket
-        fields = ["TicketID", "Status", "Priority"]
+        fields = ["TicketID", "Status", "Priority", "Category", "SubCategory"]

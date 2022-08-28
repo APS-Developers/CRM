@@ -7,6 +7,7 @@ Show
 
 {% block css %}
 <link rel="stylesheet" href="/static/assets/css/table.css">
+
 {% endblock %}
 {% block content %}
 <br>
@@ -34,26 +35,19 @@ Show
 <div class="col-sm-12 mx-auto">
     <h5>ALL USERS</h5>
     <hr>
-    <div class="row">
-        <div class="col">
 
-                <form method="get">
-                    {{user_filter.form}}
-
-                    <button class="btn btn-primary" type="submit">Search</button>
-                </form>
-
-        </div>
-    </div>
     <div class="col-sm-12 mx-auto">
         <div class="container-fluid table-responsive px-0 py-1 aps_table_container">
-            <a class="btn btn-primary  btn-sm btn-block" href="/register">Create User</a>
+            <a href="/register">
+                <div class="aps_create_button">+
+                </div>
+            </a>
             <table class="aps_table table table-bordered table-hover align-middle">
                 <thead class="aps_table_head">
                     <tr class="align-middle">
                         <th>S.No</th>
-                        <th>User ID</th>
-                        <th>Username</th>
+                        <th class="aps_table_search">User ID</th>
+                        <th class="aps_table_search">Username</th>
                         <th>Email</th>
                         <th>CRM Permission</th>
                         <th>Inventory Permission</th>
