@@ -8,7 +8,11 @@ class Inventory(models.Model):
     class Meta:
         db_table = "Inventory"
 
-    StatusChoice = [("None", "None"), ("Working", "Working"), ("Not Working", "Not Working")]
+    StatusChoice = [
+        ("None", "None"),
+        ("Working", "Working"),
+        ("Not Working", "Not Working"),
+    ]
 
     Make = models.CharField(max_length=50)
     Part_Code = models.CharField(max_length=100)

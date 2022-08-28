@@ -14,6 +14,7 @@ from django.core.exceptions import PermissionDenied
 from authentication.models import User, UserPermission
 import json
 from django.http import JsonResponse
+from django.core.paginator import Paginator
 
 
 def inventoryPermission(username):
@@ -84,10 +85,19 @@ def createInventory(request):
 @login_required(login_url="login")
 def showInventory(request):
     if inventoryPermission(request.user.username):
-        all_inventory = Inventory.objects.all()
+        all_inventory = Inventory.objects.all().order_by("-Serial_Number")
         Inven_filter = InventoryFilter(request.GET, queryset=all_inventory)
         all_inventory = Inven_filter.qs
-        context = {"inventories": all_inventory, "inventory_filter": Inven_filter}
+        page_number = request.GET.get("page", 1)
+        paginator = Paginator(all_inventory, 25)
+        page_obj = paginator.get_page(page_number)
+        page_range = paginator.page_range
+
+        context = {
+            "page_obj": page_obj,
+            "inventory_filter": Inven_filter,
+            "page_range": page_range,
+        }
         return render(request, "inventory/show.html", context)
     else:
         raise PermissionDenied

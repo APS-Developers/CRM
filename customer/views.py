@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 import json
 from django.http import JsonResponse
+from django.core.paginator import Paginator
 
 # Create your views here.
 
@@ -56,26 +57,37 @@ def createOrganisation(request):
 
 @login_required(login_url="login")
 def showCustomer(request):
-    all_customers = Customer.objects.all()
+    all_customers = Customer.objects.all().order_by("-CustomerID")
     customer_filter = CustomerFilter(request.GET, queryset=all_customers)
     all_customers = customer_filter.qs
+    page_number = request.GET.get("page", 1)
+    paginator = Paginator(all_customers, 10)
+    page_obj = paginator.get_page(page_number)
+    page_range = paginator.page_range
     context = {
-        "all_customers": all_customers,
+        "page_obj": page_obj,
         "type": "Customer",
         "customer_filter": customer_filter,
+        "page_range": page_range,
     }
     return render(request, "customer/show.html", context)
 
 
 @login_required(login_url="login")
 def showOrganisation(request):
-    all_organisations = Organisation.objects.all()
+    all_organisations = Organisation.objects.all().order_by("-OrgID")
     organisation_filter = OrganisationFilter(request.GET, queryset=all_organisations)
     all_organisations = organisation_filter.qs
+    page_number = request.GET.get("page", 1)
+    paginator = Paginator(all_organisations, 10)
+    page_obj = paginator.get_page(page_number)
+    page_range = paginator.page_range
+
     context = {
-        "all_organisations": all_organisations,
+        "page_obj": page_obj,
         "type": "Organisation",
         "organisation_filter": organisation_filter,
+        "page_range": page_range,
     }
     return render(request, "customer/show.html", context)
 

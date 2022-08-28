@@ -36,33 +36,75 @@
         <div class="aps_create_button">+
         </div>
     </a>
-    <table class="aps_table table table-bordered table-hover align-middle">
-        <thead class="aps_table_head">
-            <tr class="align-middle">
-                <th>S.No</th>
-                <th class="aps_table_search">Name</th>
-                <th>Contact No</th>
-                <th>E-mail address</th>
-                <th class="aps_table_filter">Organisation</th>
-                <th>Update</th>
-                <th>Remove</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for customer in all_customers %}
-            <tr>
-                <td>{{forloop.counter}}</td>
-                <td>{{customer.Name}}</td>
-                <td>{{customer.ContactNo}}</td>
-                <td>{{customer.EmailAddress}}</td>
-                <td>{{customer.Organisation}}</td>
-                <td><a class="btn btn-sm btn-info" href="{% url 'updateCustomer' customer.CustomerID %}">Update</a></td>
-                <td><a class="btn btn-sm btn-danger" href="{% url 'deleteCustomer' customer.CustomerID %}">Remove</a>
-                </td>
-            </tr>
+    <div>
+        <table class="aps_table table table-bordered table-hover align-middle">
+            <thead class="aps_table_head">
+                <tr class="align-middle">
+                    <th>S.No</th>
+                    <th class="aps_table_search">Name</th>
+                    <th>Contact No</th>
+                    <th>E-mail address</th>
+                    <th class="aps_table_filter">Organisation</th>
+                    <th>Update</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for customer in page_obj %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{customer.Name}}</td>
+                    <td>{{customer.ContactNo}}</td>
+                    <td>{{customer.EmailAddress}}</td>
+                    <td>{{customer.Organisation}}</td>
+                    <td><a class="btn btn-sm btn-info" href="{% url 'updateCustomer' customer.CustomerID %}">Update</a>
+                    </td>
+                    <td><a class="btn btn-sm btn-danger"
+                            href="{% url 'deleteCustomer' customer.CustomerID %}">Remove</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <nav aria-label="Page navigation example" class="my-3">
+        <ul class="pagination pagination-lg justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{page_obj.previous_page_number}}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {% endif %}
+            {% for page in page_range %}
+            {% if page == page_obj.number %}
+            <li class="page-item active"><a class="page-link" href="?page={{page}}">{{page}}</a></li>
+            {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{page}}">{{page}}</a></li>
+            {% endif %}
             {% endfor %}
-        </tbody>
-    </table>
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{page_obj.next_page_number}}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+
 </div>
 {% else %}
 <h5>ALL ORGANISATIONS</h5>
@@ -104,7 +146,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for organisation in all_organisations %}
+            {% for organisation in page_obj %}
             <tr>
                 <td>{{forloop.counter}}</td>
                 <td>{{organisation.Name}}</td>
@@ -119,6 +161,44 @@
             {% endfor %}
         </tbody>
     </table>
+    <nav aria-label="Page navigation example" class="my-3">
+        <ul class="pagination pagination-lg justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{page_obj.previous_page_number}}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {% endif %}
+            {% for page in page_range %}
+            {% if page == page_obj.number %}
+            <li class="page-item active"><a class="page-link" href="?page={{page}}">{{page}}</a></li>
+            {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{page}}">{{page}}</a></li>
+            {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{page_obj.next_page_number}}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+
 </div>
 {% endifequal %}
 

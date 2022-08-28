@@ -8,6 +8,7 @@ from django.views.decorators.cache import never_cache
 from authentication.models import UserPermission
 from .filters import UserFilter
 from collections import defaultdict
+from django.core.paginator import Paginator
 
 # Create your views here.
 
@@ -70,10 +71,19 @@ def loginUser(request):
 
 @login_required(login_url="login")
 def showUser(request):
-    all_users = User.objects.filter(is_staff=False, is_superuser=False)
+    all_users = User.objects.filter(is_staff=False, is_superuser=False).order_by("-id")
     user_filter = UserFilter(request.GET, queryset=all_users)
     all_users = user_filter.qs
-    context = {"all_users": all_users, "user_filter": user_filter}
+    page_number = request.GET.get("page", 1)
+    paginator = Paginator(all_users, 10)
+    page_obj = paginator.get_page(page_number)
+    page_range = paginator.page_range
+
+    context = {
+        "page_obj": page_obj,
+        "user_filter": user_filter,
+        "page_range": page_range,
+    }
     return render(request, "authentication/show.html", context)
 
 
