@@ -4,12 +4,26 @@
 main page
 {% endblock title %}
 
+{% block style %} 
+<link rel="stylesheet" href="/static/assets/css/table.css">
+{% endblock %}
 {% block content %}
 <div class="container my-3">
    <form action="" method="POST" class="ui form" enctype="multipart/form-data">
       {% csrf_token %}
-   {{ form }}
-   <button type="submit" class="btn btn-primary">Confirm</button>
-</form>
+      <label for="file_name" class="form-label">Upload your csv</label>
+      {{ form }}
+      <br>
+      <button type="submit" class="btn btn-primary" style="background:#1e354e;border-color: #1e354e;">Confirm</button>
+   </form>
+</div>
+<div class="container" id="aps_csv_upload_preview">
+   <table class="aps_table table  table-bordered table-hover align-middle">
+
+   </table>
 </div>
 {% endblock content%}
+
+{% block script %} 
+<script src="/static/assets/js/csv_preview.js"></script>
+{% endblock %}

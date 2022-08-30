@@ -89,6 +89,13 @@ class Form(forms.ModelForm):
 
 
 class CsvsModelForm(forms.ModelForm):
+    file_name = forms.FileField(
+        required=True,
+        widget=forms.FileInput(
+            attrs={"class": "form-control form-control-lg", "id": "aps_csv_upload"}
+        ),
+    )
+
     class Meta:
         model = Csvs
         fields = ("file_name",)
