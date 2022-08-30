@@ -34,7 +34,7 @@ def upload_file(request):
         if form.is_valid():
             form.save()
             form = CsvsModelForm()
-            obj = Csvs.objects.filter(activated=False).first()
+            obj = Csvs.objects.filter(activated=False).last()
             with open(obj.file_name.path, "r", encoding="windows-1252") as f:
                 reader = csv.reader(f)
                 for i, row in enumerate(reader):
