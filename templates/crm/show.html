@@ -53,6 +53,7 @@
                         <th>S.No</th>
                         <th class="aps_table_search">Ticket ID</th>
                         <th>Customer Name</th>
+                        <th class="aps_table_search">Organisation</th>
                         <th class="aps_table_filter">Date Created</th>
                         <th class="aps_table_filter">Priority</th>
                         <th class="aps_table_filter">Category</th>
@@ -79,6 +80,7 @@
                         <td>{{forloop.counter}}</td>
                         <td>{{ticket.TicketID}}</td>
                         <td>{{ticket.Customer.Name}}</td>
+                        <td>{{ticket.Customer.Organisation}}</td>
                         <td>{{ticket.DateCreated}}</td>
                         <td>{{ticket.Priority}}</td>
                         <td>{{ticket.Category}}</td>
