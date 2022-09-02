@@ -15,18 +15,12 @@
 
 
 {% block content %}
-
-
 <section class="gradient-custom ">
   <div class="container py-5 ">
     <div class="row d-flex justify-content-center align-items-center">
       <div class="col-12 col-md-8 col-lg-6 col-xl-5">
         <div class="card  text-white" style="border-radius: 1rem;">
           <div class="card-body p-5 text-center">
-
-
-
-
             <form method="POST">
               {% csrf_token %}
 
@@ -57,7 +51,13 @@
 
                 <p class="fs-5 mb-5 pb-lg-2"><a class="text-white" href="/password_reset">Forgot password ?</a></p>
                 </a>
-
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{message.tags}}" role="alert">
+                    {{message}}
+                </div>
+                {% endfor %}
+                {% endif %}
                 <button class="btn btn-dark btn-outline-light btn-lg px-5" type="submit">Login</button>
 
 
