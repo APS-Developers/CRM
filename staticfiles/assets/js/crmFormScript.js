@@ -50,6 +50,7 @@ customer_name.addEventListener("input",()=>{
 
 // Code for serial search
 const serial_search_form = document.getElementById("aps_crm_serial_search");
+const search_wrapper = document.getElementById("aps_crm_serial_wrapper");
 const crm_input_form = document.getElementById("aps_crm_input_form");
 serial_search_form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -61,7 +62,7 @@ serial_search_form.addEventListener("submit", (e) => {
         if(data.error){
             throw Error(data.error)
         }
-        serial_search_form.classList.toggle("d-none");
+        search_wrapper.classList.toggle("d-none");
         crm_input_form.classList.toggle("d-none");
         fillForm(data);
     }).catch((err)=>{
