@@ -63,8 +63,13 @@ def loginUser(request):
                     login(request, user)
                     return redirect("dashboard")
                 else:
-                    messages.info(request, "Username or Password is incorrect")
-
+                    messages.add_message(
+                        request, messages.ERROR, "Username or Password is incorrect"
+                    )
+            else:
+                messages.add_message(
+                    request, messages.ERROR, "Username or Password is incorrect"
+                )
         context = {"form": form}
         return render(request, "authentication/login.html", context)
 

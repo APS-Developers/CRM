@@ -39,6 +39,10 @@ def createCustomer(request):
                 customerForm.save()
 
             return redirect("showCustomer")
+        else:
+            for message in form.errors.values():
+                messages.add_message(request, messages.ERROR, message)
+            return redirect("createCustomer")
     context = {"form": form, "type": "Customer", "name": "Create"}
     return render(request, "customer/create_update.html", context)
 
@@ -51,6 +55,10 @@ def createOrganisation(request):
         if form.is_valid():
             form.save()
             return redirect("showOrganisation")
+        else:
+            for message in form.errors.values():
+                messages.add_message(request, messages.ERROR, message)
+            return redirect("createOrganisation")
     context = {"form": form, "type": "Organisation", "name": "Create"}
     return render(request, "customer/create_update.html", context)
 
@@ -103,7 +111,10 @@ def updateCustomer(request, pk):
         if form.is_valid():
             form.save()
             return redirect("showCustomer")
-
+        else:
+            for message in form.errors.values():
+                messages.add_message(request, messages.ERROR, message)
+            return redirect("updateCustomer", pk=pk)
     context = {"form": form, "type": "Customer", "name": "Update"}
     return render(request, "customer/create_update.html", context)
 
@@ -119,7 +130,9 @@ def updateOrganisation(request, pk):
         if form.is_valid():
             organisation = form.save()
             return redirect("showOrganisation")
-
+        else:
+            for message in form.errors.values():
+                messages.add_message(request, messages.ERROR, message)
     context = {"form": form, "type": "Organisation", "name": "Update"}
     return render(request, "customer/create_update.html", context)
 
