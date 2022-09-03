@@ -102,10 +102,11 @@ class UserLoginForm(AuthenticationForm):
     username = UsernameField(
         widget=forms.TextInput(
             attrs={
-                "class": "form-control form-input",
+                "class": "form-control form-input text-white",
                 "id": "floatingInput",
                 "type": "username",
                 "placeholder": "username",
+                "style": "background:#0E1A44",
             }
         ),
         label="",
@@ -114,10 +115,11 @@ class UserLoginForm(AuthenticationForm):
     password = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
-                "class": "form-control form-input",
+                "class": "form-control form-input text-white",
                 "placeholder": "password",
                 "id": "floatingPassword",
                 "type": "password",
+                "style": "background:#0E1A44",
             }
         )
     )
