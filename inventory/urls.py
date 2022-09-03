@@ -9,5 +9,5 @@ urlpatterns = [
     path("showInventory/", views.showInventory, name="showInventory"),
     path("updateInventory/<str:pk>/", views.updateInventory, name="updateInventory"),
     path("inventoryDetails/", views.inventoryDetails, name="inventoryDetails"),
-    # path('deleteInventory/str:pk>/', views.deleteInventory, name='deleteInventory'),
+    path("deleteInventory/<str:pk>/", views.deleteInventory, name="deleteInventory"),
 ]
