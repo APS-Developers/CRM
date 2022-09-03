@@ -141,10 +141,10 @@ def inventoryDetails(request):
 
 
 def deleteInventory(request, pk):
-	item = Inventory.objects.get(Serial_Number=pk)
-	if request.method == "POST":
-		item.delete()
-		return redirect('showInventory')
+    item = Inventory.objects.get(Serial_Number=pk)
+    if request.method == "POST":
+        item.delete()
+        return redirect("showInventory")
 
-	context = {'item': item}
-	return render(request, 'inventory/delete.html', context)
+    context = {"item": item}
+    return render(request, "inventory/delete.html", context)

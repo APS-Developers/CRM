@@ -12,7 +12,7 @@ from django.views.decorators.cache import never_cache
 from datetime import datetime, timedelta
 from django.http import JsonResponse
 from django.core.paginator import Paginator
-import django
+import datetime
 
 # from django.core.mail import EmailMessage
 # from django.conf import settings
@@ -200,8 +200,9 @@ def updateTicket(request, ticketID):
                 update = form.save(commit=False)
                 if update.Status == "Closed":
                     date = datetime.date.today()
-                    form.DateClosed = date
-                    # .strftime("%Y-%m-%d")
+                    update.DateClosed = date
+                else:
+                    update.DateClosed = None
                 update.save()
                 return redirect("showTicket")
 

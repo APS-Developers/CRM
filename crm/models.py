@@ -32,7 +32,7 @@ class Ticket(models.Model):
     )
     Category = models.CharField(max_length=100)
     SubCategory = models.CharField("Sub-Category", max_length=100)
-    ModelNo = models.CharField("Model No", max_length=100)
+    # ModelNo = models.CharField("Model No", max_length=100)
     SerialNo = models.CharField("Serial No", max_length=100)
     Summary = models.TextField(max_length=500, blank=True)
     Priority = models.CharField(max_length=2, choices=priorityChoices, blank=True)
@@ -54,7 +54,7 @@ class Ticket(models.Model):
     AlternateHW = models.ForeignKey(
         Inventory, on_delete=models.DO_NOTHING, blank=True, null=True
     )
-    DateClosed = models.DateField("Date Closed", null=True, blank=True)
+    DateClosed = models.DateField("Date Closed (mm/dd/yyyy)", null=True, blank=True)
     history = HistoricalRecords()
 
     def __str__(self):
