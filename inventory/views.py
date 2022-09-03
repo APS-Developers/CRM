@@ -140,11 +140,11 @@ def inventoryDetails(request):
         return JsonResponse({"error": "No product found"}, status=404)
 
 
-# def deleteInventory(request, pk):
-# 	inventory = Inventory.objects.get(Serial_Number=pk)
-# 	if request.method == "POST":
-# 		inventory.delete()
-# 		return redirect('/')
+def deleteInventory(request, pk):
+	item = Inventory.objects.get(Serial_Number=pk)
+	if request.method == "POST":
+		item.delete()
+		return redirect('showInventory')
 
-# 	context = {'item':inventory}
-# 	return render(request, 'create_view.html', context)
+	context = {'item': item}
+	return render(request, 'inventory/delete.html', context)

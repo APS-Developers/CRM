@@ -37,9 +37,9 @@ Inventory
             <div>
                 <ul>
                     <a href="/createInventory">
-                        <li>Add Item</li>
+                        <li>Add item</li>
                     </a><a href="/upload_file">
-                        <li>Upload from csv</li>
+                        <li>Upload from CSV</li>
                     </a>
                 </ul>
             </div>
@@ -87,7 +87,7 @@ Inventory
 									href="{% url 'updateInventory' inventory.Serial_Number %}">Update</a>
 							</td>
 							<td><a class="btn btn-sm btn-danger"
-									href="{% url 'updateInventory' inventory.Serial_Number %}">Remove</a></td>
+									href="{% url 'deleteInventory' inventory.Serial_Number %}">Remove</a></td>
 						</tr>
 						{% endfor %}
 

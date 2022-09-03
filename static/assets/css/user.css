@@ -2,7 +2,7 @@ section{
     /* max-height:100vh;
     max-width: 100vw; */
     /* overflow:; */
-    height : 100vh;
+    /* height : 100vh; */
     background-image: url(../images/user.jpg); 
     background-attachment: fixed;
     background-size: 100% 100%;

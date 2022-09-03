@@ -179,6 +179,10 @@ class UpdateForm(ModelForm):
         label="",
     )
 
+    DateClosed = forms.CharField(
+        required=False, widget=forms.TextInput(attrs={"readonly": "readonly"}), label=""
+    )
+
     class Meta:
         model = Ticket
         fields = [
@@ -196,4 +200,5 @@ class UpdateForm(ModelForm):
             "ResolutionRemarks",
             "OnlineResolvable",
             "AlternateHW",
+            "DateClosed",
         ]

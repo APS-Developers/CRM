@@ -122,11 +122,11 @@ def updateUser(request, pk):
 
 @login_required(login_url="login")
 def deleteUser(request, pk):
-    user = User.objects.get(id=pk)
+    userToDelete = User.objects.get(id=pk)
 
     if request.method == "POST":
-        user.delete()
+        userToDelete.delete()
         return redirect("showUser")
 
-    context = {"user": user}
+    context = {"userToDelete": userToDelete}
     return render(request, "authentication/delete.html", context)

@@ -1,0 +1,71 @@
+.aps_loader_wrapper {
+    z-index: 99999;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 0px;
+    display: none;
+  }
+  
+  .aps_loader_wrapper.active {
+    display: block;
+  }
+  
+  .aps_loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    border-left: 5px solid #f5f5f5;
+    border-radius: 50%;
+    -webkit-animation-name: circle;
+            animation-name: circle;
+    -webkit-animation-duration: 500ms;
+            animation-duration: 500ms;
+    -webkit-animation-delay: -1s;
+            animation-delay: -1s;
+    -webkit-animation-iteration-count: infinite;
+            animation-iteration-count: infinite;
+    transition-property: all;
+  }
+  
+  @-webkit-keyframes circle {
+    0% {
+      transform: rotate(0deg);
+    }
+    25% {
+      transform: rotate(90deg);
+    }
+    50% {
+      transform: rotate(180deg);
+    }
+    75% {
+      transform: rotate(270deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes circle {
+    0% {
+      transform: rotate(0deg);
+    }
+    25% {
+      transform: rotate(90deg);
+    }
+    50% {
+      transform: rotate(180deg);
+    }
+    75% {
+      transform: rotate(270deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }/*# sourceMappingURL=loader.css.map */

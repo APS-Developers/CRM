@@ -54,22 +54,8 @@ class Ticket(models.Model):
     AlternateHW = models.ForeignKey(
         Inventory, on_delete=models.DO_NOTHING, blank=True, null=True
     )
+    DateClosed = models.DateField("Date Closed", null=True, blank=True)
     history = HistoricalRecords()
 
     def __str__(self):
         return str(self.TicketID)
-
-    # customer hoga foreign key
-    # Organisation = models.CharField(max_length=100)     # drop down , auto-populate also editable
-    # CustomerName = models.CharField('Customer Name', max_length=100)
-    # ContactNo = PhoneNumberField('Contact No')
-    # EmailAddress = models.EmailField('Email Address', max_length=200, blank=True)
-
-
-# organisation table -> name, pta, id, email, location, contact,
-# customer table -> id, CustomerName, ContactNo, EmailAddress, org id by the name of org - foreign key
-
-# django, get create
-# reverse lookup - one to many
-
-# nupur ko dena hai id aur naam
