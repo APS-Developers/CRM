@@ -77,7 +77,14 @@
                 <tbody>
                     {% for ticket in page_obj %}
                     <tr>
-                        <td>{{forloop.counter}}</td>
+                        <td>{{forloop.counter}}
+
+                            <div class="conatiner" style="float:right">
+                                <a class="m-2"	style="color:darkgreen;" href="{% url 'updateTicket' ticket.TicketID %}"><i class="bi bi-pencil-square"></i></a>
+                                <a class="ml-2" style="color:red;" href="{% url 'ticketLog' ticket.TicketID %}"><i class="bi bi-file-earmark-text"></i></a>
+                             </div>
+                
+                        </td>
                         <td>{{ticket.TicketID}}</td>
                         <td>{{ticket.Customer.Name}}</td>
                         <td>{{ticket.Customer.Organisation}}</td>

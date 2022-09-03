@@ -72,7 +72,14 @@ Inventory
 
 						{% for inventory in page_obj %}
 						<tr>
-							<td>{{forloop.counter}}</td>
+							<td>{{forloop.counter}} 
+								<div class="conatiner"  style="float: right">
+
+									<a class="m-2"	style="color:darkgreen;" href="{% url 'updateInventory' inventory.Serial_Number %}"><i class="bi bi-pencil-square"></i></a>
+									<a class="m-2" style="color:red;" href="{% url 'updateInventory' inventory.Serial_Number %}"><i class="bi bi-trash3-fill"></i></a>
+								</div>
+					
+							</td>
 							<td>{{inventory.Serial_Number}}</td>
 							<td>{{inventory.Make}}</td>
 							<td>{{inventory.Part_Code}}</td>
