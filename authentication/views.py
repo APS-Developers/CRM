@@ -39,6 +39,9 @@ def createUser(request):
 
             # messages.success(request, 'Account was created successfully for ' + username)
             return redirect("showUser")
+        else:
+            for message in form.errors.values():
+                messages.add_message(request, messages.ERROR, message)
 
     context = {"form": form, "permissions_form": permissions_form, "name": "Create"}
     return render(request, "authentication/create_update.html", context)
