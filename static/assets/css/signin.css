@@ -44,7 +44,21 @@ input{
     text-align:right;
     max-height:120px;
 }
-
+.aps_login_form_input{
+    background: #0E1A44;
+}
+.aps_login_form_input:focus{
+    background: #0E1A44;
+}
+.aps_login_form_input:-webkit-autofill,
+.aps_login_form_input:-webkit-autofill:hover, 
+.aps_login_form_input:-webkit-autofill:focus, 
+.aps_login_form_input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px #0E1A44 inset !important;
+}
+.aps_login_form_input:-webkit-autofill{
+    -webkit-text-fill-color: #fff !important;
+}
 @media (max-width: 500px) {
     #aps_navbar .aps_btn-wrapper{
         width:100%;
