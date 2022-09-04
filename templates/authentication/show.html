@@ -60,7 +60,7 @@ Show
                     {% if not user.is_staff and not user.is_superuser %}
                     <tr>
                         <th>
-                            {{forloop.counter}}
+                            {{user.counter}}
                             <div class="conatiner" style="float:right">
 
                                 <a class="m-2"	style="color:rgb(29, 147, 134);" href="{% url 'update' user.id %}"><i class="bi bi-pencil-square"></i></a>

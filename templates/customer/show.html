@@ -53,7 +53,7 @@
                 {% for customer in page_obj %}
                 <tr>
                     <td>
-                        {{forloop.counter}}
+                        {{customer.counter}}
                         <div class="conatiner" style="float:right">
                             <a class="m-2"	style="color:rgb(29, 147, 134);" href="{% url 'updateCustomer' customer.CustomerID %}"><i class="bi bi-pencil-square"></i></a>
                             <a class="m-2" style="color:rgb(185, 9, 9);" href="{% url 'deleteCustomer' customer.CustomerID %}"><i class="bi bi-trash3-fill"></i></a>
@@ -155,7 +155,7 @@
             {% for organisation in page_obj %}
             <tr>
                 <td>
-                    {{forloop.counter}}
+                    {{organisation.counter}}
                     <div class="conatiner" style="float:right">
                         <a class="m-2"	style="color:rgb(29, 147, 134);" href="{% url 'updateOrganisation' organisation.OrgID %}"><i class="bi bi-pencil-square"></i></a>
                         <a class="m-2" style="color:rgb(185, 9, 9);" href="{% url 'deleteOrganisation' organisation.OrgID %}"><i class="bi bi-trash3-fill"></i></a>

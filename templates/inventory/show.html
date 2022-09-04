@@ -31,22 +31,26 @@ Inventory
 	</div>
 </div>
 
+<div class="row">
+	<div class="col-sm-12 mx-auto">
 		<h5>ALL INVENTORY</h5>
 		<hr>
-		<div class="aps_create_button" >+
-            <div>
-                <ul>
-                    <a href="/createInventory">
-                        <li>Add item</li>
-                    </a><a href="/upload_file">
-                        <li>Upload from CSV</li>
-                    </a>
-                </ul>
-            </div>
-        </div>
-		<div class="container float-right">
-			<div class="row">
-				<table id="example"  class="aps_table table  table-bordered table-hover align-middle" style="width:100%">
+	</div>
+	<div class="col-sm-12 mx-auto">
+
+		<div class="aps_create_button">+
+			<div>
+				<ul>
+					<a href="/createInventory">
+						<li>Add item</li>
+					</a><a href="/upload_file">
+						<li>Upload from CSV</li>
+					</a>
+				</ul>
+			</div>
+		</div>
+		<div class="container-fluid table-responsive px-0 py-1 aps_table_container">
+				<table id="example" class="aps_table table  table-bordered table-hover align-middle" style="width:100%">
 					<thead class="aps_table_head">
 						<tr class="align-middle">
 							<th>S.No</th>
@@ -73,10 +77,14 @@ Inventory
 						{% for inventory in page_obj %}
 						<tr>
 							<td>
-								{{forloop.counter}}
-								<div class="conatiner"  style="float: right">
-									<a class="m-2"	style="color:rgb(29, 147, 134);" href="{% url 'updateInventory' inventory.Serial_Number %}"><i class="bi bi-pencil-square"></i></a>
-									<a class="m-2" style="color:rgb(185, 9, 9);" href="{% url 'updateInventory' inventory.Serial_Number %}"><i class="bi bi-trash3-fill"></i></a>
+								{{inventory.counter}}
+								<div class="conatiner" style="float: right">
+									<a class="m-2" style="color:rgb(29, 147, 134);"
+										href="{% url 'updateInventory' inventory.Serial_Number %}"><i
+											class="bi bi-pencil-square"></i></a>
+									<a class="m-2" style="color:rgb(185, 9, 9);"
+										href="{% url 'updateInventory' inventory.Serial_Number %}"><i
+											class="bi bi-trash3-fill"></i></a>
 								</div>
 							</td>
 							<td>{{inventory.Serial_Number}}</td>
@@ -99,7 +107,6 @@ Inventory
 
 					</tbody>
 				</table>
-			</div>
 			<nav aria-label="Page navigation example" class="my-3">
 				<ul class="pagination pagination-lg justify-content-center">
 					{% if page_obj.has_previous %}
@@ -137,8 +144,11 @@ Inventory
 					{% endif %}
 				</ul>
 			</nav>
-	
+
 		</div>
+	</div>
+
+</div>
 
 {% endblock %}
 
