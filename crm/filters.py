@@ -5,6 +5,7 @@ from django_filters import DateFilter
 
 class TicketFilter(django_filters.FilterSet):
     date_created = DateFilter(field_name="DateCreated")
+    date_closed = DateFilter(field_name="DateClosed")
 
     class Meta:
         model = Ticket

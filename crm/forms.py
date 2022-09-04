@@ -125,12 +125,15 @@ class UpdateForm(ModelForm):
     )
 
     SerialNo = forms.CharField(
-        widget=forms.TextInput(attrs={"id": "", "type": "text"}), label=""
+        widget=forms.TextInput(
+            attrs={"readonly": "readonly", "id": "", "type": "text"}
+        ),
+        label="",
     )
 
-    ModelNo = forms.CharField(
-        widget=forms.TextInput(attrs={"id": "", "type": "text"}), label=""
-    )
+    # ModelNo = forms.CharField(
+    #     widget=forms.TextInput(attrs={"id": "", "type": "text"}), label=""
+    # )
 
     Category = forms.CharField(
         widget=forms.TextInput(attrs={"id": "", "type": "text"}), label=""
@@ -179,6 +182,10 @@ class UpdateForm(ModelForm):
         label="",
     )
 
+    DateClosed = forms.DateField(
+        required=False, widget=forms.TextInput(attrs={"readonly": "readonly"}), label=""
+    )
+
     class Meta:
         model = Ticket
         fields = [
@@ -187,7 +194,6 @@ class UpdateForm(ModelForm):
             "Status",
             "Category",
             "SubCategory",
-            "ModelNo",
             "SerialNo",
             "Summary",
             "Priority",
@@ -196,4 +202,5 @@ class UpdateForm(ModelForm):
             "ResolutionRemarks",
             "OnlineResolvable",
             "AlternateHW",
+            "DateClosed",
         ]

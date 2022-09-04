@@ -55,6 +55,7 @@
                         <th>Customer Name</th>
                         <th class="aps_table_search">Organisation</th>
                         <th class="aps_table_filter">Date Created</th>
+                        <th class="aps_table_filter">Date Closed</th>
                         <th class="aps_table_filter">Priority</th>
                         <th class="aps_table_filter">Category</th>
                         <th class="aps_table_filter">Sub Category</th>
@@ -68,20 +69,29 @@
                         <th>Resolution Remarks</th>
                         <th>Online Resolvable</th>
                         <th>Alternate HW</th>
-                        <th>Update</th>
+                        <!-- <th>Update</th>
                         {% if user.is_authenticated and user.is_staff and user.is_superuser %}
                         <th>History</th>
-                        {% endif %}
+                        {% endif %} -->
                     </tr>
                 </thead>
                 <tbody>
                     {% for ticket in page_obj %}
                     <tr>
-                        <td>{{forloop.counter}}</td>
+                        <td>
+                            {{forloop.counter}}
+                            <div class="conatiner" style="float:right">
+                                {% if user.is_authenticated and user.is_staff and user.is_superuser %}
+                                <a class="ml-2" style="color:rgb(95, 7, 161);" href="{% url 'ticketLog' ticket.TicketID %}"><i class="bi bi-file-earmark-text"></i></a>
+                                {% endif %}
+                                <a class="m-2"	style="color:rgb(29, 147, 134);" href="{% url 'updateTicket' ticket.TicketID %}"><i class="bi bi-pencil-square"></i></a>
+                            </div>
+                        </td>
                         <td>{{ticket.TicketID}}</td>
                         <td>{{ticket.Customer.Name}}</td>
                         <td>{{ticket.Customer.Organisation}}</td>
                         <td>{{ticket.DateCreated}}</td>
+                        <td>{{ticket.DateClosed}}</td>
                         <td>{{ticket.Priority}}</td>
                         <td>{{ticket.Category}}</td>
                         <td>{{ticket.SubCategory}}</td>
@@ -115,11 +125,11 @@
                             {% endifequal %}
                         </td>
                         <td>{{ticket.AlternateHW}}</td>
-                        <td><a class="btn btn-sm btn-info" href="{% url 'updateTicket' ticket.TicketID %}">Update</a>
+                        <!-- <td><a class="btn btn-sm btn-info" href="{% url 'updateTicket' ticket.TicketID %}">Update</a>
                         </td>
                         {% if user.is_authenticated and user.is_staff and user.is_superuser %}
                         <td><a class="btn btn-sm btn-warning" href="{% url 'ticketLog' ticket.TicketID %}">View Logs</a>
-                        </td>
+                        </td> -->
                         {% endif %}
                     </tr>
                     {% endfor %}
