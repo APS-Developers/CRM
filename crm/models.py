@@ -36,7 +36,6 @@ class Ticket(models.Model):
     SerialNo = models.CharField("Serial No", max_length=100)
     Summary = models.TextField(max_length=500, blank=True)
     Priority = models.CharField(max_length=2, choices=priorityChoices, blank=True)
-    AMC = models.BooleanField(choices=boolChoices, null=True)
     Status = models.CharField(choices=statusChoices, max_length=10, blank=True)
     FaultFoundCode = models.CharField(
         "Fault Found Code", choices=faultChoices, max_length=30, blank=True
