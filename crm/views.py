@@ -236,7 +236,6 @@ def ticketLog(request, ticketID):
         ticket = Ticket.objects.get(TicketID=ticketID)
 
         all_history = list(ticket.history.all())
-
         # history_users = []
         # for i in range(len(all_history)):
         #     history_users.append(User.objects.get(id=all_history[i].history_user_id).username)
