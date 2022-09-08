@@ -56,5 +56,13 @@ class Ticket(models.Model):
     DateClosed = models.DateField("Date Closed (mm/dd/yyyy)", null=True, blank=True)
     history = HistoricalRecords()
 
+    @property
+    def _history_user(self):
+        return self.changed_by
+
+    @_history_user.setter
+    def _history_user(self, value):
+        self.changed_by = value
+
     def __str__(self):
         return str(self.TicketID)
