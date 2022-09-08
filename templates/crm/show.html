@@ -77,7 +77,7 @@
                     {% for ticket in page_obj %}
                     <tr>
                         <td>
-                            {{forloop.counter}}
+                            {{ticket.counter}}
                             <div class="conatiner" style="float:right">
                                 {% if user.is_authenticated and user.is_staff and user.is_superuser %}
                                 <a class="ml-2" style="color:rgb(95, 7, 161);" href="{% url 'ticketLog' ticket.TicketID %}"><i class="bi bi-file-earmark-text"></i></a>

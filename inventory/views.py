@@ -92,7 +92,9 @@ def showInventory(request):
         paginator = Paginator(all_inventory, 25)
         page_obj = paginator.get_page(page_number)
         page_range = paginator.page_range
-
+        counter = range(page_obj.start_index(), page_obj.end_index() + 1)
+        for ctr, item in zip(counter, page_obj.object_list):
+            item.counter = ctr
         context = {
             "page_obj": page_obj,
             "inventory_filter": Inven_filter,
