@@ -3,14 +3,16 @@ from django.db import models
 from customer.models import Customer
 from inventory.models import Inventory
 from simple_history.models import HistoricalRecords
-import datetime 
+import datetime
+
 # Create your models here.
 SLA_TIME = {
-    "P1":datetime.timedelta(hours=72),
-    "P2":datetime.timedelta(hours=72),
-    "P3":datetime.timedelta(hours=72),
-    "P4":datetime.timedelta(hours=72)
+    "P1": datetime.timedelta(hours=72),
+    "P2": datetime.timedelta(hours=72),
+    "P3": datetime.timedelta(hours=72),
+    "P4": datetime.timedelta(hours=72),
 }
+
 
 class Ticket(models.Model):
     class Meta:
@@ -37,7 +39,7 @@ class Ticket(models.Model):
     )
     Category = models.CharField(max_length=100)
     SubCategory = models.CharField("Sub-Category", max_length=100)
-    SerialNo = models.ForeignKey(Inventory,on_delete=models.DO_NOTHING)
+    SerialNo = models.ForeignKey(Inventory, on_delete=models.DO_NOTHING)
     Summary = models.TextField(max_length=500, blank=True)
     Priority = models.CharField(max_length=2, choices=priorityChoices, blank=True)
     Status = models.CharField(choices=statusChoices, max_length=10, blank=True)
@@ -55,7 +57,11 @@ class Ticket(models.Model):
         "Can it be resolved online?", choices=boolChoices, null=True
     )
     AlternateHW = models.ForeignKey(
-        Inventory, on_delete=models.DO_NOTHING, blank=True, null=True, related_name="replacement"
+        Inventory,
+        on_delete=models.DO_NOTHING,
+        blank=True,
+        null=True,
+        related_name="replacement",
     )
     DateClosed = models.DateField("Date Closed (mm/dd/yyyy)", null=True, blank=True)
     history = HistoricalRecords()
@@ -70,13 +76,15 @@ class Ticket(models.Model):
 
     @property
     def sla_status(self):
-        if self.Status=="Closed":
+        if self.Status == "Closed":
             if (self.DateClosed - self.DateCreated) > SLA_TIME[self.Priority]:
                 return "outside"
             else:
                 return "within"
         else:
-            if (datetime.datetime.now().date()-self.DateCreated) > SLA_TIME[self.Priority]:
+            if (datetime.datetime.now().date() - self.DateCreated) > SLA_TIME[
+                self.Priority
+            ]:
                 return "outside"
             else:
                 return "within"
