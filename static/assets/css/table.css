@@ -30,8 +30,8 @@ display: block;
     position: fixed;
     z-index:20;
     display: inline-block;
-    width: max(6vw,6vh);
-    height: max(6vw,6vh);
+    width: max(5vw,5vh);
+    height: max(5vw,5vh);
     text-align: center;
     border-radius: 50%;
     background: #1e354e;
@@ -39,13 +39,13 @@ display: block;
     box-shadow: 0px 0px 10px #1e354e;
     color: #fff;
     text-decoration: none;
-    font-size: max(6vw,6vh);
+    font-size: max(5vw,5vh);
     bottom: 30px;
     right: 30px;
     transition-duration: 0.5s;
     margin: 0px;
     padding: 0px;
-    line-height: max(4.5vw,4.5vh);
+    line-height: max(4vw,4vh);
     cursor: pointer;
 }
 .aps_create_button div{
