@@ -13,7 +13,7 @@ class Organisation(models.Model):
     Address = models.TextField("Address", max_length=200, unique=True)
 
     def __str__(self):
-        return f"{self.Name}, {self.Address}"
+        return f"{self.Name}; {self.Address}"
 
 
 class Customer(models.Model):

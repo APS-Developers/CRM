@@ -170,7 +170,7 @@ def customerDetails(request):
     try:
         name = request.GET.get("name")
         org = request.GET.get("org")
-        orgName, orgAddress = org.split(", ")
+        orgName, orgAddress = org.split("; ")
         customer = Customer.objects.filter(
             Name=name, Organisation__Name=orgName, Organisation__Address=orgAddress
         )
