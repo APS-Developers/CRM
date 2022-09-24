@@ -150,6 +150,7 @@ def createTicket(request):
                     )
                     customer.save()
                     newTicket.Customer = customer
+                newTicket.Status = "Open"
                 newTicket.save()
                 messages.add_message(
                     request,
@@ -271,10 +272,13 @@ def dashboard(request):
 @login_required(login_url="login")
 def getTicketSla(request):
     try:
-        sla_hours = 72
-        sla_time = datetime.now() - timedelta(hours=sla_hours)
-        total_tickets = Ticket.objects.count()
-        tickets_within_sla = Ticket.objects.filter(DateCreated__gte=sla_time).count()
+        sla_time = datetime.datetime.now() - datetime.timedelta(days=6 * 30)
+        tickets = Ticket.objects.filter(DateCreated__gte=sla_time)
+        tickets_within_sla = 0
+        total_tickets = tickets.count()
+        for ticket in tickets:
+            if ticket.sla_status == "within":
+                tickets_within_sla += 1
         return JsonResponse(
             {
                 "within": tickets_within_sla,
@@ -284,25 +288,52 @@ def getTicketSla(request):
             status=200,
         )
     except Exception as e:
-        return JsonResponse({"Error": "Internal Server Error"}, status=500)
+        return JsonResponse(
+            {"Error": "Internal Server Error", "description": str(e)}, status=500
+        )
 
 
 @login_required(login_url="login")
 def getTicketSlaMonthly(request):
     try:
-        total_tickets = []
+        total = []
         within = []
         outside = []
+        months = []
+        MONTH = {
+            0: "JAN",
+            1: "FEB",
+            2: "MAR",
+            3: "APR",
+            4: "MAY",
+            5: "JUN",
+            6: "JUL",
+            7: "AUG",
+            8: "SEP",
+            9: "OCT",
+            10: "NOV",
+            11: "DEC",
+        }
         for i in range(6):
-            sla_hours = 72
-            sla_time = datetime.now() - timedelta(hours=sla_hours)
-            tickets = Ticket.objects.count()
-            within_sla = Ticket.objects.filter(DateCreated__gte=sla_time).count()
-            total_tickets.append(tickets)
-            within.append(within_sla)
-            outside.append(tickets - within_sla)
+            sla_start = datetime.datetime.now() - datetime.timedelta(days=(i + 1) * 30)
+            sla_end = datetime.datetime.now() - datetime.timedelta(days=i * 30)
+            tickets = Ticket.objects.filter(
+                DateCreated__gte=sla_start, DateCreated__lte=sla_end
+            )
+            tickets_within_sla = 0
+            total_tickets = tickets.count()
+            for ticket in tickets:
+                if ticket.sla_status == "within":
+                    tickets_within_sla += 1
+            within.append(tickets_within_sla)
+            total.append(total_tickets)
+            outside.append(total_tickets - tickets_within_sla)
+            months.append(f"{MONTH[sla_start.month]}-{MONTH[sla_end.month]}")
         return JsonResponse(
-            {"within": within, "total": total_tickets, "outside": outside}, status=200
+            {"within": within, "total": total, "outside": outside, "months": months},
+            status=200,
         )
     except Exception as e:
-        return JsonResponse({"Error": "Internal Server Error"}, status=500)
+        return JsonResponse(
+            {"Error": "Internal Server Error", "description": str(e)}, status=500
+        )

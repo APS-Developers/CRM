@@ -38,7 +38,7 @@ function createBarChart(data){
     var myChart2 = new Chart(ctx2, {
         type: 'line',
         data: {
-            labels: ['Month 1', 'Month 2', 'Month 3', 'Month 4', 'Month 5', 'Month 6'],
+            labels: data.months,
             datasets: [
 
                 {
