@@ -138,26 +138,30 @@ def createTicket(request):
         if request.method == "POST":
             form = FaultForm(request.POST)
             if form.is_valid():
-                newTicket = form.save(commit=False)
-                if request.POST.get("customer_id"):
-                    newTicket.Customer_id = request.POST.get("customer_id")
-                else:
-                    customer = Customer(
-                        Name=request.POST["name"],
-                        EmailAddress=request.POST["email"],
-                        ContactNo=request.POST["phone"],
-                        Organisation_id=request.POST["organisation_id"],
+                try:
+                    newTicket = form.save(commit=False)
+                    if request.POST.get("customer_id"):
+                        newTicket.Customer_id = request.POST.get("customer_id")
+                    else:
+                        customer = Customer(
+                            Name=request.POST["name"],
+                            EmailAddress=request.POST["email"],
+                            ContactNo=request.POST["phone"],
+                            Organisation_id=request.POST["organisation_id"],
+                        )
+                        customer.save()
+                        newTicket.Customer = customer
+                    newTicket.Status = "Open"
+                    newTicket.save()
+                    messages.add_message(
+                        request,
+                        messages.SUCCESS,
+                        'Ticket "%s" created successfully!' % newTicket.TicketID,
                     )
-                    customer.save()
-                    newTicket.Customer = customer
-                newTicket.Status = "Open"
-                newTicket.save()
-                messages.add_message(
-                    request,
-                    messages.SUCCESS,
-                    'Ticket "%s" created successfully!' % newTicket.TicketID,
-                )
-                return redirect("showTicket")
+                    return redirect("showTicket")
+                except Exception as e:
+                    messages.add_message(request,messages.ERROR,str(e))
+                    return render(request,"crm/form.html")
             else:
                 messages.add_message(
                     request, messages.ERROR, "Please fill all the fields!"
