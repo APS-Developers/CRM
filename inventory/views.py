@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.shortcuts import get_list_or_404, get_object_or_404
+
+from customer.models import Organisation
 from .models import Inventory
 from .forms import Form
 from .forms import CsvsModelForm

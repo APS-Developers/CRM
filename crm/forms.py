@@ -4,6 +4,7 @@ from .models import Ticket
 from customer.models import Customer, Organisation
 from django import forms
 from phonenumber_field.formfields import PhoneNumberField
+from django.db.models import Q
 
 boolChoices = [(True, "Yes"), (False, "No")]
 
@@ -71,8 +72,10 @@ class ProductForm(ModelForm):
 
 class FaultForm(ModelForm):
 
-    SerialNo = forms.CharField(
-        widget=forms.TextInput(attrs={"id": "", "type": "text"}), label=""
+    SerialNo = forms.ModelChoiceField(
+        queryset=Inventory.objects.filter(~Q(Organisation=None)),
+        widget=forms.Select(attrs={"id": "", "type": "text"}),
+        label="",
     )
 
     Category = forms.CharField(

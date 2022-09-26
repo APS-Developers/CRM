@@ -137,6 +137,7 @@ def createTicket(request):
         form = FaultForm()
         if request.method == "POST":
             form = FaultForm(request.POST)
+            print(form.errors)
             if form.is_valid():
                 try:
                     newTicket = form.save(commit=False)
@@ -160,8 +161,8 @@ def createTicket(request):
                     )
                     return redirect("showTicket")
                 except Exception as e:
-                    messages.add_message(request,messages.ERROR,str(e))
-                    return render(request,"crm/form.html")
+                    messages.add_message(request, messages.ERROR, str(e))
+                    return render(request, "crm/form.html")
             else:
                 messages.add_message(
                     request, messages.ERROR, "Please fill all the fields!"
