@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "phonenumber_field",
     "django_filters",
     "inventory.apps.InventoryConfig",
+    "reports.apps.ReportsConfig",
 ]
 
 MIDDLEWARE = [

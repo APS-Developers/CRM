@@ -25,6 +25,7 @@ urlpatterns = [
     path("", include("crm.urls")),
     path("", include("customer.urls")),
     path("", include("inventory.urls")),
+    path("reports/", include("reports.urls")),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

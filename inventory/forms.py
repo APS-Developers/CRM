@@ -62,12 +62,12 @@ class Form(forms.ModelForm):
         label="",
     )
 
-    CLI_snapshot= forms.FileField(
+    CLI_snapshot = forms.FileField(
         required=False,
         widget=forms.FileInput(attrs={"id": "", "type": "file"}),
         label="",
     )
-    Snapshot_Date=forms.DateField(
+    Snapshot_Date = forms.DateField(
         required=False,
         widget=forms.TextInput(attrs={"id": "", "type": "date"}),
         label="",
@@ -90,7 +90,7 @@ class Form(forms.ModelForm):
             "Organisation",
             "Status",
             "CLI_snapshot",
-            "Snapshot_Date"
+            "Snapshot_Date",
         ]
 
 

@@ -139,7 +139,6 @@ def inventoryDetails(request):
             "Organisation": product.Organisation.__str__(),
             "OrganisationId": product.Organisation.OrgID,
             "Status": product.Status,
-            
         }
         return JsonResponse(details)
     except Exception as e:

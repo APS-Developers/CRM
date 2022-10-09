@@ -1,0 +1,44 @@
+{% extends 'dashboardNavbar.html' %}
+
+
+{% block title %}
+Reports
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="/static/assets/css/table.css">
+<link rel="stylesheet" href="/static/assets/css/crmFormStyle.css">
+{% endblock %}
+
+
+{% block content %}
+<div id="aps_crm">
+    <div class="crm_header">
+        <h4 class="crm_title">Get Report</h4>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="crm_form">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <fieldset>
+                            {{ field.label_tag }}
+                            {{ field }}
+                        </fieldset>
+                        {% endfor %}
+                        <fieldset>
+                            <button>Get Report</button>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+{% endblock %}
+{% block script %}
+<script src="/static/assets/js/table.js"></script>
+{% endblock %}

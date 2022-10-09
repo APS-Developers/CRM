@@ -30,7 +30,7 @@ class Inventory(models.Model):
     CLI_snapshot = models.FileField(
         upload_to="", validators=[validate_file_extension], null=True, blank=True
     )
-    Snapshot_Date=models.DateField(null=True)
+    Snapshot_Date = models.DateField(null=True)
 
     def __str__(self):
         return self.Serial_Number

@@ -13,6 +13,7 @@ from datetime import datetime, timedelta
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 import datetime
+from customer.forms import CreateCustomerForm
 
 # from django.core.mail import EmailMessage
 # from django.conf import settings
@@ -137,20 +138,18 @@ def createTicket(request):
         form = FaultForm()
         if request.method == "POST":
             form = FaultForm(request.POST)
-            print(form.errors)
             if form.is_valid():
                 try:
                     newTicket = form.save(commit=False)
                     if request.POST.get("customer_id"):
                         newTicket.Customer_id = request.POST.get("customer_id")
                     else:
-                        customer = Customer(
-                            Name=request.POST["name"],
-                            EmailAddress=request.POST["email"],
-                            ContactNo=request.POST["phone"],
-                            Organisation_id=request.POST["organisation_id"],
-                        )
-                        customer.save()
+                        customer = CustomerForm(request.POST)
+                        if customer.is_valid():
+                            customer = customer.save()
+                        else:
+                            print(customer.errors)
+                            raise Exception("Invalid Customer details")
                         newTicket.Customer = customer
                     newTicket.Status = "Open"
                     newTicket.save()
@@ -161,7 +160,9 @@ def createTicket(request):
                     )
                     return redirect("showTicket")
                 except Exception as e:
-                    messages.add_message(request, messages.ERROR, "Error in creating ticket!")
+                    messages.add_message(
+                        request, messages.ERROR, "Error in creating ticket!"
+                    )
                     return render(request, "crm/form.html")
             else:
                 messages.add_message(

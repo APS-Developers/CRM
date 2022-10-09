@@ -1,0 +1,43 @@
+{% extends 'dashboardNavbar.html' %}
+
+
+{% block title %}
+Reports
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="/static/assets/css/table.css">
+{% endblock %}
+
+
+{% block content %}
+<div class="container my-3">
+    <div class="row">
+        <div class="col-SM-12 mx-auto">
+            <h5>GET REPORTS</h5>
+            <hr>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <a href="/reports/crm">
+            <div class="d-grid gap-2">
+                    <button class="btn btn-primary" type="button">CRM Reports</button>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="row my-3">
+        <div class="col-md-8">
+            <a href="/reports/inventory">
+            <div class="d-grid gap-2">
+                    <button class="btn btn-primary" type="button">Inventory Reports</button>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script src="/static/assets/js/table.js"></script>
+{% endblock %}

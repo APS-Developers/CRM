@@ -17,7 +17,11 @@ faultChoices = [
     ("Switch", "Switch faulty"),
 ]
 
-resolutionChoices = [("---------", "---------"), ("123", "Router faulty"), ("456", "Modem faulty")]
+resolutionChoices = [
+    ("---------", "---------"),
+    ("123", "Router faulty"),
+    ("456", "Modem faulty"),
+]
 
 statusChoices = [
     ("Open", "Open"),
@@ -26,9 +30,18 @@ statusChoices = [
     ("Closed", "Closed"),
 ]
 
-dispatchedChoices = [("---------", "---------"), ("Delhivery", "Delhivery"), ("Blue Dart", "Blue Dart")]
+dispatchedChoices = [
+    ("---------", "---------"),
+    ("Delhivery", "Delhivery"),
+    ("Blue Dart", "Blue Dart"),
+]
 
-deliveryStatus = [("---------", "---------"), ("Dispatched", "Dispatched"), ("Delivered", "Delivered")]
+deliveryStatus = [
+    ("---------", "---------"),
+    ("Dispatched", "Dispatched"),
+    ("Delivered", "Delivered"),
+]
+
 
 class CustomerForm(ModelForm):
 
@@ -139,7 +152,7 @@ class UpdateForm(ModelForm):
     # )
     SerialNo = forms.ModelChoiceField(
         queryset=Inventory.objects.filter(~Q(Organisation=None)),
-        widget=forms.Select(attrs={"readonly": "readonly","id": "", "type": "text"}),
+        widget=forms.Select(attrs={"readonly": "readonly", "id": "", "type": "text"}),
         label="",
     )
 
@@ -148,18 +161,24 @@ class UpdateForm(ModelForm):
     # )
 
     Category = forms.CharField(
-        widget=forms.TextInput(attrs={"readonly": "readonly","id": "", "type": "text"}), label=""
+        widget=forms.TextInput(
+            attrs={"readonly": "readonly", "id": "", "type": "text"}
+        ),
+        label="",
     )
 
     SubCategory = forms.CharField(
-        widget=forms.TextInput(attrs={"readonly": "readonly","id": "", "type": "text"}), label=""
+        widget=forms.TextInput(
+            attrs={"readonly": "readonly", "id": "", "type": "text"}
+        ),
+        label="",
     )
 
     # Priority = forms.ChoiceField(
     #     choices=priorityChoices, widget=forms.Select(attrs={"readonly": "readonly","id": ""}), label=""
     # )
     Priority = forms.CharField(
-        widget=forms.TextInput(attrs={"readonly": "readonly","id": ""}), label=""
+        widget=forms.TextInput(attrs={"readonly": "readonly", "id": ""}), label=""
     )
 
     FaultFoundCode = forms.ChoiceField(
@@ -216,7 +235,6 @@ class UpdateForm(ModelForm):
     DeliveryStatus = forms.ChoiceField(
         choices=deliveryStatus, widget=forms.Select(attrs={"id": ""}), label=""
     )
-    
 
     class Meta:
         model = Ticket
@@ -237,5 +255,5 @@ class UpdateForm(ModelForm):
             "ResolutionDate",
             "DocketNumber",
             "DispatchedThrough",
-            "DeliveryStatus"
+            "DeliveryStatus",
         ]
