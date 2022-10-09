@@ -19,7 +19,7 @@ class Ticket(models.Model):
         db_table = "Ticket"
 
     priorityChoices = [("P1", "P1"), ("P2", "P2"), ("P3", "P3"), ("P4", "P4")]
-    boolChoices = [(True, "Yes"), (False, "No")]
+    boolChoices = [("---------", "---------"), ("Yes", "Yes"), ("No", "No")]
     statusChoices = [
         ("Open", "Open"),
         ("Resolved", "Resolved"),
@@ -27,11 +27,15 @@ class Ticket(models.Model):
         ("Closed", "Closed"),
     ]
     faultChoices = [
+        ("---------", "---------"),
         ("Router", "Router faulty"),
         ("Modem", "Modem faulty"),
         ("Switch", "Switch faulty"),
     ]
-    resolutionChoices = [("123", "Router faulty"), ("456", "Modem faulty")]
+    resolutionChoices = [("---------", "---------"), ("123", "Router faulty"), ("456", "Modem faulty")]
+    dispatchedChoices = [("---------", "---------"), ("Delhivery", "Delhivery"), ("Blue Dart", "Blue Dart")]
+    deliveryStatus = [("---------", "---------"), ("Dispatched", "Dispatched"), ("Delivered", "Delivered")]
+
 
     TicketID = models.AutoField("Ticket ID", primary_key=True)
     DateCreated = models.DateField(
@@ -53,8 +57,8 @@ class Ticket(models.Model):
         "Resolution Remarks", max_length=500, blank=True
     )
     Customer = models.ForeignKey(Customer, on_delete=models.DO_NOTHING, null=True)
-    OnlineResolvable = models.BooleanField(
-        "Can it be resolved online?", choices=boolChoices, null=True
+    OnlineResolvable = models.CharField(
+        "Online Resolvable", choices=boolChoices, blank=True, max_length=10
     )
     AlternateHW = models.ForeignKey(
         Inventory,
@@ -63,7 +67,13 @@ class Ticket(models.Model):
         null=True,
         related_name="replacement",
     )
-    DateClosed = models.DateField("Date Closed (mm/dd/yyyy)", null=True, blank=True)
+    ResolutionDate = models.DateField("Resolution Date (mm/dd/yyyy)", null=True, blank=True)
+
+    DocketNumber = models.CharField("Docket Number", max_length=50, blank=True)
+    DispatchedThrough = models.CharField("Dispatched through", choices=dispatchedChoices, blank=True, max_length=50)
+    DeliveryStatus = models.CharField("Delivery Status", choices=deliveryStatus, blank=True, max_length=30)
+
+
     history = HistoricalRecords()
 
     @property
@@ -77,7 +87,7 @@ class Ticket(models.Model):
     @property
     def sla_status(self):
         if self.Status == "Closed":
-            if (self.DateClosed - self.DateCreated) > SLA_TIME[self.Priority]:
+            if (self.ResolutionDate - self.DateCreated) > SLA_TIME[self.Priority]:
                 return "outside"
             else:
                 return "within"
