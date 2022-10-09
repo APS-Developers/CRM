@@ -62,9 +62,14 @@ class Form(forms.ModelForm):
         label="",
     )
 
-    Slip = forms.FileField(
+    CLI_snapshot= forms.FileField(
         required=False,
         widget=forms.FileInput(attrs={"id": "", "type": "file"}),
+        label="",
+    )
+    Snapshot_Date=forms.DateField(
+        required=False,
+        widget=forms.TextInput(attrs={"id": "", "type": "date"}),
         label="",
     )
 
@@ -84,7 +89,8 @@ class Form(forms.ModelForm):
             "Item_dispatched_Date",
             "Organisation",
             "Status",
-            "Slip",
+            "CLI_snapshot",
+            "Snapshot_Date"
         ]
 
 
