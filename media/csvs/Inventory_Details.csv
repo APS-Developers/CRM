@@ -1,4 +1,4 @@
-Make,Part Code,Sr.No -primary,Item ,Location,purchased date,item dispatch date,purchased from,organisation,status,slip
+Make,Part Code,Sr.No -primary,Item ,Location,purchased date,item dispatch date,purchased from,organisation,status,CLI Snapshot
 Cisco,CISCO2911/K9 ,FGL1625109R,Router,Nehru Place-Delhi,,,,,woking,
 Cisco,Cisco 1941/K9,FGL163211UQ,Router,Nehru Place-Delhi,,,,,not working,
 Cisco,Cisco 1941/K9,FGL180322LE,Router,Nehru Place-Delhi,,,,,,"jpg, pdf, png, jpef"
