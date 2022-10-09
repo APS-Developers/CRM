@@ -160,7 +160,9 @@ def createTicket(request):
                     )
                     return redirect("showTicket")
                 except Exception as e:
-                    messages.add_message(request, messages.ERROR, "Error in creating ticket!")
+                    messages.add_message(
+                        request, messages.ERROR, "Error in creating ticket!"
+                    )
                     return render(request, "crm/form.html")
             else:
                 messages.add_message(

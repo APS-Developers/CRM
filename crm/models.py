@@ -32,10 +32,21 @@ class Ticket(models.Model):
         ("Modem", "Modem faulty"),
         ("Switch", "Switch faulty"),
     ]
-    resolutionChoices = [("---------", "---------"), ("123", "Router faulty"), ("456", "Modem faulty")]
-    dispatchedChoices = [("---------", "---------"), ("Delhivery", "Delhivery"), ("Blue Dart", "Blue Dart")]
-    deliveryStatus = [("---------", "---------"), ("Dispatched", "Dispatched"), ("Delivered", "Delivered")]
-
+    resolutionChoices = [
+        ("---------", "---------"),
+        ("123", "Router faulty"),
+        ("456", "Modem faulty"),
+    ]
+    dispatchedChoices = [
+        ("---------", "---------"),
+        ("Delhivery", "Delhivery"),
+        ("Blue Dart", "Blue Dart"),
+    ]
+    deliveryStatus = [
+        ("---------", "---------"),
+        ("Dispatched", "Dispatched"),
+        ("Delivered", "Delivered"),
+    ]
 
     TicketID = models.AutoField("Ticket ID", primary_key=True)
     DateCreated = models.DateField(
@@ -67,12 +78,17 @@ class Ticket(models.Model):
         null=True,
         related_name="replacement",
     )
-    ResolutionDate = models.DateField("Resolution Date (mm/dd/yyyy)", null=True, blank=True)
+    ResolutionDate = models.DateField(
+        "Resolution Date (mm/dd/yyyy)", null=True, blank=True
+    )
 
     DocketNumber = models.CharField("Docket Number", max_length=50, blank=True)
-    DispatchedThrough = models.CharField("Dispatched through", choices=dispatchedChoices, blank=True, max_length=50)
-    DeliveryStatus = models.CharField("Delivery Status", choices=deliveryStatus, blank=True, max_length=30)
-
+    DispatchedThrough = models.CharField(
+        "Dispatched through", choices=dispatchedChoices, blank=True, max_length=50
+    )
+    DeliveryStatus = models.CharField(
+        "Delivery Status", choices=deliveryStatus, blank=True, max_length=30
+    )
 
     history = HistoricalRecords()
 

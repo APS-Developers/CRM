@@ -9,34 +9,70 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Organisation',
+            name="Organisation",
             fields=[
-                ('OrgID', models.AutoField(primary_key=True, serialize=False)),
-                ('Name', models.CharField(max_length=100, verbose_name='Name')),
-                ('ContactNo', phonenumber_field.modelfields.PhoneNumberField(max_length=128, region=None, unique=True, verbose_name='Contact No')),
-                ('EmailAddress', models.EmailField(blank=True, max_length=200, verbose_name='Email Address')),
-                ('Address', models.TextField(max_length=200, unique=True, verbose_name='Address')),
+                ("OrgID", models.AutoField(primary_key=True, serialize=False)),
+                ("Name", models.CharField(max_length=100, verbose_name="Name")),
+                (
+                    "ContactNo",
+                    phonenumber_field.modelfields.PhoneNumberField(
+                        max_length=128,
+                        region=None,
+                        unique=True,
+                        verbose_name="Contact No",
+                    ),
+                ),
+                (
+                    "EmailAddress",
+                    models.EmailField(
+                        blank=True, max_length=200, verbose_name="Email Address"
+                    ),
+                ),
+                (
+                    "Address",
+                    models.TextField(
+                        max_length=200, unique=True, verbose_name="Address"
+                    ),
+                ),
             ],
             options={
-                'db_table': 'Organisation',
+                "db_table": "Organisation",
             },
         ),
         migrations.CreateModel(
-            name='Customer',
+            name="Customer",
             fields=[
-                ('CustomerID', models.AutoField(primary_key=True, serialize=False)),
-                ('Name', models.CharField(max_length=100, verbose_name='Name')),
-                ('ContactNo', phonenumber_field.modelfields.PhoneNumberField(max_length=128, region=None, unique=True, verbose_name='Contact No')),
-                ('EmailAddress', models.EmailField(blank=True, max_length=200, verbose_name='Email Address')),
-                ('Organisation', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='customer.organisation')),
+                ("CustomerID", models.AutoField(primary_key=True, serialize=False)),
+                ("Name", models.CharField(max_length=100, verbose_name="Name")),
+                (
+                    "ContactNo",
+                    phonenumber_field.modelfields.PhoneNumberField(
+                        max_length=128,
+                        region=None,
+                        unique=True,
+                        verbose_name="Contact No",
+                    ),
+                ),
+                (
+                    "EmailAddress",
+                    models.EmailField(
+                        blank=True, max_length=200, verbose_name="Email Address"
+                    ),
+                ),
+                (
+                    "Organisation",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="customer.organisation",
+                    ),
+                ),
             ],
             options={
-                'db_table': 'Customer',
+                "db_table": "Customer",
             },
         ),
     ]
