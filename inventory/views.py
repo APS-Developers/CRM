@@ -54,7 +54,7 @@ def upload_file(request):
                             Organisation_id=row[7],
                             Status=row[8],
                             CLI_snapshot=row[9],
-                            Snapshot_Date=None if not row[10] else row[10],
+                            Snapshot_Date=None if not row[10] else row[10]
                         )
                         inv.save()
             obj.activated = True
