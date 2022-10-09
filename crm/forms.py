@@ -6,17 +6,18 @@ from django import forms
 from phonenumber_field.formfields import PhoneNumberField
 from django.db.models import Q
 
-boolChoices = [(True, "Yes"), (False, "No")]
+boolChoices = [("---------", "---------"), ("Yes", "Yes"), ("No", "No")]
 
 priorityChoices = [("P1", "P1"), ("P2", "P2"), ("P3", "P3"), ("P4", "P4")]
 
 faultChoices = [
+    ("---------", "---------"),
     ("Router", "Router faulty"),
     ("Modem", "Modem faulty"),
     ("Switch", "Switch faulty"),
 ]
 
-resolutionChoices = [("123", "Router faulty"), ("456", "Modem faulty")]
+resolutionChoices = [("---------", "---------"), ("123", "Router faulty"), ("456", "Modem faulty")]
 
 statusChoices = [
     ("Open", "Open"),
@@ -25,6 +26,9 @@ statusChoices = [
     ("Closed", "Closed"),
 ]
 
+dispatchedChoices = [("---------", "---------"), ("Delhivery", "Delhivery"), ("Blue Dart", "Blue Dart")]
+
+deliveryStatus = [("---------", "---------"), ("Dispatched", "Dispatched"), ("Delivered", "Delivered")]
 
 class CustomerForm(ModelForm):
 
@@ -127,10 +131,15 @@ class UpdateForm(ModelForm):
         choices=statusChoices, widget=forms.Select(attrs={"id": ""}), label=""
     )
 
-    SerialNo = forms.CharField(
-        widget=forms.TextInput(
-            attrs={"readonly": "readonly", "id": "", "type": "text"}
-        ),
+    # SerialNo = forms.CharField(
+    #     widget=forms.TextInput(
+    #         attrs={"readonly": "readonly", "id": "", "type": "text"}
+    #     ),
+    #     label="",
+    # )
+    SerialNo = forms.ModelChoiceField(
+        queryset=Inventory.objects.filter(~Q(Organisation=None)),
+        widget=forms.Select(attrs={"readonly": "readonly","id": "", "type": "text"}),
         label="",
     )
 
@@ -139,15 +148,18 @@ class UpdateForm(ModelForm):
     # )
 
     Category = forms.CharField(
-        widget=forms.TextInput(attrs={"id": "", "type": "text"}), label=""
+        widget=forms.TextInput(attrs={"readonly": "readonly","id": "", "type": "text"}), label=""
     )
 
     SubCategory = forms.CharField(
-        widget=forms.TextInput(attrs={"id": "", "type": "text"}), label=""
+        widget=forms.TextInput(attrs={"readonly": "readonly","id": "", "type": "text"}), label=""
     )
 
-    Priority = forms.ChoiceField(
-        choices=priorityChoices, widget=forms.Select(attrs={"id": ""}), label=""
+    # Priority = forms.ChoiceField(
+    #     choices=priorityChoices, widget=forms.Select(attrs={"readonly": "readonly","id": ""}), label=""
+    # )
+    Priority = forms.CharField(
+        widget=forms.TextInput(attrs={"readonly": "readonly","id": ""}), label=""
     )
 
     FaultFoundCode = forms.ChoiceField(
@@ -185,9 +197,26 @@ class UpdateForm(ModelForm):
         label="",
     )
 
-    DateClosed = forms.DateField(
+    ResolutionDate = forms.DateField(
         required=False, widget=forms.TextInput(attrs={"readonly": "readonly"}), label=""
     )
+
+    DocketNumber = forms.CharField(
+        required=False,
+        widget=forms.Textarea(
+            attrs={"id": "", "type": "text", "cols": "30", "rows": "1"}
+        ),
+        label="",
+    )
+
+    DispatchedThrough = forms.ChoiceField(
+        choices=dispatchedChoices, widget=forms.Select(attrs={"id": ""}), label=""
+    )
+
+    DeliveryStatus = forms.ChoiceField(
+        choices=deliveryStatus, widget=forms.Select(attrs={"id": ""}), label=""
+    )
+    
 
     class Meta:
         model = Ticket
@@ -205,5 +234,8 @@ class UpdateForm(ModelForm):
             "ResolutionRemarks",
             "OnlineResolvable",
             "AlternateHW",
-            "DateClosed",
+            "ResolutionDate",
+            "DocketNumber",
+            "DispatchedThrough",
+            "DeliveryStatus"
         ]

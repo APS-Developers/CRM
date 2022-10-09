@@ -160,7 +160,7 @@ def createTicket(request):
                     )
                     return redirect("showTicket")
                 except Exception as e:
-                    messages.add_message(request, messages.ERROR, str(e))
+                    messages.add_message(request, messages.ERROR, "Error in creating ticket!")
                     return render(request, "crm/form.html")
             else:
                 messages.add_message(
@@ -208,9 +208,9 @@ def updateTicket(request, ticketID):
                 update = form.save(commit=False)
                 if update.Status == "Closed":
                     date = datetime.date.today()
-                    update.DateClosed = date
+                    update.ResolutionDate = date
                 else:
-                    update.DateClosed = None
+                    update.ResolutionDate = None
                 update.save()
                 return redirect("showTicket")
 

@@ -62,7 +62,9 @@ Inventory
 							<th>Item Dispatch Date</th>
 							<th>Customer</th>
 							<th>Status</th>
-							<th>Slip</th>
+							<th>CLI Snapshot</th>
+							<th>Snapshot Date</th>
+
 							<!-- <th>Update</th>
 							<th>Remove</th> -->
 						</tr>
@@ -82,7 +84,7 @@ Inventory
 										href="{% url 'updateInventory' inventory.Serial_Number %}"><i
 											class="bi bi-pencil-square"></i></a>
 									<a class="m-2" style="color:rgb(185, 9, 9);"
-										href="{% url 'updateInventory' inventory.Serial_Number %}"><i
+										href="{% url 'deleteInventory' inventory.Serial_Number %}"><i
 											class="bi bi-trash3-fill"></i></a>
 								</div>
 							</td>
@@ -95,7 +97,9 @@ Inventory
 							<td>{{inventory.Item_dispatched_Date}}</td>
 							<td>{{inventory.Organisation}}</td>
 							<td>{{inventory.Status}}</td>
-							<td>{{inventory.Slip}}</td>
+							<td>{{inventory.CLI_snapshot}}</td>
+							<td>{{inventory.Snapshot_Date}}</td>
+
 							<!-- <td><a class="btn btn-sm btn-info"
 									href="{% url 'updateInventory' inventory.Serial_Number %}">Update</a>
 							</td>
