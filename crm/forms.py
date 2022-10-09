@@ -139,15 +139,18 @@ class UpdateForm(ModelForm):
     # )
 
     Category = forms.CharField(
-        widget=forms.TextInput(attrs={"id": "", "type": "text"}), label=""
+        widget=forms.TextInput(attrs={"readonly": "readonly","id": "", "type": "text"}), label=""
     )
 
     SubCategory = forms.CharField(
-        widget=forms.TextInput(attrs={"id": "", "type": "text"}), label=""
+        widget=forms.TextInput(attrs={"readonly": "readonly","id": "", "type": "text"}), label=""
     )
 
-    Priority = forms.ChoiceField(
-        choices=priorityChoices, widget=forms.Select(attrs={"id": ""}), label=""
+    # Priority = forms.ChoiceField(
+    #     choices=priorityChoices, widget=forms.Select(attrs={"readonly": "readonly","id": ""}), label=""
+    # )
+    Priority = forms.CharField(
+        widget=forms.TextInput(attrs={"readonly": "readonly","id": ""}), label=""
     )
 
     FaultFoundCode = forms.ChoiceField(
