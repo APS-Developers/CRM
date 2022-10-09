@@ -26,7 +26,8 @@ def inventory_report(request):
             "Item_dispatched_Date",
             "Organisation",
             "Status",
-            "Slip",
+            "CLI_snapshot",
+            "Snapshot_Date",
         ]
         response = HttpResponse(
             content_type="text/csv",
@@ -64,8 +65,10 @@ def crm_report(request):
             "Customer",
             "OnlineResolvable",
             "AlternateHW",
-            "DateClosed",
-            "sla_status",
+            "ResolutionDate",
+            "DocketNumber",
+            "DispatchedThrough",
+            "DeliveryStatus",
         ]
         response = HttpResponse(
             content_type="text/csv",
