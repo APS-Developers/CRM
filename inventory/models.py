@@ -27,9 +27,10 @@ class Inventory(models.Model):
     Status = models.CharField(
         choices=StatusChoice, max_length=20, blank=True, null=True
     )
-    Slip = models.FileField(
+    CLI_snapshot = models.FileField(
         upload_to="", validators=[validate_file_extension], null=True, blank=True
     )
+    Snapshot_Date=models.DateField(null=True)
 
     def __str__(self):
         return self.Serial_Number

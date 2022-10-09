@@ -53,7 +53,8 @@ def upload_file(request):
                             Item_dispatched_Date=None if not row[6] else row[6],
                             Organisation_id=row[7],
                             Status=row[8],
-                            Slip=row[9],
+                            CLI_snapshot=row[9],
+                            Snapshot_Date=row[10]
                         )
                         inv.save()
             obj.activated = True
@@ -138,6 +139,7 @@ def inventoryDetails(request):
             "Organisation": product.Organisation.__str__(),
             "OrganisationId": product.Organisation.OrgID,
             "Status": product.Status,
+            
         }
         return JsonResponse(details)
     except Exception as e:
