@@ -95,6 +95,7 @@ Update
 
             <fieldset>
                 <label for="">Alternate HW</label>
+                {{ form.AlternateHW_Id }}
                 {{ form.AlternateHW }}
             </fieldset>
 
@@ -129,5 +130,8 @@ Update
         integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous">
     </script>
     <script src="/static/assets/js/crmFormScript.js"></script>
+    <script>
+        document.getElementById("AlternateHW_id").value = document.getElementById("AlternateHW").value;
+    </script>
 
 {% endblock %}
