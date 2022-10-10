@@ -205,16 +205,28 @@ def updateTicket(request, ticketID):
         form = UpdateForm(instance=ticket)
 
         if request.method == "POST":
-            form = UpdateForm(request.POST, instance=ticket)
-            if form.is_valid():
-                update = form.save(commit=False)
-                if update.Status == "Closed":
-                    date = datetime.date.today()
-                    update.ResolutionDate = date
-                else:
-                    update.ResolutionDate = None
-                update.save()
-                return redirect("showTicket")
+            try:
+                form = UpdateForm(request.POST, instance=ticket)
+                if form.is_valid():
+                    update = form.save(commit=False)
+                    if request.POST.get("AlternateHW_Id"):
+                        try:
+                            AlternateHW = Inventory.objects.get(Serial_Number=request.POST.get("AlternateHW_Id"))
+                            update.AlternateHW = AlternateHW
+                        except:
+                            raise Exception("Invalid Serial Number")
+                    if update.Status == "Closed":
+                        date = datetime.date.today()
+                        update.ResolutionDate = date
+                    else:
+                        update.ResolutionDate = None
+                    update.save()
+                    return redirect("showTicket")
+            except Exception as e:
+                messages.add_message(
+                    request, messages.ERROR, e
+                )
+                return redirect("updateTicket", ticketID=ticketID)
 
         context = {"form": form}
         return render(request, "crm/update.html", context)

@@ -204,8 +204,15 @@ class UpdateForm(ModelForm):
     AlternateHW = forms.ModelChoiceField(
         required=False,
         queryset=Inventory.objects.filter(Organisation=None),
-        widget=forms.Select(attrs={"id": ""}),
+        widget=forms.Select(attrs={"id": "AlternateHW","class":"d-none"}),
         label="",
+    )
+    AlternateHW_Id = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={"id": "AlternateHW_id", "type": "text"}
+        ),
+        label="Alternate HW"
     )
 
     Summary = forms.CharField(
