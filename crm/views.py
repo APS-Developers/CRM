@@ -9,15 +9,11 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from authentication.models import User, UserPermission
 from django.views.decorators.cache import never_cache
-from datetime import datetime, timedelta
+from datetime import datetime
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 import datetime
-from customer.forms import CreateCustomerForm
 
-# from django.core.mail import EmailMessage
-# from django.conf import settings
-# from django.template.loader import render_to_string
 
 # Create your views here.
 
@@ -255,9 +251,6 @@ def ticketLog(request, ticketID):
         ticket = Ticket.objects.get(TicketID=ticketID)
 
         all_history = list(ticket.history.all())
-        # history_users = []
-        # for i in range(len(all_history)):
-        #     history_users.append(User.objects.get(id=all_history[i].history_user_id).username)
 
         context = {"ticket": ticket, "type": "History", "all_history": all_history}
         return render(request, "crm/show.html", context)
