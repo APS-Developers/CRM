@@ -57,18 +57,19 @@ display: block;
     background: transparent;
     color: #fff;
     padding: 5px;
-    font-size: 18px;
-    width: 200%;
+    font-size: 14px;
+    width: max(200%,70px);
     height: 60px;
     line-height: 20px;
 }
 .aps_create_button div li{
     list-style: none;
+    width: max(100%,70px);
     margin-top: 5px;
     margin-bottom: 5px;
     background:#000;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 14px;
     padding: 10px;
     border-radius: 10px;
 }
