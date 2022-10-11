@@ -201,18 +201,18 @@ class UpdateForm(ModelForm):
         label="",
     )
 
-    AlternateHW = forms.ModelChoiceField(
+    HWDispatched = forms.ModelChoiceField(
         required=False,
         queryset=Inventory.objects.filter(Organisation=None),
-        widget=forms.Select(attrs={"id": "AlternateHW","class":"d-none"}),
+        widget=forms.Select(attrs={"id": "HWDispatched","class":"d-none"}),
         label="",
     )
-    AlternateHW_Id = forms.CharField(
+    HWDispatchedSerial = forms.CharField(
         required=False,
         widget=forms.TextInput(
-            attrs={"id": "AlternateHW_id", "type": "text"}
+            attrs={"id": "HWDispatchedSerial", "type": "text","list":"HWDispatchedSerialList"}
         ),
-        label="Alternate HW"
+        label="Hardware Dispatched",
     )
 
     Summary = forms.CharField(
@@ -258,7 +258,7 @@ class UpdateForm(ModelForm):
             "ResolutionCode",
             "ResolutionRemarks",
             "OnlineResolvable",
-            "AlternateHW",
+            "HWDispatched",
             "ResolutionDate",
             "DocketNumber",
             "DispatchedThrough",
