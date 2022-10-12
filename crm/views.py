@@ -210,13 +210,18 @@ def updateTicket(request, ticketID):
                     update = form.save(commit=False)
                     if request.POST.get("HWDispatchedSerial"):
                         try:
-                            HWDispatched = Inventory.objects.get(Serial_Number=request.POST.get("HWDispatchedSerial"),Organisation=None)
+                            HWDispatched = Inventory.objects.get(
+                                Serial_Number=request.POST.get("HWDispatchedSerial"),
+                                Organisation=None,
+                            )
                             HWDispatched.Item_dispatched_Date = datetime.datetime.now()
                             HWDispatched.Organisation = ticket.Customer.Organisation
                             HWDispatched.save()
                         except Exception as e:
                             print(e)
-                            raise Exception("Invalid Serial Number for Hardware Dispatched")
+                            raise Exception(
+                                "Invalid Serial Number for Hardware Dispatched"
+                            )
                     if update.Status == "Closed":
                         date = datetime.date.today()
                         update.ResolutionDate = date

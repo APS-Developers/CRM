@@ -210,13 +210,17 @@ class UpdateForm(ModelForm):
     HWDispatched = forms.ModelChoiceField(
         required=False,
         queryset=Inventory.objects.filter(Organisation=None),
-        widget=forms.Select(attrs={"id": "HWDispatched","class":"d-none"}),
+        widget=forms.Select(attrs={"id": "HWDispatched", "class": "d-none"}),
         label="",
     )
     HWDispatchedSerial = forms.CharField(
         required=False,
         widget=forms.TextInput(
-            attrs={"id": "HWDispatchedSerial", "type": "text","list":"HWDispatchedSerialList"}
+            attrs={
+                "id": "HWDispatchedSerial",
+                "type": "text",
+                "list": "HWDispatchedSerialList",
+            }
         ),
         label="Hardware Dispatched",
     )
