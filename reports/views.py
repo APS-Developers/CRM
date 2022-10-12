@@ -64,7 +64,7 @@ def crm_report(request):
             "ResolutionRemarks",
             "Customer",
             "OnlineResolvable",
-            "AlternateHW",
+            "HWDispatched",
             "ResolutionDate",
             "DocketNumber",
             "DispatchedThrough",
