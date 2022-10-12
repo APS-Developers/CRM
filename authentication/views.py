@@ -32,12 +32,16 @@ def createUser(request):
             permissions.user = user
             permissions.save()
 
-            # username = form.cleaned_data.get('username')
+            username = form.cleaned_data.get("username")
             # if username == User.objects.get(username=username).username:
             #     messages.error(request, "Username already exists!")
             #     return redirect('create')
 
-            # messages.success(request, 'Account was created successfully for ' + username)
+            messages.add_message(
+                request,
+                messages.SUCCESS,
+                'Account created successfully for "%s" !' % username,
+            )
             return redirect("showUser")
         else:
             for message in form.errors.values():
@@ -119,7 +123,18 @@ def updateUser(request, pk):
             permissions = permissions_form.save(commit=False)
             permissions.user_id = user.id
             permissions.save()
+
+            messages.add_message(
+                request,
+                messages.SUCCESS,
+                'Account updated successfully for "%s" !'
+                % form.cleaned_data.get("username"),
+            )
             return redirect("showUser")
+
+        else:
+            for message in form.errors.values():
+                messages.add_message(request, messages.ERROR, message)
 
     context = {"form": form, "permissions_form": permissions_form, "name": "Update"}
     return render(request, "authentication/create_update.html", context)

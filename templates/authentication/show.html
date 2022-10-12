@@ -59,14 +59,14 @@ Show
                     {% for user in page_obj %}
                     {% if not user.is_staff and not user.is_superuser %}
                     <tr>
-                        <th>
+                        <td>
                             {{user.counter}}
                             <div class="conatiner" style="float:right">
 
                                 <a class="m-2"	style="color:rgb(29, 147, 134);" href="{% url 'update' user.id %}"><i class="bi bi-pencil-square"></i></a>
                                 <a class="m-2" style="color:rgb(185, 9, 9);" href="{% url 'delete' user.id %}"><i class="bi bi-trash3-fill"></i></a>
                             </div>
-                        </th>
+                        </td>
                         <td>{{user.id}}</td>
                         <td>{{user.username}}</td>
                         <td>{{user.email}}</td>

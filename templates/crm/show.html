@@ -66,6 +66,7 @@
                         <th>Resolution Remarks</th>
                         <th>Online Resolvable</th>
                         <th>Alternate HW</th>
+                        <th>Delivery Status</th>
                         <!-- <th>Update</th>
                         {% if user.is_authenticated and user.is_staff and user.is_superuser %}
                         <th>History</th>
@@ -107,6 +108,7 @@
                         {% if user.is_authenticated and user.is_staff and user.is_superuser %}
                         <td><a class="btn btn-sm btn-warning" href="{% url 'ticketLog' ticket.TicketID %}">View Logs</a>
                         </td> -->
+                        <td>{{DeliveryStatus}}</td>
                         {% endif %}
                     </tr>
                     {% endfor %}

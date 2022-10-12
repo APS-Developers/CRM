@@ -18,8 +18,7 @@ import datetime
 # Create your views here.
 
 
-def crmPermission(username):
-    user = User.objects.get(username=username)
+def crmPermission(user):
     if not user.is_staff or not user.is_superuser:
         permission = UserPermission.objects.get(user_id=user.id).CRM_permission
     if user.is_staff or user.is_superuser or permission:
@@ -30,7 +29,7 @@ def crmPermission(username):
 
 @login_required(login_url="login")
 def customerDetails(request):
-    if crmPermission(request.user.username):
+    if crmPermission(request.user):
         form = CustomerForm()
         if request.method == "POST":
             form = CustomerForm(request.POST)
@@ -70,7 +69,7 @@ def customerDetails(request):
 
 @login_required(login_url="login")
 def productDetails(request, customerID):
-    if crmPermission(request.user.username):
+    if crmPermission(request.user):
         form = ProductForm()
         if request.method == "POST":
             form = ProductForm(request.POST)
@@ -107,7 +106,7 @@ def productDetails(request, customerID):
 
 @login_required(login_url="login")
 def faultDetails(request, ticketID):
-    if crmPermission(request.user.username):
+    if crmPermission(request.user):
         form = FaultForm()
         if request.method == "POST":
             form = FaultForm(request.POST)
@@ -130,7 +129,7 @@ def faultDetails(request, ticketID):
 
 @login_required(login_url="login")
 def createTicket(request):
-    if crmPermission(request.user.username):
+    if crmPermission(request.user):
         form = FaultForm()
         if request.method == "POST":
             form = FaultForm(request.POST)
@@ -148,6 +147,10 @@ def createTicket(request):
                             raise Exception("Invalid Customer details")
                         newTicket.Customer = customer
                     newTicket.Status = "Open"
+                    newTicket.ResolutionCode = "---------"
+                    newTicket.DispatchedThrough = "---------"
+                    newTicket.DeliveryStatus = "---------"
+                    newTicket.OnlineResolvable = "---------"
                     newTicket.save()
                     messages.add_message(
                         request,
@@ -172,7 +175,7 @@ def createTicket(request):
 
 @login_required(login_url="login")
 def showTicket(request):
-    if crmPermission(request.user.username):
+    if crmPermission(request.user):
         all_tickets = Ticket.objects.all().order_by("-DateCreated")
         ticket_filter = TicketFilter(request.GET, queryset=all_tickets)
         all_tickets = ticket_filter.qs
@@ -196,7 +199,7 @@ def showTicket(request):
 
 @login_required(login_url="login")
 def updateTicket(request, ticketID):
-    if crmPermission(request.user.username):
+    if crmPermission(request.user):
         ticket = Ticket.objects.get(TicketID=ticketID)
         form = UpdateForm(instance=ticket)
 
@@ -207,7 +210,9 @@ def updateTicket(request, ticketID):
                     update = form.save(commit=False)
                     if request.POST.get("AlternateHW_Id"):
                         try:
-                            AlternateHW = Inventory.objects.get(Serial_Number=request.POST.get("AlternateHW_Id"))
+                            AlternateHW = Inventory.objects.get(
+                                Serial_Number=request.POST.get("AlternateHW_Id")
+                            )
                             update.AlternateHW = AlternateHW
                         except:
                             raise Exception("Invalid Serial Number")
@@ -217,10 +222,15 @@ def updateTicket(request, ticketID):
                     else:
                         update.ResolutionDate = None
                     update.save()
+                    messages.add_message(
+                        request,
+                        messages.SUCCESS,
+                        'Ticket "%s" updated successfully!' % ticketID,
+                    )
                     return redirect("showTicket")
             except Exception as e:
                 messages.add_message(
-                    request, messages.ERROR, e
+                    request, messages.ERROR, "Error in updating ticket!"
                 )
                 return redirect("updateTicket", ticketID=ticketID)
 
@@ -230,24 +240,24 @@ def updateTicket(request, ticketID):
         raise PermissionDenied
 
 
-@login_required(login_url="login")
-def deleteTicket(request, ticketID):
-    if crmPermission(request.user.username):
-        ticket = Ticket.objects.get(TicketID=ticketID)
+# @login_required(login_url="login")
+# def deleteTicket(request, ticketID):
+#     if crmPermission(request.user):
+#         ticket = Ticket.objects.get(TicketID=ticketID)
 
-        if request.method == "POST":
-            ticket.delete()
-            return redirect("showTicket")
+#         if request.method == "POST":
+#             ticket.delete()
+#             return redirect("showTicket")
 
-        context = {"ticket": ticket}
-        return render(request, "crm/delete.html", context)
-    else:
-        raise PermissionDenied
+#         context = {"ticket": ticket}
+#         return render(request, "crm/delete.html", context)
+#     else:
+#         raise PermissionDenied
 
 
 @login_required(login_url="login")
 def ticketLog(request, ticketID):
-    if request.user.username == "admin":
+    if request.user.is_staff or request.user.is_superuser:
         ticket = Ticket.objects.get(TicketID=ticketID)
 
         all_history = list(ticket.history.all())

@@ -17,27 +17,31 @@ def createCustomer(request):
     if request.method == "POST":
         form = CreateCustomerForm(request.POST)
         if form.is_valid():
-            customerForm = form.save(commit=False)
-            customer = Customer.objects.filter(
-                ContactNo=form.cleaned_data.get("ContactNo"),
-                Organisation=form.cleaned_data.get("Organisation"),
-                Name=form.cleaned_data.get("Name"),
-                EmailAddress=form.cleaned_data.get("EmailAddress"),
+            form.save()
+            name = form.cleaned_data.get("Name")
+            # customerForm = form.save(commit=False)
+            # customer = Customer.objects.filter(
+            #     ContactNo=form.cleaned_data.get("ContactNo"),
+            #     Organisation=form.cleaned_data.get("Organisation"),
+            #     Name=form.cleaned_data.get("Name"),
+            #     EmailAddress=form.cleaned_data.get("EmailAddress"),
+            # )
+
+            # if not customer.exists():
+            #     allContactNos = list(Customer.objects.values("ContactNo").distinct())
+            #     for i in range(len(allContactNos)):
+            #         if (
+            #             form.cleaned_data.get("ContactNo")
+            #             == allContactNos[i]["ContactNo"]
+            #         ):
+            #             messages.error(
+            #                 request, "Customer with this contact number already exists!"
+            #             )
+            #             return redirect("customerDetails")
+            #     customerForm.save()
+            messages.add_message(
+                request, messages.SUCCESS, 'Customer "%s" created successfully!' % name
             )
-
-            if not customer.exists():
-                allContactNos = list(Customer.objects.values("ContactNo").distinct())
-                for i in range(len(allContactNos)):
-                    if (
-                        form.cleaned_data.get("ContactNo")
-                        == allContactNos[i]["ContactNo"]
-                    ):
-                        messages.error(
-                            request, "Customer with this contact number already exists!"
-                        )
-                        return redirect("customerDetails")
-                customerForm.save()
-
             return redirect("showCustomer")
         else:
             for message in form.errors.values():
@@ -54,6 +58,12 @@ def createOrganisation(request):
         form = CreateOrganisationForm(request.POST)
         if form.is_valid():
             form.save()
+            name = form.cleaned_data.get("Name")
+            messages.add_message(
+                request,
+                messages.SUCCESS,
+                'Organisation "%s" created successfully!' % name,
+            )
             return redirect("showOrganisation")
         else:
             for message in form.errors.values():
@@ -115,6 +125,10 @@ def updateCustomer(request, pk):
 
         if form.is_valid():
             form.save()
+            name = form.cleaned_data.get("Name")
+            messages.add_message(
+                request, messages.SUCCESS, 'Customer "%s" updated successfully!' % name
+            )
             return redirect("showCustomer")
         else:
             for message in form.errors.values():
@@ -133,7 +147,13 @@ def updateOrganisation(request, pk):
         form = CreateOrganisationForm(request.POST, instance=organisation)
 
         if form.is_valid():
-            organisation = form.save()
+            form.save()
+            name = form.cleaned_data.get("Name")
+            messages.add_message(
+                request,
+                messages.SUCCESS,
+                'Organisation "%s" updated successfully!' % name,
+            )
             return redirect("showOrganisation")
         else:
             for message in form.errors.values():

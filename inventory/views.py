@@ -13,6 +13,7 @@ from authentication.models import User, UserPermission
 import json
 from django.http import JsonResponse
 from django.core.paginator import Paginator
+from django.contrib import messages
 
 
 def inventoryPermission(username):
@@ -50,11 +51,19 @@ def upload_file(request):
                             Organisation_id=row[7],
                             Status=row[8],
                             CLI_snapshot=row[9],
-                            Snapshot_Date=None if not row[10] else row[10]
+                            Snapshot_Date=None if not row[10] else row[10],
                         )
                         inv.save()
             obj.activated = True
             obj.save()
+            messages.add_message(
+                request, messages.SUCCESS, "File uploaded successfully!"
+            )
+            return redirect("showInventory")
+        else:
+            for message in form.errors.values():
+                messages.add_message(request, messages.ERROR, message)
+
         return render(request, "inventory/upload.html", {"form": form})
     else:
         raise PermissionDenied
@@ -68,7 +77,15 @@ def createInventory(request):
         form = Form(request.POST or None, request.FILES or None)
         if form.is_valid():
             form.save()
+            messages.add_message(
+                request,
+                messages.SUCCESS,
+                'Product "%s" created successfully!' % form.Serial_Number,
+            )
             return redirect("showInventory")
+        else:
+            for message in form.errors.values():
+                messages.add_message(request, messages.ERROR, message)
 
         context["form"] = form
         context["name"] = "Create"
@@ -110,7 +127,15 @@ def updateInventory(request, pk):
             form = Form(request.POST, instance=inventory)
             if form.is_valid():
                 form.save()
+                messages.add_message(
+                    request,
+                    messages.SUCCESS,
+                    'Product "%s" created successfully!' % form.Serial_Number,
+                )
                 return redirect("showInventory")
+            else:
+                for message in form.errors.values():
+                    messages.add_message(request, messages.ERROR, message)
 
         context = {"form": form, "name": "Update"}
         return render(request, "inventory/create_update.html", context)
@@ -141,6 +166,11 @@ def deleteInventory(request, pk):
     item = Inventory.objects.get(Serial_Number=pk)
     if request.method == "POST":
         item.delete()
+        messages.add_message(
+            request,
+            messages.SUCCESS,
+            'Product "%s" deleted successfully!' % item.Serial_Number,
+        )
         return redirect("showInventory")
 
     context = {"item": item}

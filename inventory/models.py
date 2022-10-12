@@ -19,8 +19,12 @@ class Inventory(models.Model):
     Serial_Number = models.TextField(primary_key=True)
     Item = models.CharField(max_length=50)
     Location = models.TextField()
-    Purchase_Date = models.DateField(default=datetime.now, null=True)
-    Item_dispatched_Date = models.DateField(null=True)
+    Purchase_Date = models.DateField(
+        "Purchase Date (mm/dd/yyyy)", default=datetime.now, null=True
+    )
+    Item_dispatched_Date = models.DateField(
+        "Item Dispatch Date (mm/dd/yyyy)", null=True
+    )
     Organisation = models.ForeignKey(
         Organisation, on_delete=models.DO_NOTHING, blank=True, null=True
     )

@@ -19,31 +19,31 @@ class Ticket(models.Model):
         db_table = "Ticket"
 
     priorityChoices = [("P1", "P1"), ("P2", "P2"), ("P3", "P3"), ("P4", "P4")]
-    boolChoices = [("---------", "---------"), ("Yes", "Yes"), ("No", "No")]
+    boolChoices = [("", "---------"), ("Yes", "Yes"), ("No", "No")]
     statusChoices = [
         ("Open", "Open"),
         ("Resolved", "Resolved"),
         ("Pending", "Pending"),
         ("Closed", "Closed"),
     ]
-    faultChoices = [
-        ("---------", "---------"),
-        ("Router", "Router faulty"),
-        ("Modem", "Modem faulty"),
-        ("Switch", "Switch faulty"),
-    ]
+    # faultChoices = [
+    #     ("", "---------"),
+    #     ("Router", "Router faulty"),
+    #     ("Modem", "Modem faulty"),
+    #     ("Switch", "Switch faulty"),
+    # ]
     resolutionChoices = [
-        ("---------", "---------"),
+        ("", "---------"),
         ("123", "Router faulty"),
         ("456", "Modem faulty"),
     ]
     dispatchedChoices = [
-        ("---------", "---------"),
+        ("", "---------"),
         ("Delhivery", "Delhivery"),
         ("Blue Dart", "Blue Dart"),
     ]
     deliveryStatus = [
-        ("---------", "---------"),
+        ("", "---------"),
         ("Dispatched", "Dispatched"),
         ("Delivered", "Delivered"),
     ]
@@ -58,9 +58,7 @@ class Ticket(models.Model):
     Summary = models.TextField(max_length=500, blank=True)
     Priority = models.CharField(max_length=2, choices=priorityChoices, blank=True)
     Status = models.CharField(choices=statusChoices, max_length=10, blank=True)
-    FaultFoundCode = models.CharField(
-        "Fault Found Code", choices=faultChoices, max_length=30, blank=True
-    )
+    FaultFoundCode = models.CharField("Fault Found Code", max_length=30)
     ResolutionCode = models.CharField(
         "Resolution Code", choices=resolutionChoices, max_length=20, blank=True
     )

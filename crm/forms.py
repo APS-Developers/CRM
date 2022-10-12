@@ -6,22 +6,16 @@ from django import forms
 from phonenumber_field.formfields import PhoneNumberField
 from django.db.models import Q
 
-boolChoices = [("---------", "---------"), ("Yes", "Yes"), ("No", "No")]
+boolChoices = [("", "---------"), ("Yes", "Yes"), ("No", "No")]
 
 priorityChoices = [("P1", "P1"), ("P2", "P2"), ("P3", "P3"), ("P4", "P4")]
 
-faultChoices = [
-    ("---------", "---------"),
-    ("Router", "Router faulty"),
-    ("Modem", "Modem faulty"),
-    ("Switch", "Switch faulty"),
-]
-
-resolutionChoices = [
-    ("---------", "---------"),
-    ("123", "Router faulty"),
-    ("456", "Modem faulty"),
-]
+# faultChoices = [
+#     ("---------", "---------"),
+#     ("Router", "Router faulty"),
+#     ("Modem", "Modem faulty"),
+#     ("Switch", "Switch faulty"),
+#
 
 statusChoices = [
     ("Open", "Open"),
@@ -30,14 +24,18 @@ statusChoices = [
     ("Closed", "Closed"),
 ]
 
+resolutionChoices = [
+    ("", "---------"),
+    ("123", "Router faulty"),
+    ("456", "Modem faulty"),
+]
 dispatchedChoices = [
-    ("---------", "---------"),
+    ("", "---------"),
     ("Delhivery", "Delhivery"),
     ("Blue Dart", "Blue Dart"),
 ]
-
 deliveryStatus = [
-    ("---------", "---------"),
+    ("", "---------"),
     ("Dispatched", "Dispatched"),
     ("Delivered", "Delivered"),
 ]
@@ -107,9 +105,7 @@ class FaultForm(ModelForm):
         choices=priorityChoices, widget=forms.Select(attrs={"id": ""}), label=""
     )
 
-    FaultFoundCode = forms.ChoiceField(
-        choices=faultChoices, widget=forms.Select(attrs={"id": ""}), label=""
-    )
+    FaultFoundCode = forms.CharField(widget=forms.TextInput(attrs={"id": ""}), label="")
 
     Summary = forms.CharField(
         widget=forms.Textarea(
@@ -181,16 +177,26 @@ class UpdateForm(ModelForm):
         widget=forms.TextInput(attrs={"readonly": "readonly", "id": ""}), label=""
     )
 
-    FaultFoundCode = forms.ChoiceField(
-        choices=faultChoices, widget=forms.Select(attrs={"id": ""}), label=""
+    FaultFoundCode = forms.CharField(
+        widget=forms.TextInput(attrs={"readonly": "readonly", "id": ""}), label=""
     )
 
+    # FaultFoundCode = forms.ChoiceField(
+    #     choices=faultChoices, widget=forms.Select(attrs={"id": ""}), label=""
+    # )
+
     ResolutionCode = forms.ChoiceField(
-        choices=resolutionChoices, widget=forms.Select(attrs={"id": ""}), label=""
+        required=False,
+        choices=resolutionChoices,
+        widget=forms.Select(attrs={"id": ""}),
+        label="",
     )
 
     OnlineResolvable = forms.ChoiceField(
-        choices=boolChoices, widget=forms.Select(attrs={"id": ""}), label=""
+        required=False,
+        choices=boolChoices,
+        widget=forms.Select(attrs={"id": ""}),
+        label="",
     )
 
     ResolutionRemarks = forms.CharField(
@@ -204,15 +210,13 @@ class UpdateForm(ModelForm):
     AlternateHW = forms.ModelChoiceField(
         required=False,
         queryset=Inventory.objects.filter(Organisation=None),
-        widget=forms.Select(attrs={"id": "AlternateHW","class":"d-none"}),
+        widget=forms.Select(attrs={"id": "AlternateHW", "class": "d-none"}),
         label="",
     )
     AlternateHW_Id = forms.CharField(
         required=False,
-        widget=forms.TextInput(
-            attrs={"id": "AlternateHW_id", "type": "text"}
-        ),
-        label="Alternate HW"
+        widget=forms.TextInput(attrs={"id": "AlternateHW_id", "type": "text"}),
+        label="Alternate HW",
     )
 
     Summary = forms.CharField(
@@ -236,11 +240,17 @@ class UpdateForm(ModelForm):
     )
 
     DispatchedThrough = forms.ChoiceField(
-        choices=dispatchedChoices, widget=forms.Select(attrs={"id": ""}), label=""
+        required=False,
+        choices=dispatchedChoices,
+        widget=forms.Select(attrs={"id": ""}),
+        label="",
     )
 
     DeliveryStatus = forms.ChoiceField(
-        choices=deliveryStatus, widget=forms.Select(attrs={"id": ""}), label=""
+        required=False,
+        choices=deliveryStatus,
+        widget=forms.Select(attrs={"id": ""}),
+        label="",
     )
 
     class Meta:
