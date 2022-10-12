@@ -77,10 +77,11 @@ def createInventory(request):
         form = Form(request.POST or None, request.FILES or None)
         if form.is_valid():
             form.save()
+            serialNo = form.cleaned_data.get("Serial_Number")
             messages.add_message(
                 request,
                 messages.SUCCESS,
-                'Product "%s" created successfully!' % form.Serial_Number,
+                'Product "%s" created successfully!' % serialNo,
             )
             return redirect("showInventory")
         else:
@@ -127,10 +128,11 @@ def updateInventory(request, pk):
             form = Form(request.POST, instance=inventory)
             if form.is_valid():
                 form.save()
+                serialNo = form.cleaned_data.get("Serial_Number")
                 messages.add_message(
                     request,
                     messages.SUCCESS,
-                    'Product "%s" created successfully!' % form.Serial_Number,
+                    'Product "%s" updated successfully!' % serialNo,
                 )
                 return redirect("showInventory")
             else:
@@ -165,11 +167,12 @@ def inventoryDetails(request):
 def deleteInventory(request, pk):
     item = Inventory.objects.get(Serial_Number=pk)
     if request.method == "POST":
+        serialNo = item.Serial_Number
         item.delete()
         messages.add_message(
             request,
             messages.SUCCESS,
-            'Product "%s" deleted successfully!' % item.Serial_Number,
+            'Product "%s" deleted successfully!' % serialNo,
         )
         return redirect("showInventory")
 

@@ -147,10 +147,10 @@ def createTicket(request):
                             raise Exception("Invalid Customer details")
                         newTicket.Customer = customer
                     newTicket.Status = "Open"
-                    newTicket.ResolutionCode = "---------"
-                    newTicket.DispatchedThrough = "---------"
-                    newTicket.DeliveryStatus = "---------"
-                    newTicket.OnlineResolvable = "---------"
+                    newTicket.ResolutionCode = ""
+                    newTicket.DispatchedThrough = ""
+                    newTicket.DeliveryStatus = ""
+                    newTicket.OnlineResolvable = ""
                     newTicket.save()
                     messages.add_message(
                         request,
