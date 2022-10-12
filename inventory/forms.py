@@ -100,6 +100,7 @@ class CsvsModelForm(forms.ModelForm):
         widget=forms.FileInput(
             attrs={"class": "form-control form-control-lg", "id": "aps_csv_upload"}
         ),
+        label=""
     )
 
     class Meta:
