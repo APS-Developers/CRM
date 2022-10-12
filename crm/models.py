@@ -69,7 +69,7 @@ class Ticket(models.Model):
     OnlineResolvable = models.CharField(
         "Online Resolvable", choices=boolChoices, blank=True, max_length=10
     )
-    AlternateHW = models.ForeignKey(
+    HWDispatched = models.ForeignKey(
         Inventory,
         on_delete=models.DO_NOTHING,
         blank=True,
