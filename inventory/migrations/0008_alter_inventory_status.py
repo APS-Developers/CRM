@@ -6,13 +6,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('inventory', '0007_auto_20221012_1257'),
+        ("inventory", "0007_auto_20221012_1257"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='inventory',
-            name='Status',
-            field=models.CharField(blank=True, choices=[('', '---------'), ('Working', 'Working'), ('Not Working', 'Not Working')], max_length=20),
+            model_name="inventory",
+            name="Status",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ("", "---------"),
+                    ("Working", "Working"),
+                    ("Not Working", "Not Working"),
+                ],
+                max_length=20,
+            ),
         ),
     ]
