@@ -34,11 +34,11 @@ def upload_file(request):
             form.save()
             form = CsvsModelForm()
             obj = Csvs.objects.filter(activated=False).last()
-            if str(obj.file_name).split('/')[1].split('.')[1] != "csv":
+            if str(obj.file_name).split("/")[1].split(".")[1] != "csv":
                 messages.add_message(
                     request,
                     messages.ERROR,
-                    'File format not supported! Please upload a CSV file.',
+                    "File format not supported! Please upload a CSV file.",
                 )
                 return redirect("/upload_file")
 
