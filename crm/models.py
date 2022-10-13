@@ -79,7 +79,6 @@ class Ticket(models.Model):
     ResolutionDate = models.DateField(
         "Resolution Date (mm/dd/yyyy)", null=True, blank=True
     )
-
     DocketNumber = models.CharField("Docket Number", max_length=50, blank=True)
     DispatchedThrough = models.CharField(
         "Dispatched through", choices=dispatchedChoices, blank=True, max_length=50

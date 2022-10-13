@@ -4,7 +4,7 @@ from .models import Csvs
 from customer.models import Organisation
 
 StatusChoice = [
-    ("None", "None"),
+    ("", "---------"),
     ("Working", "Working"),
     ("Not Working", "Not Working"),
 ]

@@ -9,7 +9,7 @@ class Inventory(models.Model):
         db_table = "Inventory"
 
     StatusChoice = [
-        ("None", "None"),
+        ("", "---------"),
         ("Working", "Working"),
         ("Not Working", "Not Working"),
     ]
@@ -29,7 +29,7 @@ class Inventory(models.Model):
         Organisation, on_delete=models.DO_NOTHING, blank=True, null=True
     )
     Status = models.CharField(
-        choices=StatusChoice, max_length=20, blank=True, null=True
+        choices=StatusChoice, max_length=20, blank=True
     )
     CLI_snapshot = models.FileField(
         upload_to="", validators=[validate_file_extension], null=True, blank=True
