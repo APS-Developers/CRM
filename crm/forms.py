@@ -10,13 +10,6 @@ boolChoices = [("", "---------"), ("Yes", "Yes"), ("No", "No")]
 
 priorityChoices = [("P1", "P1"), ("P2", "P2"), ("P3", "P3"), ("P4", "P4")]
 
-# faultChoices = [
-#     ("---------", "---------"),
-#     ("Router", "Router faulty"),
-#     ("Modem", "Modem faulty"),
-#     ("Switch", "Switch faulty"),
-#
-
 statusChoices = [
     ("Open", "Open"),
     ("Resolved", "Resolved"),
@@ -25,22 +18,38 @@ statusChoices = [
 ]
 
 resolutionChoices = [
-    ("", "---------"),
-    ("123", "Router faulty"),
-    ("456", "Modem faulty"),
+        ("", "---------"),
+        ("Power Issue Resolved with Hard Reset", "Power Issue Resolved with Hard Reset"),
+        ("External Card Dispatched", "External Card Dispatched"),
+        ("DRM Issue Resolved", "DRM Issue Resolved"),
+        ("New Hardware Dispatched", "New Hardware Dispatched"),
+        ("FAN/Module Dispatched", "FAN/Module Dispatched"),
+        ("Power Supply Replaced/Dispatched", "Power Supply Replaced/Dispatched"),
+        ("Booting Issue Resolved", "Booting Issue Resolved"),
+        ("Console Issues Resolved", "Console Issues Resolved"),
+        ("Line Card Replaced/Dispatched", "Line Card Replaced/Dispatched"),
+        ("SUP Card Replaced/Dispatched", "SUP Card Replaced/Dispatched"),
+        ("Physical Damage - Not covered in AMC", "Physical Damage - Not covered in AMC"),
+        ("Others", "Others"),
 ]
+
 dispatchedChoices = [
-    ("", "---------"),
-    ("Delhivery", "Delhivery"),
-    ("Blue Dart", "Blue Dart"),
+        ("", "---------"),
+        ("DTDC", "DTDC"),
+        ("BLUEDART", "BLUEDART"),
+        ("MARUTI", "MARUTI"),
+        ("DELHIVERY", "DELHIVERY"),
+        ("SAFEXPRESS", "SAFEXPRESS"),
+        ("GATI", "GATI"),
 ]
+
 deliveryStatus = [
     ("", "---------"),
     ("Dispatched", "Dispatched"),
+    ("In Transit", "In Transit"),
+    ("Out for Delivery", "Out for Delivery"),
     ("Delivered", "Delivered"),
 ]
-
-
 class CustomerForm(ModelForm):
 
     Name = forms.CharField(
