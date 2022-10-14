@@ -55,8 +55,10 @@
                     <td>
                         {{customer.counter}}
                         <div class="conatiner" style="float:right">
-                            <a class="m-2"	style="color:rgb(29, 147, 134);" href="{% url 'updateCustomer' customer.CustomerID %}"><i class="bi bi-pencil-square"></i></a>
+                            {% if customer.checkTicket %}
                             <a class="m-2" style="color:rgb(185, 9, 9);" href="{% url 'deleteCustomer' customer.CustomerID %}"><i class="bi bi-trash3-fill"></i></a>
+                            {% endif %}
+                            <a class="m-2"	style="color:rgb(29, 147, 134);" href="{% url 'updateCustomer' customer.CustomerID %}"><i class="bi bi-pencil-square"></i></a>
                         </div>
                     </td>
                     <td>{{customer.Name}}</td>
@@ -157,8 +159,10 @@
                 <td>
                     {{organisation.counter}}
                     <div class="conatiner" style="float:right">
-                        <a class="m-2"	style="color:rgb(29, 147, 134);" href="{% url 'updateOrganisation' organisation.OrgID %}"><i class="bi bi-pencil-square"></i></a>
+                        {% if organisation.checkCustomer %}
                         <a class="m-2" style="color:rgb(185, 9, 9);" href="{% url 'deleteOrganisation' organisation.OrgID %}"><i class="bi bi-trash3-fill"></i></a>
+                        {% endif %}
+                        <a class="m-2"	style="color:rgb(29, 147, 134);" href="{% url 'updateOrganisation' organisation.OrgID %}"><i class="bi bi-pencil-square"></i></a>
                     </div>
                 </td>
                 <td>{{organisation.Name}}</td>

@@ -1,7 +1,6 @@
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 
-# Create your models here.
 class Organisation(models.Model):
     class Meta:
         db_table = "Organisation"
@@ -14,6 +13,9 @@ class Organisation(models.Model):
 
     def __str__(self):
         return f"{self.Name}; {self.Address}"
+
+    def checkCustomer(self):
+        return not Customer.objects.filter(Organisation=self.OrgID).exists()
 
 
 class Customer(models.Model):
@@ -28,3 +30,6 @@ class Customer(models.Model):
 
     def __str__(self):
         return self.Name
+
+    def checkTicket(self):
+        return not self.ticket_set.exists()
