@@ -16,8 +16,7 @@ from django.core.paginator import Paginator
 from django.contrib import messages
 
 
-def inventoryPermission(username):
-    user = User.objects.get(username=username)
+def inventoryPermission(user):
     if not user.is_staff or not user.is_superuser:
         permission = UserPermission.objects.get(user_id=user.id).Inventory_permission
     if user.is_staff or user.is_superuser or permission:
@@ -28,7 +27,7 @@ def inventoryPermission(username):
 
 @login_required(login_url="login")
 def upload_file(request):
-    if inventoryPermission(request.user.username):
+    if inventoryPermission(request.user):
         form = CsvsModelForm(request.POST or None, request.FILES or None)
         if form.is_valid():
             form.save()
@@ -79,7 +78,7 @@ def upload_file(request):
 
 @login_required(login_url="login")
 def createInventory(request):
-    if inventoryPermission(request.user.username):
+    if inventoryPermission(request.user):
         context = {}
 
         form = Form(request.POST or None, request.FILES or None)
@@ -105,7 +104,7 @@ def createInventory(request):
 
 @login_required(login_url="login")
 def showInventory(request):
-    if inventoryPermission(request.user.username):
+    if inventoryPermission(request.user):
         all_inventory = Inventory.objects.all().order_by("-Serial_Number")
         Inven_filter = InventoryFilter(request.GET, queryset=all_inventory)
         all_inventory = Inven_filter.qs
@@ -128,7 +127,7 @@ def showInventory(request):
 
 @login_required(login_url="login")
 def updateInventory(request, pk):
-    if inventoryPermission(request.user.username ):
+    if inventoryPermission(request.user):
         inventory = Inventory.objects.get(Serial_Number=pk)
         form = Form(instance=inventory)
 
@@ -173,16 +172,19 @@ def inventoryDetails(request):
 
 
 def deleteInventory(request, pk):
-    item = Inventory.objects.get(Serial_Number=pk)
-    if request.method == "POST":
-        serialNo = item.Serial_Number
-        item.delete()
-        messages.add_message(
-            request,
-            messages.SUCCESS,
-            'Product "%s" deleted successfully!' % serialNo,
-        )
-        return redirect("showInventory")
+    if inventoryPermission(request.user):
+        item = Inventory.objects.get(Serial_Number=pk)
+        if request.method == "POST":
+            serialNo = item.Serial_Number
+            item.delete()
+            messages.add_message(
+                request,
+                messages.SUCCESS,
+                'Product "%s" deleted successfully!' % serialNo,
+            )
+            return redirect("showInventory")
 
-    context = {"item": item}
-    return render(request, "inventory/delete.html", context)
+        context = {"item": item}
+        return render(request, "inventory/delete.html", context)
+    else:
+        raise PermissionDenied

@@ -28,7 +28,10 @@ class Ticket(models.Model):
     ]
     resolutionChoices = [
         ("", "---------"),
-        ("Power Issue Resolved with Hard Reset", "Power Issue Resolved with Hard Reset"),
+        (
+            "Power Issue Resolved with Hard Reset",
+            "Power Issue Resolved with Hard Reset",
+        ),
         ("External Card Dispatched", "External Card Dispatched"),
         ("DRM Issue Resolved", "DRM Issue Resolved"),
         ("New Hardware Dispatched", "New Hardware Dispatched"),
@@ -38,7 +41,10 @@ class Ticket(models.Model):
         ("Console Issues Resolved", "Console Issues Resolved"),
         ("Line Card Replaced/Dispatched", "Line Card Replaced/Dispatched"),
         ("SUP Card Replaced/Dispatched", "SUP Card Replaced/Dispatched"),
-        ("Physical Damage - Not covered in AMC", "Physical Damage - Not covered in AMC"),
+        (
+            "Physical Damage - Not covered in AMC",
+            "Physical Damage - Not covered in AMC",
+        ),
         ("Others", "Others"),
     ]
     dispatchedChoices = [
@@ -51,11 +57,11 @@ class Ticket(models.Model):
         ("GATI", "GATI"),
     ]
     deliveryStatus = [
-    ("", "---------"),
-    ("Dispatched", "Dispatched"),
-    ("In Transit", "In Transit"),
-    ("Out for Delivery", "Out for Delivery"),
-    ("Delivered", "Delivered"),
+        ("", "---------"),
+        ("Dispatched", "Dispatched"),
+        ("In Transit", "In Transit"),
+        ("Out for Delivery", "Out for Delivery"),
+        ("Delivered", "Delivered"),
     ]
 
     TicketID = models.AutoField("Ticket ID", primary_key=True)

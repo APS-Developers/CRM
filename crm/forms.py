@@ -18,29 +18,29 @@ statusChoices = [
 ]
 
 resolutionChoices = [
-        ("", "---------"),
-        ("Power Issue Resolved with Hard Reset", "Power Issue Resolved with Hard Reset"),
-        ("External Card Dispatched", "External Card Dispatched"),
-        ("DRM Issue Resolved", "DRM Issue Resolved"),
-        ("New Hardware Dispatched", "New Hardware Dispatched"),
-        ("FAN/Module Dispatched", "FAN/Module Dispatched"),
-        ("Power Supply Replaced/Dispatched", "Power Supply Replaced/Dispatched"),
-        ("Booting Issue Resolved", "Booting Issue Resolved"),
-        ("Console Issues Resolved", "Console Issues Resolved"),
-        ("Line Card Replaced/Dispatched", "Line Card Replaced/Dispatched"),
-        ("SUP Card Replaced/Dispatched", "SUP Card Replaced/Dispatched"),
-        ("Physical Damage - Not covered in AMC", "Physical Damage - Not covered in AMC"),
-        ("Others", "Others"),
+    ("", "---------"),
+    ("Power Issue Resolved with Hard Reset", "Power Issue Resolved with Hard Reset"),
+    ("External Card Dispatched", "External Card Dispatched"),
+    ("DRM Issue Resolved", "DRM Issue Resolved"),
+    ("New Hardware Dispatched", "New Hardware Dispatched"),
+    ("FAN/Module Dispatched", "FAN/Module Dispatched"),
+    ("Power Supply Replaced/Dispatched", "Power Supply Replaced/Dispatched"),
+    ("Booting Issue Resolved", "Booting Issue Resolved"),
+    ("Console Issues Resolved", "Console Issues Resolved"),
+    ("Line Card Replaced/Dispatched", "Line Card Replaced/Dispatched"),
+    ("SUP Card Replaced/Dispatched", "SUP Card Replaced/Dispatched"),
+    ("Physical Damage - Not covered in AMC", "Physical Damage - Not covered in AMC"),
+    ("Others", "Others"),
 ]
 
 dispatchedChoices = [
-        ("", "---------"),
-        ("DTDC", "DTDC"),
-        ("BLUEDART", "BLUEDART"),
-        ("MARUTI", "MARUTI"),
-        ("DELHIVERY", "DELHIVERY"),
-        ("SAFEXPRESS", "SAFEXPRESS"),
-        ("GATI", "GATI"),
+    ("", "---------"),
+    ("DTDC", "DTDC"),
+    ("BLUEDART", "BLUEDART"),
+    ("MARUTI", "MARUTI"),
+    ("DELHIVERY", "DELHIVERY"),
+    ("SAFEXPRESS", "SAFEXPRESS"),
+    ("GATI", "GATI"),
 ]
 
 deliveryStatus = [
@@ -50,6 +50,8 @@ deliveryStatus = [
     ("Out for Delivery", "Out for Delivery"),
     ("Delivered", "Delivered"),
 ]
+
+
 class CustomerForm(ModelForm):
 
     Name = forms.CharField(

@@ -1,6 +1,7 @@
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 
+
 class Organisation(models.Model):
     class Meta:
         db_table = "Organisation"
