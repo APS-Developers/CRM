@@ -99,7 +99,16 @@ Inventory
 							<td>{{inventory.Item_dispatched_Date}}</td>
 							<td>{{inventory.Organisation}}</td>
 							<td>{{inventory.Status}}</td>
-							<td>{{inventory.CLI_snapshot}}</td>
+							
+							<td>{% if inventory.CLI_snapshot %}
+								<a href="{{inventory.CLI_snapshot.url}}" target="_blank" >
+								
+									<button type="button" class="btn " style="background:#1e354e; color:#ffff">View </button>
+								
+								</a>
+								{% endif %}
+							</td>
+							
 							<td>{{inventory.Snapshot_Date}}</td>
 
 						</tr>
