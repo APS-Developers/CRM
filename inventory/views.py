@@ -128,12 +128,12 @@ def showInventory(request):
 
 @login_required(login_url="login")
 def updateInventory(request, pk):
-    if inventoryPermission(request.user.username):
+    if inventoryPermission(request.user.username ):
         inventory = Inventory.objects.get(Serial_Number=pk)
         form = Form(instance=inventory)
 
         if request.method == "POST":
-            form = Form(request.POST, instance=inventory)
+            form = Form(request.POST or None, request.FILES or None, instance=inventory)
             if form.is_valid():
                 form.save()
                 serialNo = form.cleaned_data.get("Serial_Number")
