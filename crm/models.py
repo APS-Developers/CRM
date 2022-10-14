@@ -26,26 +26,36 @@ class Ticket(models.Model):
         ("Pending", "Pending"),
         ("Closed", "Closed"),
     ]
-    # faultChoices = [
-    #     ("", "---------"),
-    #     ("Router", "Router faulty"),
-    #     ("Modem", "Modem faulty"),
-    #     ("Switch", "Switch faulty"),
-    # ]
     resolutionChoices = [
         ("", "---------"),
-        ("123", "Router faulty"),
-        ("456", "Modem faulty"),
+        ("Power Issue Resolved with Hard Reset", "Power Issue Resolved with Hard Reset"),
+        ("External Card Dispatched", "External Card Dispatched"),
+        ("DRM Issue Resolved", "DRM Issue Resolved"),
+        ("New Hardware Dispatched", "New Hardware Dispatched"),
+        ("FAN/Module Dispatched", "FAN/Module Dispatched"),
+        ("Power Supply Replaced/Dispatched", "Power Supply Replaced/Dispatched"),
+        ("Booting Issue Resolved", "Booting Issue Resolved"),
+        ("Console Issues Resolved", "Console Issues Resolved"),
+        ("Line Card Replaced/Dispatched", "Line Card Replaced/Dispatched"),
+        ("SUP Card Replaced/Dispatched", "SUP Card Replaced/Dispatched"),
+        ("Physical Damage - Not covered in AMC", "Physical Damage - Not covered in AMC"),
+        ("Others", "Others"),
     ]
     dispatchedChoices = [
         ("", "---------"),
-        ("Delhivery", "Delhivery"),
-        ("Blue Dart", "Blue Dart"),
+        ("DTDC", "DTDC"),
+        ("BLUEDART", "BLUEDART"),
+        ("MARUTI", "MARUTI"),
+        ("DELHIVERY", "DELHIVERY"),
+        ("SAFEXPRESS", "SAFEXPRESS"),
+        ("GATI", "GATI"),
     ]
     deliveryStatus = [
-        ("", "---------"),
-        ("Dispatched", "Dispatched"),
-        ("Delivered", "Delivered"),
+    ("", "---------"),
+    ("Dispatched", "Dispatched"),
+    ("In Transit", "In Transit"),
+    ("Out for Delivery", "Out for Delivery"),
+    ("Delivered", "Delivered"),
     ]
 
     TicketID = models.AutoField("Ticket ID", primary_key=True)
@@ -58,9 +68,9 @@ class Ticket(models.Model):
     Summary = models.TextField(max_length=500, blank=True)
     Priority = models.CharField(max_length=2, choices=priorityChoices, blank=True)
     Status = models.CharField(choices=statusChoices, max_length=10, blank=True)
-    FaultFoundCode = models.CharField("Fault Found Code", max_length=30)
+    FaultFoundCode = models.CharField("Fault Found Code", max_length=100)
     ResolutionCode = models.CharField(
-        "Resolution Code", choices=resolutionChoices, max_length=20, blank=True
+        "Resolution Code", choices=resolutionChoices, max_length=100, blank=True
     )
     ResolutionRemarks = models.TextField(
         "Resolution Remarks", max_length=500, blank=True
