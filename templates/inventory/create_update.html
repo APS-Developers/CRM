@@ -75,12 +75,23 @@
             <fieldset>
                 <label for="">CLI Snapshot</label>
                 {{ form.CLI_snapshot}}
+                
+								
+                    {% if CLI_snapshot %}
+								<a href="{{CLI_snapshot.url}}" target="_blank" >
+								
+									{{CLI_snapshot}}
+								    
+								</a>
+								{% endif %}
+                
             </fieldset>
             
             <fieldset>
                 <label for="">Snapshot Date</label>
                 {{ form.Snapshot_Date }}
             </fieldset>
+            
 
             <fieldset>
                 <button type="submit">Submit</button>
