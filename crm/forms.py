@@ -12,8 +12,8 @@ priorityChoices = [("P1", "P1"), ("P2", "P2"), ("P3", "P3"), ("P4", "P4")]
 
 statusChoices = [
     ("Open", "Open"),
-    ("Resolved", "Resolved"),
     ("Pending", "Pending"),
+    ("Resolved", "Resolved"),
     ("Closed", "Closed"),
 ]
 

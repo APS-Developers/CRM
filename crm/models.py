@@ -22,8 +22,8 @@ class Ticket(models.Model):
     boolChoices = [("", "---------"), ("Yes", "Yes"), ("No", "No")]
     statusChoices = [
         ("Open", "Open"),
-        ("Resolved", "Resolved"),
         ("Pending", "Pending"),
+        ("Resolved", "Resolved"),
         ("Closed", "Closed"),
     ]
     resolutionChoices = [
