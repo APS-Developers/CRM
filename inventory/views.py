@@ -147,7 +147,9 @@ def updateInventory(request, pk):
                 for message in form.errors.values():
                     messages.add_message(request, messages.ERROR, message)
 
-        context = {"form": form, "name": "Update"}
+        context = {"form": form, "name": "Update","CLI_snapshot":inventory.CLI_snapshot}
+       
+        
         return render(request, "inventory/create_update.html", context)
     else:
         raise PermissionDenied
