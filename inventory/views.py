@@ -14,6 +14,9 @@ import json
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.contrib import messages
+from django.db import transaction
+from django.db.utils import IntegrityError
+import re
 
 
 def inventoryPermission(user):
@@ -40,27 +43,40 @@ def upload_file(request):
                     "File format not supported! Please upload a CSV file.",
                 )
                 return redirect("/upload_file")
-
-            with open(obj.file_name.path, "r", encoding="windows-1252") as f:
-                reader = csv.reader(f)
-                for i, row in enumerate(reader):
-                    if i == 0:
-                        pass
-                    else:
-                        inv = Inventory.objects.create(
-                            Make=row[0],
-                            Part_Code=row[1],
-                            Serial_Number=row[2],
-                            Item=row[3],
-                            Location=row[4],
-                            Purchase_Date=None if not row[5] else row[5],
-                            Item_dispatched_Date=None if not row[6] else row[6],
-                            Organisation_id=row[7],
-                            Status=row[8],
-                            CLI_snapshot=row[9],
-                            Snapshot_Date=None if not row[10] else row[10],
-                        )
-                        inv.save()
+            try:
+                with open(obj.file_name.path, "r", encoding="windows-1252") as f:
+                    reader = csv.reader(f)
+                    with transaction.atomic():
+                        for i, row in enumerate(reader):
+                            if i == 0:
+                                pass
+                            else:
+                                inv = Inventory.objects.create(
+                                    Make=row[0],
+                                    Part_Code=row[1],
+                                    Serial_Number=row[2],
+                                    Item=row[3],
+                                    Location=row[4],
+                                    Purchase_Date=None if not row[5] else row[5],
+                                    Item_dispatched_Date=None if not row[6] else row[6],
+                                    Organisation_id=row[7],
+                                    Status=row[8],
+                                    CLI_snapshot=row[9],
+                                    Snapshot_Date=None if not row[10] else row[10],
+                                )
+                                inv.save()
+            except IntegrityError as e:
+                dup_key = re.search(r"\((?P<key>[a-zA-Z0-9]*)\)", str(e))
+                if dup_key:
+                    dup_key = dup_key.groupdict().get("key")
+                else:
+                    dup_key = ""
+                messages.add_message(
+                    request,
+                    messages.ERROR,
+                    f"Error while uploading file! Duplicate serial Number '{dup_key}' found",
+                )
+                return redirect("/upload_file")
             obj.activated = True
             obj.save()
             messages.add_message(
