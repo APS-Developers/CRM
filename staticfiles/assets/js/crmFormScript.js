@@ -23,24 +23,25 @@ let customer_name = document.getElementById("aps_crm_customer_name");
 let email = document.getElementById("aps_crm_customer_email");
 let phone = document.getElementById("aps_crm_customer_phone");
 let aps_crm_customer_id = document.getElementById("aps_crm_customer_id");
-customer_name.addEventListener("input",()=>{
-    debounce(()=>{
-        fetch("/customerDetailsAutofill?"+new URLSearchParams({"name":customer_name.value,"org":organization.value})).then(res=>res.json()).then(data=>{
-            if(data.email){
+customer_name.addEventListener("input", () => {
+    debounce(() => {
+        fetch("/customerDetailsAutofill?" + new URLSearchParams({
+            "name": customer_name.value,
+            "org": organization.value
+        })).then(res => res.json()).then(data => {
+            if (data.email) {
                 email.value = data.email;
-                email.setAttribute("readonly",true);
+                email.setAttribute("readonly", true);
                 aps_crm_customer_id.value = data.id;
-            }
-            else{
-                email.value="";
+            } else {
+                email.value = "";
                 email.removeAttribute("readonly");
-                aps_crm_customer_id.value="";
+                aps_crm_customer_id.value = "";
             }
-            if(data.contactNo){ 
+            if (data.contactNo) {
                 phone.value = data.contactNo;
-                phone.setAttribute("readonly",true);
-            }
-            else{
+                phone.setAttribute("readonly", true);
+            } else {
                 phone.value = "";
                 phone.removeAttribute("readonly");
             }
@@ -56,29 +57,32 @@ serial_search_form.addEventListener("submit", (e) => {
     e.preventDefault();
     toggleLoader();
     const serial = serial_search_form.querySelector("input[name='serial']").value;
-    const url = serial_search_form.getAttribute("action")+'?'+new URLSearchParams({serial:serial}).toString();
+    const url = serial_search_form.getAttribute("action") + '?' + new URLSearchParams({
+        serial: serial
+    }).toString();
     const method = serial_search_form.getAttribute("method");
-    fetch(url, {method:method}).then((res)=>res.json()).then((data)=>{
-        if(data.error){
+    fetch(url, {
+        method: method
+    }).then((res) => res.json()).then((data) => {
+        if (data.error) {
             throw Error(data.error)
         }
         search_wrapper.classList.toggle("d-none");
         crm_input_form.classList.toggle("d-none");
         fillForm(data);
-    }).catch((err)=>{
-        console.log(err);
-        alert("Error while Searching serial");
-    }).finally(()=>{
+    }).catch((err) => {
+        document.getElementById("aps_serial_search_error_wrapper").innerHTML = document.getElementById("aps_serial_search_error").innerHTML;
+    }).finally(() => {
         toggleLoader();
     })
 })
 
-function fillForm(data){
-    document.getElementById("aps_crm_"+"SNo").value = data.SNo;
-    document.getElementById("aps_crm_"+"Make").value = data.Make;
-    document.getElementById("aps_crm_"+"PartCode").value = data.PartCode;
-    document.getElementById("aps_crm_"+"Item").value = data.Item;
-    document.getElementById("aps_crm_"+"Item_dispatched_Date").value = data.Item_dispatched_Date;
-    document.getElementById("aps_crm_"+"Organisation").value = data.Organisation;
-    document.getElementById("aps_crm_"+"organisation_id").value = data.OrganisationId;
+function fillForm(data) {
+    document.getElementById("aps_crm_" + "SNo").value = data.SNo;
+    document.getElementById("aps_crm_" + "Make").value = data.Make;
+    document.getElementById("aps_crm_" + "PartCode").value = data.PartCode;
+    document.getElementById("aps_crm_" + "Item").value = data.Item;
+    document.getElementById("aps_crm_" + "Item_dispatched_Date").value = data.Item_dispatched_Date;
+    document.getElementById("aps_crm_" + "Organisation").value = data.Organisation;
+    document.getElementById("aps_crm_" + "organisation_id").value = data.OrganisationId;
 }
