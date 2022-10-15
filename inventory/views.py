@@ -74,7 +74,7 @@ def upload_file(request):
                 messages.add_message(
                     request,
                     messages.ERROR,
-                    f"Error while uploading file! Duplicate serial Number '{dup_key}' found",
+                    f"Error while uploading file! Duplicate Serial Number '{dup_key}' found",
                 )
                 return redirect("/upload_file")
             obj.activated = True
@@ -162,9 +162,12 @@ def updateInventory(request, pk):
                 for message in form.errors.values():
                     messages.add_message(request, messages.ERROR, message)
 
-        context = {"form": form, "name": "Update","CLI_snapshot":inventory.CLI_snapshot}
-       
-        
+        context = {
+            "form": form,
+            "name": "Update",
+            "CLI_snapshot": inventory.CLI_snapshot,
+        }
+
         return render(request, "inventory/create_update.html", context)
     else:
         raise PermissionDenied
