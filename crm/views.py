@@ -222,7 +222,7 @@ def updateTicket(request, ticketID):
                             raise Exception(
                                 "Invalid Serial Number for Hardware Dispatched"
                             )
-                    if update.Status == "Closed":
+                    if update.Status == "Resolved":
                         date = datetime.date.today()
                         update.ResolutionDate = date
                     else:
