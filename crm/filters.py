@@ -1,3 +1,4 @@
+from sqlite3 import Date
 import django_filters
 from .models import *
 from django_filters import DateFilter, ChoiceFilter
@@ -41,4 +42,22 @@ class TicketFilter(django_filters.FilterSet):
         fields = [
             "TicketID",
             "Customer__Organisation__Name",
+        ]
+
+class TicketFilterReport(TicketFilter):
+    date_created = DateFilter(field_name="DateCreated",lookup_expr="gt", label="Date Created From (mm/dd/yyyy)")
+    to_date_created = DateFilter(field_name="DateCreated",lookup_expr="lt",label="Date Created To (mm/dd/yyyy)")
+    resolution_date = DateFilter(field_name="ResolutionDate")
+    category = ChoiceFilter(choices=categoryChoices, field_name="Category")
+    subCategory = ChoiceFilter(choices=subCategoryChoices, field_name="SubCategory")
+    status = ChoiceFilter(choices=statusChoices, field_name="Status")
+    priority = ChoiceFilter(choices=priorityChoices, field_name="Priority")
+
+    class Meta:
+        model = Ticket
+        fields = [
+            "TicketID",
+            "Customer__Organisation__Name",
+            "date_created",
+            "to_date_created",
         ]

@@ -4,7 +4,7 @@ from inventory.models import Inventory
 from django.http import HttpResponse
 import csv
 from crm.models import Ticket
-from crm.filters import TicketFilter
+from crm.filters import TicketFilterReport
 
 # Create your views here.
 def dashboard(request):
@@ -48,7 +48,7 @@ def inventory_report(request):
 def crm_report(request):
     if request.method == "POST":
         all_tickets = Ticket.objects.all().order_by("-DateCreated")
-        tickets_filter = TicketFilter(request.POST, all_tickets)
+        tickets_filter = TicketFilterReport(request.POST, all_tickets)
         rows = tickets_filter.qs
         fields = [
             "TicketID",
@@ -80,7 +80,7 @@ def crm_report(request):
             writer.writerow([str(getattr(row, field)) for field in fields])
         return response
     else:
-        tickets_filter = TicketFilter()
+        tickets_filter = TicketFilterReport()
         return render(
             request, "reports/report_form.html", {"form": tickets_filter.form}
         )
