@@ -223,6 +223,9 @@ def updateTicket(request, ticketID):
                                 "Invalid Serial Number for Hardware Dispatched"
                             )
                     if update.Status == "Resolved":
+                        if not (update.FaultFoundCode and update.ResolutionCode and update.ResolutionRemarks):
+                            messages.add_message(request, messages.ERROR, "Ticket can be only resolved if Fault Found code, Resolution code and Resolution remarks are filled")
+                            return redirect("updateTicket", ticketID=ticketID)
                         date = datetime.date.today()
                         update.ResolutionDate = date
                     else:
