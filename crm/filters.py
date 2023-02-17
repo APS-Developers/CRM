@@ -1,4 +1,3 @@
-from sqlite3 import Date
 import django_filters
 from .models import *
 from django_filters import DateFilter, ChoiceFilter

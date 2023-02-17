@@ -42,12 +42,18 @@
   cursor: pointer;
   color: #1e354e;
 }
-#aps_content_wrapper #aps_sidebar.active {
+#aps_content_wrapper #aps_sidebar.active{
   width: 0px;
   margin: 0px;
   padding: 0px;
   opacity: 0;
 }
+
+#aps_content_wrapper #aps_sidebar.active .nav-item{
+  display: none;
+}
+
+
 #aps_content_wrapper #aps_main {
   height: 92vh;
   overflow-y: scroll;
