@@ -78,11 +78,11 @@
                     <tr>
                         <td>
                             {{ticket.counter}}
-                            <div class="conatiner" style="float:right">
-                                {% if user.is_authenticated and user.is_staff and user.is_superuser %}
+                            <div class="conatiner me-4" style="float:right">
+                                {% comment %} {% if user.is_authenticated and user.is_staff and user.is_superuser %}
                                 <a class="ml-2" style="color:rgb(95, 7, 161);" href="{% url 'ticketLog' ticket.TicketID %}"><i class="bi bi-file-earmark-text"></i></a>
-                                {% endif %}
-                                <a class="m-2"	style="color:rgb(29, 147, 134);" href="{% url 'updateTicket' ticket.TicketID %}"><i class="bi bi-pencil-square"></i></a>
+                                {% endif %} {% endcomment %}
+                                <a	style="color:rgb(29, 147, 134);" href="{% url 'updateTicket' ticket.TicketID %}"><i class="bi bi-pencil-square"></i></a>
                             </div>
                         </td>
                         <td>{{ticket.TicketID}}</td>
@@ -189,7 +189,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for history in all_history %}
+                {% for history in all_history reversed %}
                 <tr>
                     <td>{{forloop.counter}}</td>
                     <td>{{history.history_user}}</td>
