@@ -239,7 +239,7 @@ class UpdateForm(ModelForm):
     Summary = forms.CharField(
         required=False,
         widget=forms.Textarea(
-            attrs={"id": "", "type": "text", "cols": "30", "rows": "5"}
+            attrs={"readonly": "readonly","id": "", "type": "text", "cols": "30", "rows": "5"}
         ),
         label="",
     )
