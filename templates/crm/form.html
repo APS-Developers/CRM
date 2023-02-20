@@ -39,7 +39,7 @@
         <form action="/createTicket/" method="post" id="aps_crm_detail_form" class="container-fluid">
             {% csrf_token %}
             <div class="row">
-                <fieldset class="col-md-12">
+                <fieldset class="col-md-6">
                     <label for="SNo">Serial Number</label>
                     <input type="text" name="SerialNo" id="aps_crm_SNo" readonly>
                 </fieldset>
@@ -115,7 +115,7 @@
                         <option value="P4">Priority 4</option>
                     </select>
                 </fieldset>
-                <fieldset class="col-md-6">
+                {% comment %} <fieldset class="col-md-6">
                     <label>Fault Found Code</label>
                     <select name="FaultFoundCode" id="" required>
                         <option value="">---------</option>
@@ -133,7 +133,7 @@
                         <option value="Others">Others</option>
                         <option value="Hardware not in AMC">Hardware not in AMC</option>
                     </select>
-                </fieldset>
+                </fieldset> {% endcomment %}
                 <fieldset class="col-md-12">
                     <label>Summary</label>
                     <Textarea name="Summary" required></Textarea>
