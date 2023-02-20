@@ -205,8 +205,19 @@ def updateTicket(request, ticketID):
 
         if request.method == "POST":
             try:
+                ticket_status = ticket.Status
                 form = UpdateForm(request.POST, instance=ticket)
                 if form.is_valid():
+                    if ticket_status == "Resolved" and request.POST.get("Status")=="Resolved":
+                        ticket.Notes = request.POST.get("Notes")
+                        messages.add_message(
+                            request,
+                            messages.SUCCESS,
+                            'Ticket "%s" updated successfully! from 1' % ticketID,
+                        )
+                        ticket.save()
+                        return redirect("showTicket")
+                    print(request.POST)
                     update = form.save(commit=False)
                     if request.POST.get("HWDispatchedSerial"):
                         try:
@@ -223,8 +234,16 @@ def updateTicket(request, ticketID):
                                 "Invalid Serial Number for Hardware Dispatched"
                             )
                     if update.Status == "Resolved":
-                        if not (update.FaultFoundCode and update.ResolutionCode and update.ResolutionRemarks):
-                            messages.add_message(request, messages.ERROR, "Ticket can be only resolved if Fault Found code, Resolution code and Resolution remarks are filled")
+                        if not (
+                            update.FaultFoundCode
+                            and update.ResolutionCode
+                            and update.ResolutionRemarks
+                        ):
+                            messages.add_message(
+                                request,
+                                messages.ERROR,
+                                "Ticket can be only resolved if Fault Found code, Resolution code and Resolution remarks are filled",
+                            )
                             return redirect("updateTicket", ticketID=ticketID)
                         date = datetime.date.today()
                         update.ResolutionDate = date
@@ -237,6 +256,11 @@ def updateTicket(request, ticketID):
                         'Ticket "%s" updated successfully!' % ticketID,
                     )
                     return redirect("showTicket")
+                else:
+                    messages.add_message(
+                        request, messages.ERROR, "Please fill all the fields!"
+                    )
+                    return redirect("updateTicket", ticketID=ticketID)
             except Exception as e:
                 messages.add_message(
                     request, messages.ERROR, "Error in updating ticket!"

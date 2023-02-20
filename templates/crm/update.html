@@ -23,102 +23,123 @@ Update
         <form action="" method="post">
             {% csrf_token %}
             
-            <fieldset>
-                <label for="">Ticket ID</label>
-                {{ form.TicketID }}
-            </fieldset>
-            
-            <fieldset>
-                <label for="">Date Created</label>
-                {{ form.DateCreated }}
-            </fieldset>
-
-            <fieldset>
-                <label for="">Resolution Date</label>
-                {{ form.ResolutionDate }}
-            </fieldset>
-
+            {% ifequal form.Status.value "Resolved" %}
             <fieldset>
                 <label for="">Status</label>
-                {{ form.Status }}
+                <select name="Status" id="">
+                    <option value="Resolved" selected="">Resolved</option>
+                    <option value="Open">Reopen</option>
+                  </select>
             </fieldset>
+            <fieldset class="disabled-section">
+                
+                {% else %}
+                <fieldset>
+                    <label for="">Status</label>
+                    {{ form.Status }}
+                </fieldset>
+                <fieldset>
+            {% endifequal %}
+                    <fieldset>
+                        <label for="">Ticket ID</label>
+                        {{ form.TicketID }}
+                    </fieldset>
 
-            <fieldset>
-                <label for="">Serial Number</label>
-                {{ form.SerialNo }}
-            </fieldset>
+                    <fieldset>
+                        <label for="">Date Created</label>
+                        {{ form.DateCreated }}
+                    </fieldset>
 
-            <!-- <fieldset>
+                    <fieldset>
+                        <label for="">Resolution Date</label>
+                        {{ form.ResolutionDate }}
+                    </fieldset>
+
+
+                    <fieldset>
+                        <label for="">Serial Number</label>
+                        {{ form.SerialNo }}
+                    </fieldset>
+
+                    <!-- <fieldset>
                 <label for="">Model Number</label>
                 {{ form.ModelNo }}
             </fieldset> -->
 
-            <fieldset>
-                <label for="">Category</label>
-                {{ form.Category }}
-            </fieldset>
+                    <fieldset>
+                        <label for="">Category</label>
+                        {{ form.Category }}
+                    </fieldset>
 
-            <fieldset>
-                <label for="">Sub Category</label>
-                {{ form.SubCategory }}
-            </fieldset>
+                    <fieldset>
+                        <label for="">Sub Category</label>
+                        {{ form.SubCategory }}
+                    </fieldset>
 
-            <fieldset>
-                <label for="">Priority</label>
-                {{ form.Priority }}
-            </fieldset>
+                    <fieldset>
+                        <label for="">Priority</label>
+                        {{ form.Priority }}
+                    </fieldset>
 
-            <fieldset>
-                <label for="">Fault Found Code</label>
-                {{ form.FaultFoundCode }}
-            </fieldset>
+                    <fieldset>
+                        <label for="">Fault Found Code</label>
+                        {{ form.FaultFoundCode }}
+                    </fieldset>
 
-            <fieldset>
-                <label for="">Summary</label>
-                {{ form.Summary }}
-            </fieldset>
+                    <fieldset>
+                        <label for="">Summary</label>
+                        {{ form.Summary }}
+                    </fieldset>
 
-            <fieldset>
-                <label for="">Resolution Code</label>
-                {{ form.ResolutionCode }}
-            </fieldset>
 
-            <fieldset>
-                <label for="">Resolution Remarks</label>
-                {{ form.ResolutionRemarks }}
-            </fieldset>
 
-            <fieldset>
-                <label for="">Online Resolvable</label>
-                {{ form.OnlineResolvable }}
-            </fieldset>
+                    <fieldset>
+                        <label for="">Resolution Code</label>
+                        {{ form.ResolutionCode }}
+                    </fieldset>
 
-            <fieldset>
-                <label for="">Hardware Dispatched Serial Number</label>
-                {{ form.HWDispatchedSerial }}
-                {{ form.HWDispatched }}
-            </fieldset>
+                    <fieldset>
+                        <label for="">Resolution Remarks</label>
+                        {{ form.ResolutionRemarks }}
+                    </fieldset>
 
-            
+                    <fieldset>
+                        <label for="">Online Resolvable</label>
+                        {{ form.OnlineResolvable }}
+                    </fieldset>
 
-            <fieldset>
-                <label for="">Docket Number</label>
-                {{ form.DocketNumber }}
-            </fieldset>
+                    <fieldset>
+                        <label for="">Hardware Dispatched Serial Number</label>
+                        {{ form.HWDispatchedSerial }}
+                        {{ form.HWDispatched }}
+                    </fieldset>
 
-            <fieldset>
-                <label for="">Dispatched through</label>
-                {{ form.DispatchedThrough }}
-            </fieldset>
 
-            <fieldset>
-                <label for="">Delivery Status</label>
-                {{ form.DeliveryStatus }}
-            </fieldset>
 
-            <fieldset>
-                <button type="submit">Submit</button>
-            </fieldset>
+                    <fieldset>
+                        <label for="">Docket Number</label>
+                        {{ form.DocketNumber }}
+                    </fieldset>
+
+                    <fieldset>
+                        <label for="">Dispatched through</label>
+                        {{ form.DispatchedThrough }}
+                    </fieldset>
+
+                    <fieldset>
+                        <label for="">Delivery Status</label>
+                        {{ form.DeliveryStatus }}
+                    </fieldset>
+
+                </fieldset>
+                <fieldset>
+                    <label for="">Notes</label>
+                    {{ form.Notes }}
+                </fieldset>
+                <fieldset>
+                    <button type="submit">Submit</button>
+                </fieldset>
+
         </form>
     </div>
 </div>
@@ -126,10 +147,10 @@ Update
 
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous">
-    </script>
-    <script src="/static/assets/js/crmFormScript.js"></script>
-    <script src="/static/assets/js/crmUpdateScript.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous">
+</script>
+<script src="/static/assets/js/crmFormScript.js"></script>
+<script src="/static/assets/js/crmUpdateScript.js"></script>
 
 {% endblock %}
