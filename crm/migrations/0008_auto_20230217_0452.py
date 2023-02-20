@@ -4,59 +4,88 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('crm', '0007_auto_20221014_1014'),
+        ("crm", "0007_auto_20221014_1014"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='historicalticket',
-            options={'get_latest_by': 'history_date', 'ordering': ('-history_date', '-history_id'), 'verbose_name': 'historical ticket'},
+            name="historicalticket",
+            options={
+                "get_latest_by": "history_date",
+                "ordering": ("-history_date", "-history_id"),
+                "verbose_name": "historical ticket",
+            },
         ),
         migrations.AddField(
-            model_name='historicalticket',
-            name='ClosureDate',
-            field=models.DateField(blank=True, null=True, verbose_name='Closure Date (mm/dd/yyyy)'),
+            model_name="historicalticket",
+            name="ClosureDate",
+            field=models.DateField(
+                blank=True, null=True, verbose_name="Closure Date (mm/dd/yyyy)"
+            ),
         ),
         migrations.AddField(
-            model_name='historicalticket',
-            name='ClosureRemarks',
-            field=models.TextField(blank=True, max_length=500, verbose_name='Closure Remarks'),
+            model_name="historicalticket",
+            name="ClosureRemarks",
+            field=models.TextField(
+                blank=True, max_length=500, verbose_name="Closure Remarks"
+            ),
         ),
         migrations.AddField(
-            model_name='historicalticket',
-            name='Notes',
+            model_name="historicalticket",
+            name="Notes",
             field=models.TextField(blank=True, max_length=500),
         ),
         migrations.AddField(
-            model_name='ticket',
-            name='ClosureDate',
-            field=models.DateField(blank=True, null=True, verbose_name='Closure Date (mm/dd/yyyy)'),
+            model_name="ticket",
+            name="ClosureDate",
+            field=models.DateField(
+                blank=True, null=True, verbose_name="Closure Date (mm/dd/yyyy)"
+            ),
         ),
         migrations.AddField(
-            model_name='ticket',
-            name='ClosureRemarks',
-            field=models.TextField(blank=True, max_length=500, verbose_name='Closure Remarks'),
+            model_name="ticket",
+            name="ClosureRemarks",
+            field=models.TextField(
+                blank=True, max_length=500, verbose_name="Closure Remarks"
+            ),
         ),
         migrations.AddField(
-            model_name='ticket',
-            name='Notes',
+            model_name="ticket",
+            name="Notes",
             field=models.TextField(blank=True, max_length=500),
         ),
         migrations.AlterField(
-            model_name='historicalticket',
-            name='Status',
-            field=models.CharField(blank=True, choices=[('Open', 'Open'), ('Pending', 'Pending'), ('Resolved', 'Resolved'), ('Closed', 'Closed')], max_length=10),
+            model_name="historicalticket",
+            name="Status",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ("Open", "Open"),
+                    ("Pending", "Pending"),
+                    ("Resolved", "Resolved"),
+                    ("Closed", "Closed"),
+                ],
+                max_length=10,
+            ),
         ),
         migrations.AlterField(
-            model_name='historicalticket',
-            name='history_date',
+            model_name="historicalticket",
+            name="history_date",
             field=models.DateTimeField(),
         ),
         migrations.AlterField(
-            model_name='ticket',
-            name='Status',
-            field=models.CharField(blank=True, choices=[('Open', 'Open'), ('Pending', 'Pending'), ('Resolved', 'Resolved'), ('Closed', 'Closed')], max_length=10),
+            model_name="ticket",
+            name="Status",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ("Open", "Open"),
+                    ("Pending", "Pending"),
+                    ("Resolved", "Resolved"),
+                    ("Closed", "Closed"),
+                ],
+                max_length=10,
+            ),
         ),
     ]

@@ -9,9 +9,9 @@ StatusChoice = [
     ("Not Working", "Not Working"),
 ]
 
+
 # creating a form
 class Form(forms.ModelForm):
-
     Make = forms.CharField(
         widget=forms.TextInput(attrs={"id": "", "type": "text"}), label=""
     )

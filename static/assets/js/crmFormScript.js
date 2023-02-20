@@ -18,8 +18,10 @@ function debounce(func, timeout = 300) {
     };
 }
 
-let organization = document.getElementById("aps_crm_Organisation");
-let customer_name = document.getElementById("aps_crm_customer_name");
+try{
+
+    let organization = document.getElementById("aps_crm_Organisation");
+    let customer_name = document.getElementById("aps_crm_customer_name");
 let email = document.getElementById("aps_crm_customer_email");
 let phone = document.getElementById("aps_crm_customer_phone");
 let aps_crm_customer_id = document.getElementById("aps_crm_customer_id");
@@ -76,6 +78,10 @@ serial_search_form.addEventListener("submit", (e) => {
         toggleLoader();
     })
 })
+}
+catch(e){
+    console.log(e);
+}
 
 function fillForm(data) {
     document.getElementById("aps_crm_" + "SNo").value = data.SNo;
@@ -85,4 +91,16 @@ function fillForm(data) {
     document.getElementById("aps_crm_" + "Item_dispatched_Date").value = data.Item_dispatched_Date;
     document.getElementById("aps_crm_" + "Organisation").value = data.Organisation;
     document.getElementById("aps_crm_" + "organisation_id").value = data.OrganisationId;
+}
+
+
+try{
+    const disabled_section = document.querySelector(".disabled-section");
+    let elems = disabled_section.querySelectorAll("input, select, textarea");
+    elems.forEach((elem) => {
+
+        elem.setAttribute("readonly", "readonly");
+    });
+}catch(e){
+    console.log(e);
 }

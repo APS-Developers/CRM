@@ -103,12 +103,8 @@ class Ticket(models.Model):
         "Delivery Status", choices=deliveryStatus, blank=True, max_length=30
     )
     Notes = models.TextField(max_length=500, blank=True)
-    ClosureDate = models.DateField(
-        "Closure Date (mm/dd/yyyy)", null=True, blank=True
-    )
-    ClosureRemarks = models.TextField(
-        "Closure Remarks", max_length=500, blank=True
-    )
+    ClosureDate = models.DateField("Closure Date (mm/dd/yyyy)", null=True, blank=True)
+    ClosureRemarks = models.TextField("Closure Remarks", max_length=500, blank=True)
 
     history = HistoricalRecords()
 

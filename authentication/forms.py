@@ -126,7 +126,6 @@ class UserLoginForm(AuthenticationForm):
 
 
 class UserPasswordResetForm(PasswordResetForm):
-
     email = forms.EmailField(
         widget=forms.EmailInput(
             attrs={"class": "form-control", "type": "email", "id": "floatingInput"}
@@ -135,7 +134,6 @@ class UserPasswordResetForm(PasswordResetForm):
 
 
 class UserPasswordChangeForm(SetPasswordForm):
-
     new_password1 = forms.CharField(
         widget=forms.TextInput(
             attrs={

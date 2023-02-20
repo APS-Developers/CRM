@@ -143,7 +143,6 @@ def createTicket(request):
                         if customer.is_valid():
                             customer = customer.save()
                         else:
-                            print(customer.errors)
                             raise Exception("Invalid Customer details")
                         newTicket.Customer = customer
                     newTicket.Status = "Open"
@@ -199,18 +198,27 @@ def showTicket(request):
 
 @login_required(login_url="login")
 def updateTicket(request, ticketID):
-    print("UCALL")
     if crmPermission(request.user):
         ticket = Ticket.objects.get(TicketID=ticketID)
         form = UpdateForm(instance=ticket)
         all_history = list(ticket.history.all())
         if request.method == "POST":
             try:
+                ticket_status = ticket.Status
                 form = UpdateForm(request.POST, instance=ticket)
-                print(form, " dekhle tu hi")
-                print(form.errors)
                 if form.is_valid():
-                    print("posting")
+                    if (
+                        ticket_status == "Resolved"
+                        and request.POST.get("Status") == "Resolved"
+                    ):
+                        ticket.Notes = request.POST.get("Notes")
+                        messages.add_message(
+                            request,
+                            messages.SUCCESS,
+                            'Ticket "%s" updated successfully! from 1' % ticketID,
+                        )
+                        ticket.save()
+                        return redirect("showTicket")
                     update = form.save(commit=False)
                     if request.POST.get("HWDispatchedSerial"):
                         try:
@@ -222,16 +230,25 @@ def updateTicket(request, ticketID):
                             HWDispatched.Organisation = ticket.Customer.Organisation
                             HWDispatched.save()
                         except Exception as e:
-                            print(e)
                             raise Exception(
                                 "Invalid Serial Number for Hardware Dispatched"
                             )
                     if update.Status == "Resolved":
+                        if not (
+                            update.FaultFoundCode
+                            and update.ResolutionCode
+                            and update.ResolutionRemarks
+                        ):
+                            messages.add_message(
+                                request,
+                                messages.ERROR,
+                                "Ticket can be only resolved if Fault Found code, Resolution code and Resolution remarks are filled",
+                            )
+                            return redirect("updateTicket", ticketID=ticketID)
                         date = datetime.date.today()
                         update.ResolutionDate = date
                     else:
                         update.ResolutionDate = None
-                    print("updated")
                     update.save()
                     messages.add_message(
                         request,
@@ -239,44 +256,64 @@ def updateTicket(request, ticketID):
                         'Ticket "%s" updated successfully!' % ticketID,
                     )
                     return redirect("showTicket")
+                else:
+                    messages.add_message(
+                        request, messages.ERROR, "Please fill all the fields!"
+                    )
+                    return redirect("updateTicket", ticketID=ticketID)
             except Exception as e:
-                print("my fault is : " ,e)
                 messages.add_message(
                     request, messages.ERROR, "Error in updating ticket!"
                 )
                 return redirect("updateTicket", ticketID=ticketID)
 
         events = []
-        dict = {"Status": "","FaultFoundCode":"","ResolutionCode":"","ResolutionRemark":"","HW Dispatched":"","OnlineResolvable":""}
-        resolutionMap = { 1: "Yes", 0: "N", None: "Unknown"}
+        dict = {
+            "Status": "",
+            "FaultFoundCode": "",
+            "ResolutionCode": "",
+            "ResolutionRemark": "",
+            "HW Dispatched": "",
+            "OnlineResolvable": "",
+        }
+        resolutionMap = {1: "Yes", 0: "N", None: "Unknown"}
         for history in reversed(all_history):
-            if(history.history_type == '+'):
-                events.append({"type":"Created","time": history.history_date,"user": history.history_user })
-                
+            if history.history_type == "+":
+                events.append(
+                    {
+                        "type": "Created",
+                        "time": history.history_date,
+                        "user": history.history_user,
+                    }
+                )
+
             else:
-                event ={"type":"Updated","time": history.history_date,"user": history.history_user}
-                updates ={}
-                if(history.Status != dict["Status"]):
+                event = {
+                    "type": "Updated",
+                    "time": history.history_date,
+                    "user": history.history_user,
+                }
+                updates = {}
+                if history.Status != dict["Status"]:
                     updates["Status"] = history.Status
-                if(history.ResolutionCode != dict["ResolutionCode"]):
+                if history.ResolutionCode != dict["ResolutionCode"]:
                     updates["ResolutionCode"] = history.ResolutionCode
-                if(history.FaultFoundCode != dict["FaultFoundCode"]):
+                if history.FaultFoundCode != dict["FaultFoundCode"]:
                     updates["FaultFoundCode"] = history.FaultFoundCode
-                if(history.ResolutionRemarks != dict["ResolutionRemark"]):
+                if history.ResolutionRemarks != dict["ResolutionRemark"]:
                     updates["ResolutionRemark"] = history.ResolutionRemarks
-                if(history.HWDispatched != dict["HW Dispatched"]):
+                if history.HWDispatched != dict["HW Dispatched"]:
                     updates["HW Dispatched"] = history.HWDispatched
-                if(history.OnlineResolvable != dict["OnlineResolvable"]):
-                    if(history.OnlineResolvable==True):
+                if history.OnlineResolvable != dict["OnlineResolvable"]:
+                    if history.OnlineResolvable == True:
                         updates["OnlineResolvable"] = "Yes"
-                    if(history.OnlineResolvable==False):
+                    if history.OnlineResolvable == False:
                         updates["OnlineResolvable"] = "No"
-                    if(history.OnlineResolvable==None):
+                    if history.OnlineResolvable == None:
                         updates["OnlineResolvable"] = "Unknown"
                     #  resolutionMap[history.OnlineResolvable]
-                if(len(updates)!=0):
-
-                    event["updates"]=updates
+                if len(updates) != 0:
+                    event["updates"] = updates
                     events.append(event)
             dict["Status"] = history.Status
             dict["ResolutionCode"] = history.ResolutionCode
@@ -284,9 +321,7 @@ def updateTicket(request, ticketID):
             dict["ResolutionRemark"] = history.ResolutionRemarks
             dict["HW Dispatched"] = history.HWDispatched
             dict["OnlineResolvable"] = history.OnlineResolvable
-        context = {"form": form , "events" : events}
-        print("here")
-        # print(context["events"][-1]["updates"])
+        context = {"form": form, "events": events}
         return render(request, "crm/update.html", context)
     else:
         raise PermissionDenied
@@ -313,10 +348,6 @@ def ticketLog(request, ticketID):
         ticket = Ticket.objects.get(TicketID=ticketID)
 
         all_history = list(ticket.history.all())
-        for h in all_history:
-            print(type(h.SubCategory))
-                
-                
         context = {"ticket": ticket, "type": "History", "all_history": all_history}
         return render(request, "crm/show.html", context)
 
