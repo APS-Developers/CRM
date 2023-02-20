@@ -14,134 +14,279 @@ Update
 
 {% block content %}
 
-<div id="aps_crm">
-    <div class="crm_header">
-        <h4 class="crm_title">Update Ticket</h4>
-        <h6 class="crm_subtitle">Enter the details to be updated</h6>
-    </div>
-    <div class="crm_form">
-        <form action="" method="post">
-            {% csrf_token %}
-            
-            {% ifequal form.Status.value "Resolved" %}
-            <fieldset>
-                <label for="">Status</label>
-                <select name="Status" id="">
-                    <option value="Resolved" selected="">Resolved</option>
-                    <option value="Open">Reopen</option>
-                  </select>
-            </fieldset>
-            <fieldset class="disabled-section">
+<div id="aps_crm" class="justify-content-center d-flex">
+   
+    <div class="container m-0" >
+        <div class="row">
+
+            <div class="crm_header">
+                <h4 class="crm_title">Update Ticket</h4>
+                <h6 class="crm_subtitle">Enter the details to be updated</h6>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <div class="crm_form">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <div class="container">
+
+                            <div class="row">
+                                <div class="col-6">
+                                    
+
+                                    {% ifequal form.Status.value "Resolved" %}
+                                        <fieldset>
+                                            <label for="">Status</label>
+                                            <select name="Status" id="">
+                                                <option value="Resolved">Resolved</option>
+                                                <option value="Open">Reopen</option>
+                                              </select>
+                                        </fieldset>
+                                    {% else %}
+                                    <fieldset>
+                                        <label for="">Status</label>
+                                        {{ form.Status }}
+                                    </fieldset>
+                                    {% endifequal %}
+                                </div>
+                                <div class="col-6">
+                                    <fieldset>
+                                        <label for="">Ticket ID</label>
+                                        {{ form.TicketID }}
+                                    </fieldset>
+                                </div>
+                            </div>
+                            {% ifequal form.Status.value "Resolved" %}
+                            <fieldset class="disabled-section">
+                            {% else %}
+                            <fieldset>
+                            {% endifequal %}
+                            <div class="row">
+                                <div class="col-6">
+                                    <fieldset>
+                                        <label for="">Date Created</label>
+                                        {{ form.DateCreated }}
+                                    </fieldset>
+                                </div>
+                                <div class="col-6">
+                                    
+                                    <fieldset>
+                                        <label for="">Resolution Date</label>
+                                        {{ form.ResolutionDate }}
+                                    </fieldset>
+                                </div>
+                            </div>
+                        {% comment %} </div> {% endcomment %}
+                       
+                        {% comment %} <div class="container"> {% endcomment %}
+                            <div class="row">
+                                <div class="col-6">
+                                    <fieldset>
+                                        <label for="">Priority</label>
+                                        {{ form.Priority }}
+                                    </fieldset>
+                                    
+                                </div>
+                                <div class="col-6">
+                                    <fieldset>
+                                        <label for="">Serial Number</label>
+                                        {{ form.SerialNo }}
+                                    </fieldset>
+                                </div>
+                            </div>
+                        {% comment %} </div> {% endcomment %}
+                       
+                        {% comment %} <div class="container"> {% endcomment %}
+                            <div class="row">
+                                <div class="col-6">
+                                    <fieldset>
+                                        <label for="">Category</label>
+                                        {{ form.Category }}
+                                    </fieldset>
+                                </div>
+                                <div class="col-6">
+                                    <fieldset>
+                                        <label for="">Sub Category</label>
+                                        {{ form.SubCategory }}
+                                    </fieldset>
+                                </div>
+                            </div>
+                        {% comment %} </div> {% endcomment %}
+                            <div class="row">
+                                <div class="col-12">
+                                    <fieldset>
+                                        <label for="">Summary</label>
+                                        {{ form.Summary }}
+                                    </fieldset>
+                                </div>
+                            </div>
+                        
+                        {% comment %} <div class="container"> {% endcomment %}
+                            <div class="row">
+                                <div class="col-6">
+                                    <fieldset>
+                                        <label for="">Fault Found Code</label>
+                                        {{ form.FaultFoundCode }}
+                                    </fieldset>
+                                   
+                                </div>
+                                <div class="col-6">
+                                    <fieldset>
+                                        <label for="">Online Resolvable</label>
+                                        {{ form.OnlineResolvable }}
+                                    </fieldset>
+                                </div>
+                            </div>
+                        {% comment %} </div> {% endcomment %}
+                            <div class="row">
+                                <div class="col-12">
+                                    <fieldset>
+                                            <label for="">Resolution Code</label>
+                                            {{ form.ResolutionCode }}
+                                        </fieldset>
+                                </div>
+                            </div>
                 
-                {% else %}
-                <fieldset>
-                    <label for="">Status</label>
-                    {{ form.Status }}
-                </fieldset>
-                <fieldset>
-            {% endifequal %}
-                    <fieldset>
-                        <label for="">Ticket ID</label>
-                        {{ form.TicketID }}
-                    </fieldset>
+                            <div class="row">
+                                <div class="col-12">
+                                    <fieldset>
+                                        <label for="">Resolution Remarks</label>
+                                        {{ form.ResolutionRemarks }}
+                                    </fieldset>
 
-                    <fieldset>
-                        <label for="">Date Created</label>
-                        {{ form.DateCreated }}
-                    </fieldset>
+                                </div>
+                            </div>
+                
+                        
 
-                    <fieldset>
-                        <label for="">Resolution Date</label>
-                        {{ form.ResolutionDate }}
-                    </fieldset>
+                        
+                        {% comment %} <div class="container"> {% endcomment %}
+                            <div class="row">
+                                <div class="col-6">
+                                    
+                                    <fieldset>
+                                        <label for="">HW Dispatched S.No</label>
+                                        {{ form.HWDispatchedSerial }}
+                                        {{ form.HWDispatched }}
+                                    </fieldset>
+                                </div>
+                                <div class="col-6">
+                                    
+                                    <fieldset>
+                                        <label for="">Docket Number</label>
+                                        {{ form.DocketNumber }}
+                                    </fieldset>
+            
+                                </div>
+                            </div>
+                        {% comment %} </div> {% endcomment %}
+                        {% comment %} <div class="container"> {% endcomment %}
+                            <div class="row">
+                                <div class="col-6">
+                                                                
+            
+                                    <fieldset>
+                                        <label for="">Dispatched through</label>
+                                        {{ form.DispatchedThrough }}
+                                    </fieldset>
+                                </div>
+                                <div class="col-6">
+                                    <fieldset>
+                                        <label for="">Delivery Status</label>
+                                        {{ form.DeliveryStatus }}
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </fieldset>
+                            <div class="row">
+                                <div class="col-12">
+                                    <fieldset>
+                                        <label for="">Notes</label>
+                                        {{ form.Notes }}
+                                    </fieldset>
+                                </div>
+                            </div>
+                        
+                            <div class="row">
+                                <div class="col-12 ">
+                                    <!-- To align button to center -->
+                                    <!-- <fieldset class="d-inline justify-content-center d-flex">  -->
+                                    <fieldset >
+                                        <button type="submit">Submit</button>
+                                    </fieldset>
+                                </div>
+                            </div>
+                    
+                       
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            <div class="col-4 h-100" >
+                <div class="container">
+                    <div style="max-height:1200px" class="overflow-scroll">
+
+                    {% for event in events reversed %}
+
+                        <div class="container mt-4">
+
+                        
+
+                        {%ifequal event.type "Updated" %}
 
 
-                    <fieldset>
-                        <label for="">Serial Number</label>
-                        {{ form.SerialNo }}
-                    </fieldset>
+                        <div class="card">
+                            <h5 class="card-header"><span class="fw-bold text-primary">{{event.user}}</span>&nbsp Updated following</h5>
+                            <div class="card-body">
+                                {%for key,value in event.updates.items %}
+                                
+                                <span class ="fw-bold">{{key}}</span> to 
+                                '{{value}}'
+                                <br>
+                                {%endfor%}
+                            </div>
+                            <div class="card-footer">
+                               
+                                <h6 class=" fst-italic">on {{event.time}}</h6>
+                            </div>          
+                        </div>
 
-                    <!-- <fieldset>
-                <label for="">Model Number</label>
-                {{ form.ModelNo }}
-            </fieldset> -->
-
-                    <fieldset>
-                        <label for="">Category</label>
-                        {{ form.Category }}
-                    </fieldset>
-
-                    <fieldset>
-                        <label for="">Sub Category</label>
-                        {{ form.SubCategory }}
-                    </fieldset>
-
-                    <fieldset>
-                        <label for="">Priority</label>
-                        {{ form.Priority }}
-                    </fieldset>
-
-                    <fieldset>
-                        <label for="">Fault Found Code</label>
-                        {{ form.FaultFoundCode }}
-                    </fieldset>
-
-                    <fieldset>
-                        <label for="">Summary</label>
-                        {{ form.Summary }}
-                    </fieldset>
+                           
+                        
+                            
 
 
 
-                    <fieldset>
-                        <label for="">Resolution Code</label>
-                        {{ form.ResolutionCode }}
-                    </fieldset>
+                        
+                        {%else %}
 
-                    <fieldset>
-                        <label for="">Resolution Remarks</label>
-                        {{ form.ResolutionRemarks }}
-                    </fieldset>
+                         
+                        
+                        <div class="card">
+                            
+                            <div class="card-body">
+                              <h5 class="card-title"><span class="fw-bold text-primary">{{event.user}}</span>&nbsp Created the Ticket</h5>
+                            </div>
+                            <div class="card-footer">
+                               
+                                <h6 class=" fst-italic">on {{event.time}}</h6>
+                            </div>          
+                        </div>
+                        {%endifequal%}
 
-                    <fieldset>
-                        <label for="">Online Resolvable</label>
-                        {{ form.OnlineResolvable }}
-                    </fieldset>
-
-                    <fieldset>
-                        <label for="">Hardware Dispatched Serial Number</label>
-                        {{ form.HWDispatchedSerial }}
-                        {{ form.HWDispatched }}
-                    </fieldset>
-
-
-
-                    <fieldset>
-                        <label for="">Docket Number</label>
-                        {{ form.DocketNumber }}
-                    </fieldset>
-
-                    <fieldset>
-                        <label for="">Dispatched through</label>
-                        {{ form.DispatchedThrough }}
-                    </fieldset>
-
-                    <fieldset>
-                        <label for="">Delivery Status</label>
-                        {{ form.DeliveryStatus }}
-                    </fieldset>
-
-                </fieldset>
-                <fieldset>
-                    <label for="">Notes</label>
-                    {{ form.Notes }}
-                </fieldset>
-                <fieldset>
-                    <button type="submit">Submit</button>
-                </fieldset>
-
-        </form>
+                         
+                    </div>
+                        
+                    {% endfor %}
+                </div>
+                </div>
+                
+            </div>
+        </div>
     </div>
+   
 </div>
 
 
