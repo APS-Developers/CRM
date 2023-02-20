@@ -57,7 +57,7 @@ def upload_file(request):
                                     Serial_Number=row[2],
                                     Item=row[3],
                                     Location=row[4],
-                                    Purchase_Date=None if not row[5] else row[5],
+                                    Purchase_Date=datetime.now() if not row[5] else row[5],
                                     Item_dispatched_Date=None if not row[6] else row[6],
                                     Organisation_id=row[7],
                                     Status=row[8],
@@ -150,6 +150,8 @@ def updateInventory(request, pk):
         if request.method == "POST":
             form = Form(request.POST or None, request.FILES or None, instance=inventory)
             if form.is_valid():
+                if "CLI_snapshot" in form.changed_data:
+                    inventory.Snapshot_Date = datetime.now()
                 form.save()
                 serialNo = form.cleaned_data.get("Serial_Number")
                 messages.add_message(
