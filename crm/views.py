@@ -133,6 +133,7 @@ def createTicket(request):
         form = FaultForm()
         if request.method == "POST":
             form = FaultForm(request.POST)
+            print(form.errors)
             if form.is_valid():
                 try:
                     newTicket = form.save(commit=False)
@@ -268,6 +269,7 @@ def updateTicket(request, ticketID):
                 return redirect("updateTicket", ticketID=ticketID)
 
         events = []
+
         dict = {
             "Status": "",
             "FaultFoundCode": "",
@@ -275,8 +277,10 @@ def updateTicket(request, ticketID):
             "ResolutionRemark": "",
             "HW Dispatched": "",
             "OnlineResolvable": "",
+            "Notes":""
         }
         resolutionMap = {1: "Yes", 0: "N", None: "Unknown"}
+
         for history in reversed(all_history):
             if history.history_type == "+":
                 events.append(
@@ -304,6 +308,10 @@ def updateTicket(request, ticketID):
                     updates["ResolutionRemark"] = history.ResolutionRemarks
                 if history.HWDispatched != dict["HW Dispatched"]:
                     updates["HW Dispatched"] = history.HWDispatched
+
+                if(history.Notes != dict["Notes"]):
+                    updates["Notes"] = history.Notes
+               
                 if history.OnlineResolvable != dict["OnlineResolvable"]:
                     if history.OnlineResolvable == True:
                         updates["OnlineResolvable"] = "Yes"
@@ -321,7 +329,8 @@ def updateTicket(request, ticketID):
             dict["ResolutionRemark"] = history.ResolutionRemarks
             dict["HW Dispatched"] = history.HWDispatched
             dict["OnlineResolvable"] = history.OnlineResolvable
-        context = {"form": form, "events": events}
+            dict["Notes"]=history.Notes
+        context = {"form": form , "events" : events}
         return render(request, "crm/update.html", context)
     else:
         raise PermissionDenied

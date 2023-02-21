@@ -51,6 +51,8 @@ Update
                                     {% endifequal %}
                                 </div>
                                 <div class="col-6">
+
+                   <!--
                                     <fieldset>
                                         <label for="">Ticket ID</label>
                                         {{ form.TicketID }}
@@ -64,19 +66,16 @@ Update
                             {% endifequal %}
                             <div class="row">
                                 <div class="col-6">
+                    -->
+
                                     <fieldset>
                                         <label for="">Date Created</label>
                                         {{ form.DateCreated }}
                                     </fieldset>
-                                </div>
-                                <div class="col-6">
-                                    
-                                    <fieldset>
-                                        <label for="">Resolution Date</label>
-                                        {{ form.ResolutionDate }}
-                                    </fieldset>
+                                   
                                 </div>
                             </div>
+                            
                         {% comment %} </div> {% endcomment %}
                        
                         {% comment %} <div class="container"> {% endcomment %}
@@ -113,6 +112,12 @@ Update
                                 </div>
                             </div>
                         {% comment %} </div> {% endcomment %}
+                       
+                        <!-- <fieldset>
+                            <label for="">Model Number</label>
+                            {{ form.ModelNo }}
+                        </fieldset> -->
+            
                             <div class="row">
                                 <div class="col-12">
                                     <fieldset>
@@ -123,6 +128,22 @@ Update
                             </div>
                         
                         {% comment %} <div class="container"> {% endcomment %}
+                            <div class="row">
+                                <div class="col-6">
+                                    <fieldset>
+                                        <label for="">Status</label>
+                                        {{ form.Status }}
+                                    </fieldset>
+                                    
+                                </div>
+                                <div class="col-6">
+                                    
+                                    <fieldset>
+                                        <label for="">Resolution Date</label>
+                                        {{ form.ResolutionDate }}
+                                    </fieldset>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-6">
                                     <fieldset>
@@ -140,12 +161,21 @@ Update
                             </div>
                         {% comment %} </div> {% endcomment %}
                             <div class="row">
-                                <div class="col-12">
+                                <div class="col-6">
                                     <fieldset>
-                                            <label for="">Resolution Code</label>
-                                            {{ form.ResolutionCode }}
-                                        </fieldset>
+                                        <label for="">Resolution Code</label>
+                                        {{ form.ResolutionCode }}
+                                    </fieldset>
                                 </div>
+                                <div class="col-6">
+                                    <fieldset>
+                                        <label for="">HW Dispatched S.No</label>
+                                        {{ form.HWDispatchedSerial }}
+                                        {{ form.HWDispatched }}
+                                    </fieldset>
+                                    
+                                </div>
+
                             </div>
                 
                             <div class="row">
@@ -157,35 +187,24 @@ Update
 
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-12 ">
+                                    <fieldset>
+                                        <label for="">Notes</label>
+                                        {{ form.Notes }}
+                                    </fieldset>
+                                </div>
+                            </div>
                 
                         
 
                         
                         {% comment %} <div class="container"> {% endcomment %}
-                            <div class="row">
-                                <div class="col-6">
-                                    
-                                    <fieldset>
-                                        <label for="">HW Dispatched S.No</label>
-                                        {{ form.HWDispatchedSerial }}
-                                        {{ form.HWDispatched }}
-                                    </fieldset>
-                                </div>
-                                <div class="col-6">
-                                    
-                                    <fieldset>
-                                        <label for="">Docket Number</label>
-                                        {{ form.DocketNumber }}
-                                    </fieldset>
-            
-                                </div>
-                            </div>
+                          
                         {% comment %} </div> {% endcomment %}
                         {% comment %} <div class="container"> {% endcomment %}
                             <div class="row">
-                                <div class="col-6">
-                                                                
-            
+                                <div class="col-6">                                                         
                                     <fieldset>
                                         <label for="">Dispatched through</label>
                                         {{ form.DispatchedThrough }}
@@ -198,6 +217,30 @@ Update
                                     </fieldset>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <fieldset>
+                                        <label for="">Docket Number</label>
+                                        {{ form.DocketNumber }}
+                                    </fieldset>
+                                </div>
+                                <div class="col-6">           
+                                    <fieldset>
+                                        <label for="">Closure Date</label>
+                                        {{ form.ClosureDate}}
+                                    </fieldset>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-12 ">
+                                    <fieldset>
+                                        <label for="">Closure Remarks</label>
+                                        {{ form.ClosureRemarks }}
+                                    </fieldset>
+                                </div>
+                            </div>
+            <!--
                         </fieldset>
                             <div class="row">
                                 <div class="col-12">
@@ -207,6 +250,7 @@ Update
                                     </fieldset>
                                 </div>
                             </div>
+                      -->
                         
                             <div class="row">
                                 <div class="col-12 ">

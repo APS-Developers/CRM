@@ -114,7 +114,7 @@ class FaultForm(ModelForm):
         choices=priorityChoices, widget=forms.Select(attrs={"id": ""}), label=""
     )
 
-    FaultFoundCode = forms.CharField(widget=forms.TextInput(attrs={"id": ""}), label="")
+    # FaultFoundCode = forms.CharField(widget=forms.TextInput(attrs={"id": ""}), label="")
 
     Summary = forms.CharField(
         widget=forms.Textarea(
@@ -130,7 +130,6 @@ class FaultForm(ModelForm):
             "Category",
             "SubCategory",
             "Priority",
-            "FaultFoundCode",
             "Summary",
         ]
 
@@ -186,7 +185,7 @@ class UpdateForm(ModelForm):
     )
 
     FaultFoundCode = forms.CharField(
-        widget=forms.TextInput(attrs={"readonly": "readonly", "id": ""}), label=""
+        widget=forms.TextInput(attrs={"id": ""}), label=""
     )
 
     # FaultFoundCode = forms.ChoiceField(
@@ -275,6 +274,26 @@ class UpdateForm(ModelForm):
         label="",
     )
 
+    Notes = forms.CharField(
+        required=False,
+        widget=forms.Textarea(
+            attrs={"id": "", "type": "text", "cols": "30", "rows": "2"}
+        ),
+        label="",
+    )
+    ClosureDate = forms.DateField( 
+        required=False,
+        widget=forms.TextInput(attrs={"id": "", "type": "date"}),
+        label="",
+    )
+    ClosureRemarks = forms.CharField(
+        required=False,
+        widget=forms.Textarea(
+            attrs={"id": "", "type": "text", "cols": "30", "rows": "2"}
+        ),
+        label="",
+    )
+
     class Meta:
         model = Ticket
         fields = [
@@ -295,4 +314,7 @@ class UpdateForm(ModelForm):
             "DocketNumber",
             "DispatchedThrough",
             "DeliveryStatus",
+            "Notes",
+            "ClosureDate",
+            "ClosureRemarks"
         ]
