@@ -34,44 +34,31 @@ Update
                             <div class="row">
                                 <div class="col-6">
                                     
-
-                                    {% ifequal form.Status.value "Resolved" %}
-                                        <fieldset>
-                                            <label for="">Status</label>
-                                            <select name="Status" id="">
-                                                <option value="Resolved">Resolved</option>
-                                                <option value="Open">Reopen</option>
-                                              </select>
-                                        </fieldset>
-                                    {% else %}
-                                    <fieldset>
-                                        <label for="">Status</label>
-                                        {{ form.Status }}
-                                    </fieldset>
-                                    {% endifequal %}
-                                </div>
-                                <div class="col-6">
-
-                   <!--
                                     <fieldset>
                                         <label for="">Ticket ID</label>
                                         {{ form.TicketID }}
                                     </fieldset>
+                                    
                                 </div>
-                            </div>
-                            {% ifequal form.Status.value "Resolved" %}
-                            <fieldset class="disabled-section">
-                            {% else %}
-                            <fieldset>
-                            {% endifequal %}
-                            <div class="row">
                                 <div class="col-6">
-                    -->
-
                                     <fieldset>
                                         <label for="">Date Created</label>
                                         {{ form.DateCreated }}
                                     </fieldset>
+                   
+                                    
+                                </div>
+                            </div>
+                            {% comment %} {% ifequal form.Status.value "Resolved" %}
+                            <fieldset class="disabled-section">
+                            {% else %}
+                            <fieldset>
+                            {% endifequal %} {% endcomment %}
+                            <div class="row">
+                                <div class="col-6">
+                    
+
+                                   
                                    
                                 </div>
                             </div>
@@ -130,10 +117,20 @@ Update
                         {% comment %} <div class="container"> {% endcomment %}
                             <div class="row">
                                 <div class="col-6">
+                                    {% ifequal form.Status.value "Resolved" %}
+                                        <fieldset>
+                                            <label for="">Status</label>
+                                            <select name="Status" id="">
+                                                <option value="Resolved">Resolved</option>
+                                                <option value="Open">Reopen</option>
+                                              </select>
+                                        </fieldset>
+                                    {% else %}
                                     <fieldset>
                                         <label for="">Status</label>
                                         {{ form.Status }}
                                     </fieldset>
+                                    {% endifequal %}
                                     
                                 </div>
                                 <div class="col-6">
