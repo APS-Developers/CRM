@@ -9,9 +9,9 @@ StatusChoice = [
     ("Not Working", "Not Working"),
 ]
 
+
 # creating a form
 class Form(forms.ModelForm):
-
     Make = forms.CharField(
         widget=forms.TextInput(attrs={"id": "", "type": "text"}), label=""
     )
@@ -69,7 +69,7 @@ class Form(forms.ModelForm):
     )
     Snapshot_Date = forms.DateField(
         required=False,
-        widget=forms.TextInput(attrs={"id": "", "type": "date"}),
+        widget=forms.TextInput(attrs={"readonly":"readonly","id": "", "type": "date"}),
         label="",
     )
 

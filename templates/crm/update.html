@@ -33,12 +33,41 @@ Update
 
                             <div class="row">
                                 <div class="col-6">
+                                    
+
+                                    {% ifequal form.Status.value "Resolved" %}
+                                        <fieldset>
+                                            <label for="">Status</label>
+                                            <select name="Status" id="">
+                                                <option value="Resolved">Resolved</option>
+                                                <option value="Open">Reopen</option>
+                                              </select>
+                                        </fieldset>
+                                    {% else %}
+                                    <fieldset>
+                                        <label for="">Status</label>
+                                        {{ form.Status }}
+                                    </fieldset>
+                                    {% endifequal %}
+                                </div>
+                                <div class="col-6">
+
+                   <!--
                                     <fieldset>
                                         <label for="">Ticket ID</label>
                                         {{ form.TicketID }}
                                     </fieldset>
                                 </div>
+                            </div>
+                            {% ifequal form.Status.value "Resolved" %}
+                            <fieldset class="disabled-section">
+                            {% else %}
+                            <fieldset>
+                            {% endifequal %}
+                            <div class="row">
                                 <div class="col-6">
+                    -->
+
                                     <fieldset>
                                         <label for="">Date Created</label>
                                         {{ form.DateCreated }}
@@ -211,7 +240,18 @@ Update
                                     </fieldset>
                                 </div>
                             </div>
-                           
+            <!--
+                        </fieldset>
+                            <div class="row">
+                                <div class="col-12">
+                                    <fieldset>
+                                        <label for="">Notes</label>
+                                        {{ form.Notes }}
+                                    </fieldset>
+                                </div>
+                            </div>
+                      -->
+                        
                             <div class="row">
                                 <div class="col-12 ">
                                     <!-- To align button to center -->
@@ -250,9 +290,6 @@ Update
                                 '{{value}}'
                                 <br>
                                 {%endfor%}
-                              <!-- <h5 class="card-title"></h5>
-                              <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                              <a href="#" class="btn btn-primary">Go somewhere</a> -->
                             </div>
                             <div class="card-footer">
                                
@@ -299,10 +336,10 @@ Update
 
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous">
-    </script>
-    <script src="/static/assets/js/crmFormScript.js"></script>
-    <script src="/static/assets/js/crmUpdateScript.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous">
+</script>
+<script src="/static/assets/js/crmFormScript.js"></script>
+<script src="/static/assets/js/crmUpdateScript.js"></script>
 
 {% endblock %}

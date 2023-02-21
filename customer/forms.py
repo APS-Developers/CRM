@@ -5,7 +5,6 @@ from phonenumber_field.formfields import PhoneNumberField
 
 
 class CreateCustomerForm(ModelForm):
-
     Name = forms.CharField(
         widget=forms.TextInput(
             attrs={
@@ -61,7 +60,6 @@ class CreateCustomerForm(ModelForm):
 
 
 class CreateOrganisationForm(ModelForm):
-
     Name = forms.CharField(
         widget=forms.TextInput(
             attrs={

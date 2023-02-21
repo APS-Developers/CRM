@@ -6,6 +6,7 @@ import csv
 from crm.models import Ticket
 from crm.filters import TicketFilterReport
 
+
 # Create your views here.
 def dashboard(request):
     return render(request, "reports/reports_dashboard.html")

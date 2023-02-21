@@ -53,7 +53,6 @@ deliveryStatus = [
 
 
 class CustomerForm(ModelForm):
-
     Name = forms.CharField(
         widget=forms.TextInput(attrs={"id": "", "type": "text"}), label=""
     )
@@ -97,7 +96,6 @@ class ProductForm(ModelForm):
 
 
 class FaultForm(ModelForm):
-
     SerialNo = forms.ModelChoiceField(
         queryset=Inventory.objects.filter(~Q(Organisation=None)),
         widget=forms.Select(attrs={"id": "", "type": "text"}),
@@ -137,7 +135,6 @@ class FaultForm(ModelForm):
 
 
 class UpdateForm(ModelForm):
-
     TicketID = forms.CharField(
         widget=forms.TextInput(attrs={"readonly": "readonly"}), label=""
     )
@@ -236,6 +233,14 @@ class UpdateForm(ModelForm):
     )
 
     Summary = forms.CharField(
+        required=False,
+        widget=forms.Textarea(
+            attrs={"readonly": "readonly","id": "", "type": "text", "cols": "30", "rows": "5"}
+        ),
+        label="",
+    )
+
+    Notes = forms.CharField(
         required=False,
         widget=forms.Textarea(
             attrs={"id": "", "type": "text", "cols": "30", "rows": "5"}
