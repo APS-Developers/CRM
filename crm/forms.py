@@ -17,6 +17,23 @@ statusChoices = [
     ("Closed", "Closed"),
 ]
 
+faultFoundChoices = [
+    ("", "---------"),
+    ("Power Issue", "Power Issue"),
+    ("External Card Faulty", "External Card Faulty"),
+    ("Router DRM Issue", "Router DRM Issue"),
+    ("Port Faulty", "Port Faulty"),
+    ("FAN not working", "FAN not working"),
+    ("Power Supply Faulty", "Power Supply Faulty"),
+    ("Not Booting", "Not Booting"),
+    ("Unable to take Console", "Unable to take Console"),
+    ("Line Card Faulty", "Line Card Faulty"),
+    ("SUP Card Faulty", "SUP Card Faulty"),
+    ("Physical Damage", "Physical Damage"),
+    ("Others", "Others"),
+    ("Hardware not in AMC", "Hardware not in AMC"),
+]
+
 resolutionChoices = [
     ("", "---------"),
     ("Power Issue Resolved with Hard Reset", "Power Issue Resolved with Hard Reset"),
@@ -184,13 +201,16 @@ class UpdateForm(ModelForm):
         widget=forms.TextInput(attrs={"readonly": "readonly", "id": ""}), label=""
     )
 
-    FaultFoundCode = forms.CharField(
-        widget=forms.TextInput(attrs={"id": ""}), label=""
-    )
-
-    # FaultFoundCode = forms.ChoiceField(
-    #     choices=faultChoices, widget=forms.Select(attrs={"id": ""}), label=""
+    # FaultFoundCode = forms.CharField(
+    #     widget=forms.TextInput(attrs={"id": ""}), label=""
     # )
+
+    FaultFoundCode = forms.ChoiceField(
+        required=False,
+        choices=faultFoundChoices, 
+        widget=forms.Select(attrs={"id": ""}), 
+        label=""
+    )
 
     ResolutionCode = forms.ChoiceField(
         required=False,

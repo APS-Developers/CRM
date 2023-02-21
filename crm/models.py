@@ -26,6 +26,22 @@ class Ticket(models.Model):
         ("Resolved", "Resolved"),
         ("Closed", "Closed"),
     ]
+    faultFoundChoices = [
+        ("", "---------"),
+        ("Power Issue", "Power Issue"),
+        ("External Card Faulty", "External Card Faulty"),
+        ("Router DRM Issue", "Router DRM Issue"),
+        ("Port Faulty", "Port Faulty"),
+        ("FAN not working", "FAN not working"),
+        ("Power Supply Faulty", "Power Supply Faulty"),
+        ("Not Booting", "Not Booting"),
+        ("Unable to take Console", "Unable to take Console"),
+        ("Line Card Faulty", "Line Card Faulty"),
+        ("SUP Card Faulty", "SUP Card Faulty"),
+        ("Physical Damage", "Physical Damage"),
+        ("Others", "Others"),
+        ("Hardware not in AMC", "Hardware not in AMC"),
+    ]
     resolutionChoices = [
         ("", "---------"),
         (
@@ -74,7 +90,7 @@ class Ticket(models.Model):
     Summary = models.TextField(max_length=500, blank=True)
     Priority = models.CharField(max_length=2, choices=priorityChoices, blank=True)
     Status = models.CharField(choices=statusChoices, max_length=10, blank=True)
-    FaultFoundCode = models.CharField("Fault Found Code", max_length=100, blank=True)
+    FaultFoundCode = models.CharField("Fault Found Code", choices=faultFoundChoices, max_length=100, blank=True)
     ResolutionCode = models.CharField(
         "Resolution Code", choices=resolutionChoices, max_length=100, blank=True
     )
