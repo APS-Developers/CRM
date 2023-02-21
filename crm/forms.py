@@ -164,17 +164,17 @@ class UpdateForm(ModelForm):
         choices=statusChoices, widget=forms.Select(attrs={"id": ""}), label=""
     )
 
-    # SerialNo = forms.CharField(
-    #     widget=forms.TextInput(
-    #         attrs={"readonly": "readonly", "id": "", "type": "text"}
-    #     ),
-    #     label="",
-    # )
-    SerialNo = forms.ModelChoiceField(
-        queryset=Inventory.objects.filter(~Q(Organisation=None)),
-        widget=forms.Select(attrs={"readonly": "readonly", "id": "", "type": "text"}),
+    SerialNo = forms.CharField(
+        widget=forms.TextInput(
+            attrs={"readonly": "readonly", "id": "", "type": "text"}
+        ),
         label="",
     )
+    # SerialNo = forms.ModelChoiceField(
+    #     queryset=Inventory.objects.filter(~Q(Organisation=None)),
+    #     widget=forms.Select(attrs={"readonly": "readonly", "id": "", "type": "text"}),
+    #     label="",
+    # )
 
     # ModelNo = forms.CharField(
     #     widget=forms.TextInput(attrs={"id": "", "type": "text"}), label=""
