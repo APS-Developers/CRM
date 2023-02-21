@@ -172,7 +172,9 @@ class UpdateForm(ModelForm):
     # )
     SerialNo = forms.ModelChoiceField(
         queryset=Inventory.objects.filter(~Q(Organisation=None)),
-        widget=forms.TextInput(attrs={"readonly": "readonly", "id": "", "type": "text"}),
+        widget=forms.TextInput(
+            attrs={"readonly": "readonly", "id": "", "type": "text"}
+        ),
         label="",
     )
 
@@ -207,9 +209,9 @@ class UpdateForm(ModelForm):
 
     FaultFoundCode = forms.ChoiceField(
         required=False,
-        choices=faultFoundChoices, 
-        widget=forms.Select(attrs={"id": ""}), 
-        label=""
+        choices=faultFoundChoices,
+        widget=forms.Select(attrs={"id": ""}),
+        label="",
     )
 
     ResolutionCode = forms.ChoiceField(
@@ -255,7 +257,13 @@ class UpdateForm(ModelForm):
     Summary = forms.CharField(
         required=False,
         widget=forms.Textarea(
-            attrs={"readonly": "readonly","id": "", "type": "text", "cols": "30", "rows": "5"}
+            attrs={
+                "readonly": "readonly",
+                "id": "",
+                "type": "text",
+                "cols": "30",
+                "rows": "5",
+            }
         ),
         label="",
     )
@@ -301,7 +309,7 @@ class UpdateForm(ModelForm):
         ),
         label="",
     )
-    ClosureDate = forms.DateField( 
+    ClosureDate = forms.DateField(
         required=False,
         widget=forms.TextInput(attrs={"id": "", "type": "date"}),
         label="",
@@ -336,5 +344,5 @@ class UpdateForm(ModelForm):
             "DeliveryStatus",
             "Notes",
             "ClosureDate",
-            "ClosureRemarks"
+            "ClosureRemarks",
         ]

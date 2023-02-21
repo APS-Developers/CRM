@@ -6,18 +6,58 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('crm', '0008_auto_20230217_0452'),
+        ("crm", "0008_auto_20230217_0452"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='historicalticket',
-            name='FaultFoundCode',
-            field=models.CharField(blank=True, choices=[('', '---------'), ('Power Issue', 'Power Issue'), ('External Card Faulty', 'External Card Faulty'), ('Router DRM Issue', 'Router DRM Issue'), ('Port Faulty', 'Port Faulty'), ('FAN not working', 'FAN not working'), ('Power Supply Faulty', 'Power Supply Faulty'), ('Not Booting', 'Not Booting'), ('Unable to take Console', 'Unable to take Console'), ('Line Card Faulty', 'Line Card Faulty'), ('SUP Card Faulty', 'SUP Card Faulty'), ('Physical Damage', 'Physical Damage'), ('Others', 'Others'), ('Hardware not in AMC', 'Hardware not in AMC')], max_length=100, verbose_name='Fault Found Code'),
+            model_name="historicalticket",
+            name="FaultFoundCode",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ("", "---------"),
+                    ("Power Issue", "Power Issue"),
+                    ("External Card Faulty", "External Card Faulty"),
+                    ("Router DRM Issue", "Router DRM Issue"),
+                    ("Port Faulty", "Port Faulty"),
+                    ("FAN not working", "FAN not working"),
+                    ("Power Supply Faulty", "Power Supply Faulty"),
+                    ("Not Booting", "Not Booting"),
+                    ("Unable to take Console", "Unable to take Console"),
+                    ("Line Card Faulty", "Line Card Faulty"),
+                    ("SUP Card Faulty", "SUP Card Faulty"),
+                    ("Physical Damage", "Physical Damage"),
+                    ("Others", "Others"),
+                    ("Hardware not in AMC", "Hardware not in AMC"),
+                ],
+                max_length=100,
+                verbose_name="Fault Found Code",
+            ),
         ),
         migrations.AlterField(
-            model_name='ticket',
-            name='FaultFoundCode',
-            field=models.CharField(blank=True, choices=[('', '---------'), ('Power Issue', 'Power Issue'), ('External Card Faulty', 'External Card Faulty'), ('Router DRM Issue', 'Router DRM Issue'), ('Port Faulty', 'Port Faulty'), ('FAN not working', 'FAN not working'), ('Power Supply Faulty', 'Power Supply Faulty'), ('Not Booting', 'Not Booting'), ('Unable to take Console', 'Unable to take Console'), ('Line Card Faulty', 'Line Card Faulty'), ('SUP Card Faulty', 'SUP Card Faulty'), ('Physical Damage', 'Physical Damage'), ('Others', 'Others'), ('Hardware not in AMC', 'Hardware not in AMC')], max_length=100, verbose_name='Fault Found Code'),
+            model_name="ticket",
+            name="FaultFoundCode",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ("", "---------"),
+                    ("Power Issue", "Power Issue"),
+                    ("External Card Faulty", "External Card Faulty"),
+                    ("Router DRM Issue", "Router DRM Issue"),
+                    ("Port Faulty", "Port Faulty"),
+                    ("FAN not working", "FAN not working"),
+                    ("Power Supply Faulty", "Power Supply Faulty"),
+                    ("Not Booting", "Not Booting"),
+                    ("Unable to take Console", "Unable to take Console"),
+                    ("Line Card Faulty", "Line Card Faulty"),
+                    ("SUP Card Faulty", "SUP Card Faulty"),
+                    ("Physical Damage", "Physical Damage"),
+                    ("Others", "Others"),
+                    ("Hardware not in AMC", "Hardware not in AMC"),
+                ],
+                max_length=100,
+                verbose_name="Fault Found Code",
+            ),
         ),
     ]

@@ -69,7 +69,9 @@ class Form(forms.ModelForm):
     )
     Snapshot_Date = forms.DateField(
         required=False,
-        widget=forms.TextInput(attrs={"readonly":"readonly","id": "", "type": "date"}),
+        widget=forms.TextInput(
+            attrs={"readonly": "readonly", "id": "", "type": "date"}
+        ),
         label="",
     )
 

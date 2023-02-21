@@ -90,7 +90,9 @@ class Ticket(models.Model):
     Summary = models.TextField(max_length=500, blank=True)
     Priority = models.CharField(max_length=2, choices=priorityChoices, blank=True)
     Status = models.CharField(choices=statusChoices, max_length=10, blank=True)
-    FaultFoundCode = models.CharField("Fault Found Code", choices=faultFoundChoices, max_length=100, blank=True)
+    FaultFoundCode = models.CharField(
+        "Fault Found Code", choices=faultFoundChoices, max_length=100, blank=True
+    )
     ResolutionCode = models.CharField(
         "Resolution Code", choices=resolutionChoices, max_length=100, blank=True
     )

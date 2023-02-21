@@ -277,7 +277,7 @@ def updateTicket(request, ticketID):
             "ResolutionRemark": "",
             "HW Dispatched": "",
             "OnlineResolvable": "",
-            "Notes":""
+            "Notes": "",
         }
         resolutionMap = {1: "Yes", 0: "N", None: "Unknown"}
 
@@ -309,9 +309,9 @@ def updateTicket(request, ticketID):
                 if history.HWDispatched != dict["HW Dispatched"]:
                     updates["HW Dispatched"] = history.HWDispatched
 
-                if(history.Notes != dict["Notes"]):
+                if history.Notes != dict["Notes"]:
                     updates["Notes"] = history.Notes
-               
+
                 if history.OnlineResolvable != dict["OnlineResolvable"]:
                     if history.OnlineResolvable == True:
                         updates["OnlineResolvable"] = "Yes"
@@ -329,8 +329,8 @@ def updateTicket(request, ticketID):
             dict["ResolutionRemark"] = history.ResolutionRemarks
             dict["HW Dispatched"] = history.HWDispatched
             dict["OnlineResolvable"] = history.OnlineResolvable
-            dict["Notes"]=history.Notes
-        context = {"form": form , "events" : events}
+            dict["Notes"] = history.Notes
+        context = {"form": form, "events": events}
         return render(request, "crm/update.html", context)
     else:
         raise PermissionDenied
