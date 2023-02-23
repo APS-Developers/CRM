@@ -221,7 +221,7 @@ def updateTicket(request, ticketID):
                         ticket.save()
                         return redirect("showTicket")
                     update = form.save(commit=False)
-                    if request.POST.get("HWDispatchedSerial"):
+                    if "HWDispatched" in form.changed_data:
                         try:
                             HWDispatched = Inventory.objects.get(
                                 Serial_Number=request.POST.get("HWDispatchedSerial"),

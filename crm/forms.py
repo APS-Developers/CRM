@@ -238,7 +238,7 @@ class UpdateForm(ModelForm):
 
     HWDispatched = forms.ModelChoiceField(
         required=False,
-        queryset=Inventory.objects.filter(Organisation=None),
+        queryset=Inventory.objects.all(),
         widget=forms.Select(attrs={"id": "HWDispatched", "class": "d-none"}),
         label="",
     )
