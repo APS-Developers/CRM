@@ -6,7 +6,14 @@ urlpatterns = [
     path(
         "productDetails/<int:customerID>/", views.productDetails, name="productDetails"
     ),
-    path("createTicket/", views.createTicket, name="createTicket"),
+    path(
+        "createTicketValidate/", views.createTicketValidate, name="createTicketValidate"
+    ),
+    path(
+        "createTicket/<str:product_Serial_Number>",
+        views.createTicket,
+        name="createTicket",
+    ),
     path("faultDetails/<int:ticketID>/", views.faultDetails, name="faultDetails"),
     path("updateTicket/<int:ticketID>/", views.updateTicket, name="updateTicket"),
     # path("deleteTicket/<int:ticketID>/", views.deleteTicket, name="deleteTicket"),

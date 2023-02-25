@@ -177,25 +177,6 @@ def updateInventory(request, pk):
         raise PermissionDenied
 
 
-def inventoryDetails(request):
-    try:
-        product = Inventory.objects.get(Serial_Number=request.GET.get("serial"))
-        details = {
-            "Make": product.Make,
-            "PartCode": product.Part_Code,
-            "SNo": product.Serial_Number,
-            "Item": product.Item,
-            "Location": product.Location,
-            "Item_dispatched_Date": product.Item_dispatched_Date,
-            "Organisation": product.Organisation.__str__(),
-            "OrganisationId": product.Organisation.OrgID,
-            "Status": product.Status,
-        }
-        return JsonResponse(details)
-    except Exception as e:
-        return JsonResponse({"error": "No product found"}, status=404)
-
-
 def deleteInventory(request, pk):
     if inventoryPermission(request.user):
         item = Inventory.objects.get(Serial_Number=pk)

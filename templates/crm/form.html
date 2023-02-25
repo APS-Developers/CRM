@@ -23,120 +23,67 @@
         <h4 class="crm_title">Create new ticket</h4>
         <h6 class="crm_subtitle"></h6>
     </div>
-    <div class="crm_serial_search container-fluid"   id="aps_crm_serial_wrapper">
-        <div class="row search_container_wrapper">
-            <div class="col-md-12 search_container">
-                <form action="/inventoryDetails"
-                    id="aps_crm_serial_search" method="GET">
-                    <input type="text" class="form-control" name="serial" placeholder="Search by Serial No" required>
-                    <button type="submit" class="crm_search_btn"><i class="bi bi-search"></i>
-                        Search</button>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="crm_form  d-none" id="aps_crm_input_form">
-        <form action="/createTicket/" method="post" id="aps_crm_detail_form" class="container-fluid">
+    <div class="crm_form" id="aps_crm_input_form">
+        <form action="" method="post" id="aps_crm_detail_form" class="container-fluid">
             {% csrf_token %}
             <div class="row">
                 <fieldset class="col-md-6">
                     <label for="SNo">Serial Number</label>
-                    <input type="text" name="SerialNo" id="aps_crm_SNo" readonly>
+                    <input type="text" name="SerialNo" id="aps_crm_SNo" value="{{product.Serial_Number}}" readonly>
                 </fieldset>
                 <fieldset class="col-md-6">
                     <label>Make</label>
-                    <input type="text" id="aps_crm_Make" readonly>
+                    <input type="text" id="aps_crm_Make" value="{{product.Make}}" readonly>
                 </fieldset>
                 <fieldset class="col-md-6">
                     <label>Part Code</label>
-                    <input type="text" id="aps_crm_PartCode" readonly>
+                    <input type="text" id="aps_crm_PartCode" value="{{product.Part_Code}}" readonly>
                 </fieldset>
                 <fieldset class="col-md-6">
                     <label>Item</label>
-                    <input type="text" id="aps_crm_Item" readonly>
+                    <input type="text" id="aps_crm_Item" value="{{product.Item}}" readonly>
                 </fieldset>
                 <fieldset class="col-md-6">
                     <label>Dispatched Date</label>
-                    <input type="text" id="aps_crm_Item_dispatched_Date" readonly>
+                    <input type="text" id="aps_crm_Item_dispatched_Date" value="{{product.Item_dispatched_Date}}" readonly>
                 </fieldset>
                 <fieldset class="col-md-6">
                     <label>Organisation</label>
-                    <input type="text" id="aps_crm_Organisation" readonly>
+                    <input type="text" id="aps_crm_Organisation" value="{{product.Organisation}}" readonly>
                 </fieldset>
                 <fieldset class="col-md-6 d-none">
-                    <input type="text" name="Organisation" id="aps_crm_organisation_id" readonly>
+                    <input type="text" name="Organisation" id="aps_crm_organisation_id" value="{{product.Organisation.OrgID}}" readonly>
                 </fieldset>
                 <fieldset class="col-md-6">
                     <label>Customer Name</label>
-                    <input type="text" name="Name" id="aps_crm_customer_name" required>
+                    {{customer.Name}}
                 </fieldset>
                 <fieldset class="col-md-6 d-none">
                     <input type="text" name="customer_id" id="aps_crm_customer_id">
                 </fieldset>
                 <fieldset class="col-md-6">
                     <label>Customer Email</label>
-                    <input type="email" name="EmailAddress" id="aps_crm_customer_email" required>
+                    {{customer.EmailAddress}}
                 </fieldset>
                 <fieldset class="col-md-6">
                     <label>Customer Phone</label>
-                    <input type="phone" name="ContactNo" id="aps_crm_customer_phone" required>
+                    {{customer.ContactNo}}
                 </fieldset>
                 <fieldset class="col-md-6">
                     <label>Category</label>
-                    <select name="Category" id="" required>
-                        <option value="">---------</option>
-                        <option value="Hardware Faulty">Hardware Faulty</option>
-                    </select>
+                    {{form.Category}}
                 </fieldset>
                 <fieldset class="col-md-6">
                     <label>Sub Category</label>
-                    <select name="SubCategory" id="" required>
-                        <option value="">---------</option>
-                        <option value="Power Issue">Power Issue</option>
-                        <option value="External Card Faulty">External Card Faulty</option>
-                        <option value="Router DRM Issue">Router DRM Issue</option>
-                        <option value="Port Faulty">Port Faulty</option>
-                        <option value="FAN not working">Port Faulty</option>
-                        <option value="Power Supply Faulty">Power Supply Faulty</option>
-                        <option value="Not Booting">Not Booting</option>
-                        <option value="Unable to take Console">Unable to take Console</option>
-                        <option value="Line Card Faulty">Line Card Faulty</option>
-                        <option value="SUP Card Faulty">SUP Card Faulty</option>
-                        <option value="Physical Damage">Physical Damage</option>
-                    </select>
+                    {{form.SubCategory}}
                 </fieldset>
                 <fieldset class="col-md-6">
                     <label>Priority</label>
-                    <select name="Priority" id="" required>
-                        <option value="">---------</option>
-                        <option value="P1">Priority 1</option>
-                        <option value="P2">Priority 2</option>
-                        <option value="P3">Priority 3</option>
-                        <option value="P4">Priority 4</option>
-                    </select>
+                    {{form.Priority}}
                 </fieldset>
-                {% comment %} <fieldset class="col-md-6">
-                    <label>Fault Found Code</label>
-                    <select name="FaultFoundCode" id="" required>
-                        <option value="">---------</option>
-                        <option value="Power Issue">Power Issue</option>
-                        <option value="External Card Faulty">External Card Faulty</option>
-                        <option value="Router DRM Issue">Router DRM Issue</option>
-                        <option value="Port Faulty">Port Faulty</option>
-                        <option value="FAN not working">FAN not working</option>
-                        <option value="Power Supply Faulty">Power Supply Faulty</option>
-                        <option value="Not Booting">Not Booting</option>
-                        <option value="Unable to take Console">Unable to take Console</option>
-                        <option value="Line Card Faulty">Line Card Faulty</option>
-                        <option value="SUP Card Faulty">SUP Card Faulty</option>
-                        <option value="Physical Damage">Physical Damage</option>
-                        <option value="Others">Others</option>
-                        <option value="Hardware not in AMC">Hardware not in AMC</option>
-                    </select>
-                </fieldset> {% endcomment %}
                 <fieldset class="col-md-12">
                     <label>Summary</label>
-                    <Textarea name="Summary" required></Textarea>
+                    {{form.Summary}}
                 </fieldset>
                 <fieldset class="col-md-12">
                     <button type="submit">Create +</button>

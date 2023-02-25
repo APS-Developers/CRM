@@ -49,23 +49,8 @@ Update
                                     
                                 </div>
                             </div>
-                            {% comment %} {% ifequal form.Status.value "Resolved" %}
-                            <fieldset class="disabled-section">
-                            {% else %}
-                            <fieldset>
-                            {% endifequal %} {% endcomment %}
-                            <div class="row">
-                                <div class="col-6">
-                    
 
-                                   
-                                   
-                                </div>
-                            </div>
-                            
-                        {% comment %} </div> {% endcomment %}
                        
-                        {% comment %} <div class="container"> {% endcomment %}
                             <div class="row">
                                 <div class="col-6">
                                     <fieldset>
@@ -81,9 +66,7 @@ Update
                                     </fieldset>
                                 </div>
                             </div>
-                        {% comment %} </div> {% endcomment %}
                        
-                        {% comment %} <div class="container"> {% endcomment %}
                             <div class="row">
                                 <div class="col-6">
                                     <fieldset>
@@ -98,13 +81,6 @@ Update
                                     </fieldset>
                                 </div>
                             </div>
-                        {% comment %} </div> {% endcomment %}
-                       
-                        <!-- <fieldset>
-                            <label for="">Model Number</label>
-                            {{ form.ModelNo }}
-                        </fieldset> -->
-            
                             <div class="row">
                                 <div class="col-12">
                                     <fieldset>
@@ -114,23 +90,12 @@ Update
                                 </div>
                             </div>
                         
-                        {% comment %} <div class="container"> {% endcomment %}
                             <div class="row">
                                 <div class="col-6">
-                                    {% ifequal form.Status.value "Resolved" %}
-                                        <fieldset>
-                                            <label for="">Status</label>
-                                            <select name="Status" id="">
-                                                <option value="Resolved">Resolved</option>
-                                                <option value="Open">Reopen</option>
-                                              </select>
-                                        </fieldset>
-                                    {% else %}
                                     <fieldset>
                                         <label for="">Status</label>
                                         {{ form.Status }}
                                     </fieldset>
-                                    {% endifequal %}
                                     
                                 </div>
                                 <div class="col-6">
@@ -156,7 +121,6 @@ Update
                                     </fieldset>
                                 </div>
                             </div>
-                        {% comment %} </div> {% endcomment %}
                             <div class="row">
                                 <div class="col-6">
                                     <fieldset>
@@ -167,8 +131,11 @@ Update
                                 <div class="col-6">
                                     <fieldset>
                                         <label for="">HW Dispatched S.No</label>
-                                        {{ form.HWDispatchedSerial }}
                                         {{ form.HWDispatched }}
+                                        <datalist id="HWDispatchedSerialList">
+                                            {% for _,serial in form.fields.HWDispatched.choices %}
+                                                <option value="{{serial}}">{{serial}}</option>
+                                            {% endfor %}
                                     </fieldset>
                                     
                                 </div>
@@ -196,10 +163,6 @@ Update
                         
 
                         
-                        {% comment %} <div class="container"> {% endcomment %}
-                          
-                        {% comment %} </div> {% endcomment %}
-                        {% comment %} <div class="container"> {% endcomment %}
                             <div class="row">
                                 <div class="col-6">                                                         
                                     <fieldset>
@@ -237,22 +200,8 @@ Update
                                     </fieldset>
                                 </div>
                             </div>
-            <!--
-                        </fieldset>
-                            <div class="row">
-                                <div class="col-12">
-                                    <fieldset>
-                                        <label for="">Notes</label>
-                                        {{ form.Notes }}
-                                    </fieldset>
-                                </div>
-                            </div>
-                      -->
-                        
                             <div class="row">
                                 <div class="col-12 ">
-                                    <!-- To align button to center -->
-                                    <!-- <fieldset class="d-inline justify-content-center d-flex">  -->
                                     <fieldset >
                                         <button type="submit">Submit</button>
                                     </fieldset>
@@ -337,6 +286,4 @@ Update
     integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous">
 </script>
 <script src="/static/assets/js/crmFormScript.js"></script>
-<script src="/static/assets/js/crmUpdateScript.js"></script>
-
 {% endblock %}

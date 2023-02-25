@@ -51,7 +51,7 @@ Inventory
 		<div class="container-fluid table-responsive px-0 py-1 aps_table_container">
 			<table id="example" class="aps_table table  table-bordered table-hover align-middle" style="width:100%">
 				<thead class="aps_table_head">
-					<tr class="align-middle">
+					<tr class="align-middle text-center">
 						<th>S.No</th>
 						<th class="aps_table_search">Product S.No</th>
 						<th class="aps_table_search">Make</th>
@@ -76,7 +76,7 @@ Inventory
 
 
 					{% for inventory in page_obj %}
-					<tr>
+					<tr class="text-center">
 						<td>
 							{{inventory.counter}}
 							<div class="conatiner" style="float: right">
