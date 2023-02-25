@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from .models import Ticket
 from customer.models import Customer
-from .forms import CustomerForm, ProductForm, FaultForm, UpdateForm
+from .forms import CustomerForm, ProductForm, CreateTicketForm, UpdateForm
 from .filters import TicketFilter
 from django.contrib import messages
 from inventory.models import Inventory
@@ -13,7 +13,7 @@ from datetime import datetime
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 import datetime
-
+import traceback
 
 # Create your views here.
 
@@ -128,15 +128,41 @@ def faultDetails(request, ticketID):
 
 
 @login_required(login_url="login")
-def createTicket(request):
+def createTicketValidate(request):
     if crmPermission(request.user):
-        form = FaultForm()
+        if not request.GET.get("serial"):
+            return render(request, "crm/serial_search.html")
+        else:
+            try:
+                product = Inventory.objects.get(Serial_Number=request.GET.get("serial"))
+                if product.Organisation is None:
+                    messages.add_message(request, messages.ERROR, "Product not sold!")
+                    return render(request, "crm/serial_search.html")
+                elif product.Item_dispatched_Date is None:
+                    messages.add_message(
+                        request, messages.ERROR, "Product not delivered!"
+                    )
+                    return render(request, "crm/serial_search.html")
+                else:
+                    return redirect(
+                        "createTicket", product_Serial_Number=product.Serial_Number
+                    )
+            except Exception as e:
+                messages.add_message(request, messages.ERROR, "Product not found!")
+                return render(request, "crm/serial_search.html")
+    else:
+        raise PermissionDenied
+
+
+@login_required(login_url="login")
+def createTicket(request, product_Serial_Number):
+    if crmPermission(request.user):
+        product = Inventory.objects.get(Serial_Number=product_Serial_Number)
         if request.method == "POST":
-            form = FaultForm(request.POST)
-            print(form.errors)
-            if form.is_valid():
+            ticket_form = CreateTicketForm(request.POST)
+            if ticket_form.is_valid():
                 try:
-                    newTicket = form.save(commit=False)
+                    newTicket = ticket_form.save(commit=False)
                     if request.POST.get("customer_id"):
                         newTicket.Customer_id = request.POST.get("customer_id")
                     else:
@@ -144,7 +170,19 @@ def createTicket(request):
                         if customer.is_valid():
                             customer = customer.save()
                         else:
-                            raise Exception("Invalid Customer details")
+                            for error in customer.errors.values():
+                                messages.add_message(
+                                    request, messages.ERROR, error.as_text()
+                                )
+                            return render(
+                                request,
+                                "crm/form.html",
+                                {
+                                    "product": product,
+                                    "form": ticket_form,
+                                    "customer": customer,
+                                },
+                            )
                         newTicket.Customer = customer
                     newTicket.Status = "Open"
                     newTicket.ResolutionCode = ""
@@ -159,16 +197,21 @@ def createTicket(request):
                     )
                     return redirect("showTicket")
                 except Exception as e:
-                    messages.add_message(
-                        request, messages.ERROR, "Error in creating ticket!"
-                    )
+                    messages.add_message(request, messages.ERROR, str(e))
                     return render(request, "crm/form.html")
             else:
                 messages.add_message(
                     request, messages.ERROR, "Please fill all the fields!"
                 )
                 return render(request, "crm/form.html")
-        return render(request, "crm/form.html")
+        else:
+            ticket_form = CreateTicketForm()
+            customer_form = CustomerForm()
+            return render(
+                request,
+                "crm/form.html",
+                {"product": product, "form": ticket_form, "customer": customer_form},
+            )
     else:
         raise PermissionDenied
 
@@ -216,17 +259,14 @@ def updateTicket(request, ticketID):
                         messages.add_message(
                             request,
                             messages.SUCCESS,
-                            'Ticket "%s" updated successfully! from 1' % ticketID,
+                            'Ticket "%s" updated successfully!' % ticketID,
                         )
                         ticket.save()
                         return redirect("showTicket")
                     update = form.save(commit=False)
-                    if request.POST.get("HWDispatchedSerial"):
+                    if "HWDispatched" in form.changed_data:
                         try:
-                            HWDispatched = Inventory.objects.get(
-                                Serial_Number=request.POST.get("HWDispatchedSerial"),
-                                Organisation=None,
-                            )
+                            HWDispatched = update.HWDispatched
                             HWDispatched.Item_dispatched_Date = datetime.datetime.now()
                             HWDispatched.Organisation = ticket.Customer.Organisation
                             HWDispatched.save()
@@ -240,12 +280,9 @@ def updateTicket(request, ticketID):
                             and update.ResolutionCode
                             and update.ResolutionRemarks
                         ):
-                            messages.add_message(
-                                request,
-                                messages.ERROR,
+                            raise Exception(
                                 "Ticket can be only resolved if Fault Found code, Resolution code and Resolution remarks are filled",
                             )
-                            return redirect("updateTicket", ticketID=ticketID)
                         date = datetime.date.today()
                         update.ResolutionDate = date
                     else:
@@ -261,12 +298,8 @@ def updateTicket(request, ticketID):
                     messages.add_message(
                         request, messages.ERROR, "Please fill all the fields!"
                     )
-                    return redirect("updateTicket", ticketID=ticketID)
             except Exception as e:
-                messages.add_message(
-                    request, messages.ERROR, "Error in updating ticket!"
-                )
-                return redirect("updateTicket", ticketID=ticketID)
+                messages.add_message(request, messages.ERROR, str(e))
 
         events = []
 

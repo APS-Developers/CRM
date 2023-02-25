@@ -6,77 +6,10 @@ from django import forms
 from phonenumber_field.formfields import PhoneNumberField
 from django.db.models import Q
 
-boolChoices = [("", "---------"), ("Yes", "Yes"), ("No", "No")]
-
-priorityChoices = [("P1", "P1"), ("P2", "P2"), ("P3", "P3"), ("P4", "P4")]
-
-statusChoices = [
-    ("Open", "Open"),
-    ("Pending", "Pending"),
-    ("Resolved", "Resolved"),
-    ("Closed", "Closed"),
-]
-
-faultFoundChoices = [
-    ("", "---------"),
-    ("Power Issue", "Power Issue"),
-    ("External Card Faulty", "External Card Faulty"),
-    ("Router DRM Issue", "Router DRM Issue"),
-    ("Port Faulty", "Port Faulty"),
-    ("FAN not working", "FAN not working"),
-    ("Power Supply Faulty", "Power Supply Faulty"),
-    ("Not Booting", "Not Booting"),
-    ("Unable to take Console", "Unable to take Console"),
-    ("Line Card Faulty", "Line Card Faulty"),
-    ("SUP Card Faulty", "SUP Card Faulty"),
-    ("Physical Damage", "Physical Damage"),
-    ("Others", "Others"),
-    ("Hardware not in AMC", "Hardware not in AMC"),
-]
-
-resolutionChoices = [
-    ("", "---------"),
-    ("Power Issue Resolved with Hard Reset", "Power Issue Resolved with Hard Reset"),
-    ("External Card Dispatched", "External Card Dispatched"),
-    ("DRM Issue Resolved", "DRM Issue Resolved"),
-    ("New Hardware Dispatched", "New Hardware Dispatched"),
-    ("FAN/Module Dispatched", "FAN/Module Dispatched"),
-    ("Power Supply Replaced/Dispatched", "Power Supply Replaced/Dispatched"),
-    ("Booting Issue Resolved", "Booting Issue Resolved"),
-    ("Console Issues Resolved", "Console Issues Resolved"),
-    ("Line Card Replaced/Dispatched", "Line Card Replaced/Dispatched"),
-    ("SUP Card Replaced/Dispatched", "SUP Card Replaced/Dispatched"),
-    ("Physical Damage - Not covered in AMC", "Physical Damage - Not covered in AMC"),
-    ("Others", "Others"),
-]
-
-dispatchedChoices = [
-    ("", "---------"),
-    ("DTDC", "DTDC"),
-    ("BLUEDART", "BLUEDART"),
-    ("MARUTI", "MARUTI"),
-    ("DELHIVERY", "DELHIVERY"),
-    ("SAFEXPRESS", "SAFEXPRESS"),
-    ("GATI", "GATI"),
-]
-
-deliveryStatus = [
-    ("", "---------"),
-    ("Dispatched", "Dispatched"),
-    ("In Transit", "In Transit"),
-    ("Out for Delivery", "Out for Delivery"),
-    ("Delivered", "Delivered"),
-]
-
 
 class CustomerForm(ModelForm):
     Name = forms.CharField(
-        widget=forms.TextInput(attrs={"id": "", "type": "text"}), label=""
-    )
-
-    Organisation = forms.ModelChoiceField(
-        queryset=Organisation.objects.all(),
-        widget=forms.Select(attrs={"id": ""}),
+        widget=forms.TextInput(attrs={"id": "aps_crm_customer_name", "type": "text"}),
         label="",
     )
 
@@ -85,7 +18,7 @@ class CustomerForm(ModelForm):
             attrs={
                 "class": "form-control",
                 "type": "phone",
-                "id": "",
+                "id": "aps_crm_customer_phone",
             }
         ),
         label="",
@@ -95,7 +28,7 @@ class CustomerForm(ModelForm):
         widget=forms.EmailInput(
             attrs={
                 "type": "email",
-                "id": "",
+                "id": "aps_crm_customer_email",
             }
         ),
         label="",
@@ -112,26 +45,26 @@ class ProductForm(ModelForm):
         fields = []
 
 
-class FaultForm(ModelForm):
+class CreateTicketForm(ModelForm):
     SerialNo = forms.ModelChoiceField(
         queryset=Inventory.objects.filter(~Q(Organisation=None)),
         widget=forms.Select(attrs={"id": "", "type": "text"}),
         label="",
     )
 
-    Category = forms.CharField(
-        widget=forms.TextInput(attrs={"id": "", "type": "text"}), label=""
+    Category = forms.ChoiceField(
+        choices=Ticket.categoryChoices, widget=forms.Select(attrs={"id": ""}), label=""
     )
 
-    SubCategory = forms.CharField(
-        widget=forms.TextInput(attrs={"id": "", "type": "text"}), label=""
+    SubCategory = forms.ChoiceField(
+        choices=Ticket.subCategoryChoices,
+        widget=forms.Select(attrs={"id": ""}),
+        label="",
     )
 
     Priority = forms.ChoiceField(
-        choices=priorityChoices, widget=forms.Select(attrs={"id": ""}), label=""
+        choices=Ticket.priorityChoices, widget=forms.Select(attrs={"id": ""}), label=""
     )
-
-    # FaultFoundCode = forms.CharField(widget=forms.TextInput(attrs={"id": ""}), label="")
 
     Summary = forms.CharField(
         widget=forms.Textarea(
@@ -161,15 +94,9 @@ class UpdateForm(ModelForm):
     )
 
     Status = forms.ChoiceField(
-        choices=statusChoices, widget=forms.Select(attrs={"id": ""}), label=""
+        choices=Ticket.statusChoices, widget=forms.Select(attrs={"id": ""}), label=""
     )
 
-    # SerialNo = forms.CharField(
-    #     widget=forms.TextInput(
-    #         attrs={"readonly": "readonly", "id": "", "type": "text"}
-    #     ),
-    #     label="",
-    # )
     SerialNo = forms.ModelChoiceField(
         queryset=Inventory.objects.filter(~Q(Organisation=None)),
         widget=forms.TextInput(
@@ -177,10 +104,6 @@ class UpdateForm(ModelForm):
         ),
         label="",
     )
-
-    # ModelNo = forms.CharField(
-    #     widget=forms.TextInput(attrs={"id": "", "type": "text"}), label=""
-    # )
 
     Category = forms.CharField(
         widget=forms.TextInput(
@@ -196,34 +119,27 @@ class UpdateForm(ModelForm):
         label="",
     )
 
-    # Priority = forms.ChoiceField(
-    #     choices=priorityChoices, widget=forms.Select(attrs={"readonly": "readonly","id": ""}), label=""
-    # )
     Priority = forms.CharField(
         widget=forms.TextInput(attrs={"readonly": "readonly", "id": ""}), label=""
     )
 
-    # FaultFoundCode = forms.CharField(
-    #     widget=forms.TextInput(attrs={"id": ""}), label=""
-    # )
-
     FaultFoundCode = forms.ChoiceField(
         required=False,
-        choices=faultFoundChoices,
+        choices=Ticket.faultFoundChoices,
         widget=forms.Select(attrs={"id": ""}),
         label="",
     )
 
     ResolutionCode = forms.ChoiceField(
         required=False,
-        choices=resolutionChoices,
+        choices=Ticket.resolutionChoices,
         widget=forms.Select(attrs={"id": ""}),
         label="",
     )
 
     OnlineResolvable = forms.ChoiceField(
         required=False,
-        choices=boolChoices,
+        choices=Ticket.boolChoices,
         widget=forms.Select(attrs={"id": ""}),
         label="",
     )
@@ -238,15 +154,10 @@ class UpdateForm(ModelForm):
 
     HWDispatched = forms.ModelChoiceField(
         required=False,
-        queryset=Inventory.objects.filter(Organisation=None),
-        widget=forms.Select(attrs={"id": "HWDispatched", "class": "d-none"}),
-        label="",
-    )
-    HWDispatchedSerial = forms.CharField(
-        required=False,
+        queryset=None,
         widget=forms.TextInput(
             attrs={
-                "id": "HWDispatchedSerial",
+                "id": "HWDispatched",
                 "type": "text",
                 "list": "HWDispatchedSerialList",
             }
@@ -290,14 +201,14 @@ class UpdateForm(ModelForm):
 
     DispatchedThrough = forms.ChoiceField(
         required=False,
-        choices=dispatchedChoices,
+        choices=Ticket.dispatchedChoices,
         widget=forms.Select(attrs={"id": ""}),
         label="",
     )
 
     DeliveryStatus = forms.ChoiceField(
         required=False,
-        choices=deliveryStatus,
+        choices=Ticket.deliveryStatus,
         widget=forms.Select(attrs={"id": ""}),
         label="",
     )
@@ -346,3 +257,24 @@ class UpdateForm(ModelForm):
             "ClosureDate",
             "ClosureRemarks",
         ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance.HWDispatched:
+            self.fields["HWDispatched"].queryset = Inventory.objects.filter(
+                Q(Organisation=None)
+                | Q(Serial_Number=self.instance.HWDispatched.Serial_Number)
+            )
+        else:
+            self.fields["HWDispatched"].queryset = Inventory.objects.filter(
+                Organisation=None
+            )
+        if self.instance.Status == "Resolved":
+            print("Resolved")
+            for field in self.fields:
+                if field not in ["Status", "Notes"]:
+                    self.fields[field].widget.attrs["readonly"] = "readonly"
+            self.fields["Status"].choices = [
+                ("Resolved", "Resolved"),
+                ("Open", "Reopen"),
+            ]

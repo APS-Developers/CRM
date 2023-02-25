@@ -42,13 +42,13 @@
     </div>
     <div class="col-sm-12 mx-auto">
         <div class="container-fluid table-responsive px-0 py-1 aps_table_container">
-            <a href="/createTicket">
+            <a href="/createTicketValidate">
                 <div class="aps_create_button">+
                 </div>
             </a>
             <table class="aps_table table table-bordered table-hover align-middle">
                 <thead class="aps_table_head">
-                    <tr class="align-middle">
+                    <tr class="align-middle text-center">
                         <th>S.No</th>
                         <th class="aps_table_search">Ticket ID</th>
                         <th>Customer Name</th>
@@ -75,7 +75,7 @@
                 </thead>
                 <tbody>
                     {% for ticket in page_obj %}
-                    <tr>
+                    <tr class="text-center">
                         <td>
                             {{ticket.counter}}
                             <div class="conatiner " style="float:right">
@@ -89,7 +89,7 @@
                         <td>{{ticket.Customer.Name}}</td>
                         <td>{{ticket.Customer.Organisation}}</td>
                         <td>{{ticket.DateCreated}}</td>
-                        <td>{{ticket.ResolutionDate}}</td>
+                        <td>{{ticket.ResolutionDate|default_if_none:""}}</td>
                         <td>{{ticket.Priority}}</td>
                         <td>{{ticket.Category}}</td>
                         <td>{{ticket.SubCategory}}</td>
@@ -102,7 +102,7 @@
                         <td>
                             {{ticket.OnlineResolvable}}
                         </td>
-                        <td>{{ticket.HWDispatched}}</td>
+                        <td>{{ticket.HWDispatched|default_if_none:""}}</td>
                         <!-- <td><a class="btn btn-sm btn-info" href="{% url 'updateTicket' ticket.TicketID %}">Update</a>
                         </td>
                         {% if user.is_authenticated and user.is_staff and user.is_superuser %}
