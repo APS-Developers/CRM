@@ -10,212 +10,233 @@
 <br>
 
 {% ifequal type 'Customer' %}
-<h5>ALL CUSTOMERS</h5>
-<hr>
-<div class="modal" id="aps_table_modal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Filter Customers</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<div class="row">
+    <div class="col-sm-12 mx-auto">
+        <h5>ALL CUSTOMERS</h5>
+        <hr>
+    </div>
+
+    <div class="modal" id="aps_table_modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Filter Customers</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="get" class="aps_filter_form">
+                    <div class="modal-body">
+                        {{customer_filter.form}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
             </div>
-            <form method="get" class="aps_filter_form">
-                <div class="modal-body">
-                    {{customer_filter.form}}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
-            </form>
         </div>
     </div>
-</div>
-<div class="container-fluid">
-    <a href="/createCustomer">
-        <div class="aps_create_button">+
-        </div>
-    </a>
-    <div>
-        <table class="aps_table table table-bordered table-hover align-middle">
-            <thead class="aps_table_head">
-                <tr class="align-middle">
-                    <th>S.No</th>
-                    <th class="aps_table_search">Customer Name</th>
-                    <th>Contact No</th>
-                    <th>E-mail address</th>
-                    <th class="aps_table_filter">Organisation</th>
-                    <!-- <th>Update</th>
+    <div class="container-fluid">
+        <a href="/createCustomer">
+            <div class="aps_create_button">+
+            </div>
+        </a>
+        <div>
+            <table class="aps_table table table-bordered table-hover align-middle">
+                <thead class="aps_table_head">
+                    <tr class="align-middle">
+                        <th>S.No</th>
+                        <th class="aps_table_search">Customer Name</th>
+                        <th>Contact No</th>
+                        <th>E-mail address</th>
+                        <th class="aps_table_filter">Organisation</th>
+                        <!-- <th>Update</th>
                     <th>Remove</th> -->
-                </tr>
-            </thead>
-            <tbody>
-                {% for customer in page_obj %}
-                <tr>
-                    <td>
-                        {{customer.counter}}
-                        <div class="conatiner" style="float:right">
-                            {% if customer.checkTicket %}
-                            <a class="m-2" style="color:rgb(185, 9, 9);" href="{% url 'deleteCustomer' customer.CustomerID %}"><i class="bi bi-trash3-fill"></i></a>
-                            {% endif %}
-                            <a class="m-2"	style="color:rgb(29, 147, 134);" href="{% url 'updateCustomer' customer.CustomerID %}"><i class="bi bi-pencil-square"></i></a>
-                        </div>
-                    </td>
-                    <td>{{customer.Name}}</td>
-                    <td>{{customer.ContactNo}}</td>
-                    <td>{{customer.EmailAddress}}</td>
-                    <td>{{customer.Organisation}}</td>
-                    <!-- <td><a class="btn btn-sm btn-info" href="{% url 'updateCustomer' customer.CustomerID %}">Update</a>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for customer in page_obj %}
+                    <tr>
+                        <td>
+                            {{customer.counter}}
+                            <div class="conatiner" style="float:right">
+                                {% if customer.checkTicket %}
+                                <a class="m-2" style="color:rgb(185, 9, 9);"
+                                    href="{% url 'deleteCustomer' customer.CustomerID %}"><i
+                                        class="bi bi-trash3-fill"></i></a>
+                                {% endif %}
+                                <a class="m-2" style="color:rgb(29, 147, 134);"
+                                    href="{% url 'updateCustomer' customer.CustomerID %}"><i
+                                        class="bi bi-pencil-square"></i></a>
+                            </div>
+                        </td>
+                        <td>{{customer.Name}}</td>
+                        <td>{{customer.ContactNo}}</td>
+                        <td>{{customer.EmailAddress}}</td>
+                        <td>{{customer.Organisation}}</td>
+                        <!-- <td><a class="btn btn-sm btn-info" href="{% url 'updateCustomer' customer.CustomerID %}">Update</a>
                     </td>
                     <td><a class="btn btn-sm btn-danger"
                             href="{% url 'deleteCustomer' customer.CustomerID %}">Remove</a>
                     </td> -->
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <nav aria-label="Page navigation example" class="my-3">
+            <ul class="pagination pagination-lg justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{page_obj.previous_page_number}}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+                {% for page in page_range %}
+                {% if page == page_obj.number %}
+                <li class="page-item active"><a class="page-link" href="?page={{page}}">{{page}}</a></li>
+                {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{page}}">{{page}}</a></li>
+                {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{page_obj.next_page_number}}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+
+    </div>
+</div>
+
+{% else %}
+
+<div class="row">
+    <div class="col-sm-12 mx-auto">
+        <h5>ALL ORGANISATIONS</h5>
+        <hr>
+    </div>
+
+    <div class="modal" id="aps_table_modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Filter Organisations</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="get" class="aps_filter_form">
+                    <div class="modal-body">
+                        {{organisation_filter.form}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <a href="/createOrganisation">
+            <div class="aps_create_button">+
+            </div>
+        </a>
+        <table class="aps_table table table-bordered table-hover align-middle">
+            <thead class="aps_table_head">
+                <tr class="align-middle">
+                    <th>S.No</th>
+                    <th class="aps_table_search">Organisation Name</th>
+                    <th>Contact No</th>
+                    <th>E-mail address</th>
+                    <th class="aps_table_search">Address</th>
+                    <!-- <th>Update</th>
+                <th>Remove</th> -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for organisation in page_obj %}
+                <tr>
+                    <td>
+                        {{organisation.counter}}
+                        <div class="conatiner" style="float:right">
+                            {% if organisation.checkCustomer %}
+                            <a class="m-2" style="color:rgb(185, 9, 9);"
+                                href="{% url 'deleteOrganisation' organisation.OrgID %}"><i
+                                    class="bi bi-trash3-fill"></i></a>
+                            {% endif %}
+                            <a class="m-2" style="color:rgb(29, 147, 134);"
+                                href="{% url 'updateOrganisation' organisation.OrgID %}"><i
+                                    class="bi bi-pencil-square"></i></a>
+                        </div>
+                    </td>
+                    <td>{{organisation.Name}}</td>
+                    <td>{{organisation.ContactNo}}</td>
+                    <td>{{organisation.EmailAddress}}</td>
+                    <td>{{organisation.Address}}</td>
+                    <!-- <td><a class="btn btn-sm btn-info" href="{% url 'updateOrganisation' organisation.OrgID %}">Update</a>
+                </td>
+                <td><a class="btn btn-sm btn-danger" href="{% url 'deleteOrganisation' organisation.OrgID %}">Remove</a>
+                </td> -->
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-    </div>
-    <nav aria-label="Page navigation example" class="my-3">
-        <ul class="pagination pagination-lg justify-content-center">
-            {% if page_obj.has_previous %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{page_obj.previous_page_number}}" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            {% else %}
-            <li class="page-item disabled">
-                <a class="page-link" href="" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            {% endif %}
-            {% for page in page_range %}
-            {% if page == page_obj.number %}
-            <li class="page-item active"><a class="page-link" href="?page={{page}}">{{page}}</a></li>
-            {% else %}
-            <li class="page-item"><a class="page-link" href="?page={{page}}">{{page}}</a></li>
-            {% endif %}
-            {% endfor %}
-            {% if page_obj.has_next %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{page_obj.next_page_number}}" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-            {% else %}
-            <li class="page-item disabled">
-                <a class="page-link" href="" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-            {% endif %}
-        </ul>
-    </nav>
+        <nav aria-label="Page navigation example" class="my-3">
+            <ul class="pagination pagination-lg justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{page_obj.previous_page_number}}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+                {% for page in page_range %}
+                {% if page == page_obj.number %}
+                <li class="page-item active"><a class="page-link" href="?page={{page}}">{{page}}</a></li>
+                {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{page}}">{{page}}</a></li>
+                {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{page_obj.next_page_number}}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
 
-</div>
-{% else %}
-<h5>ALL ORGANISATIONS</h5>
-<hr>
-<div class="modal" id="aps_table_modal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Filter Organisations</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form method="get" class="aps_filter_form">
-                <div class="modal-body">
-                    {{organisation_filter.form}}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
-            </form>
-        </div>
     </div>
 </div>
-<div class="container-fluid">
-    <a href="/createOrganisation">
-        <div class="aps_create_button">+
-        </div>
-    </a>
-    <table class="aps_table table table-bordered table-hover align-middle">
-        <thead class="aps_table_head">
-            <tr class="align-middle">
-                <th>S.No</th>
-                <th class="aps_table_search">Organisation Name</th>
-                <th>Contact No</th>
-                <th>E-mail address</th>
-                <th class="aps_table_search">Address</th>
-                <!-- <th>Update</th>
-                <th>Remove</th> -->
-            </tr>
-        </thead>
-        <tbody>
-            {% for organisation in page_obj %}
-            <tr>
-                <td>
-                    {{organisation.counter}}
-                    <div class="conatiner" style="float:right">
-                        {% if organisation.checkCustomer %}
-                        <a class="m-2" style="color:rgb(185, 9, 9);" href="{% url 'deleteOrganisation' organisation.OrgID %}"><i class="bi bi-trash3-fill"></i></a>
-                        {% endif %}
-                        <a class="m-2"	style="color:rgb(29, 147, 134);" href="{% url 'updateOrganisation' organisation.OrgID %}"><i class="bi bi-pencil-square"></i></a>
-                    </div>
-                </td>
-                <td>{{organisation.Name}}</td>
-                <td>{{organisation.ContactNo}}</td>
-                <td>{{organisation.EmailAddress}}</td>
-                <td>{{organisation.Address}}</td>
-                <!-- <td><a class="btn btn-sm btn-info" href="{% url 'updateOrganisation' organisation.OrgID %}">Update</a>
-                </td>
-                <td><a class="btn btn-sm btn-danger" href="{% url 'deleteOrganisation' organisation.OrgID %}">Remove</a>
-                </td> -->
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <nav aria-label="Page navigation example" class="my-3">
-        <ul class="pagination pagination-lg justify-content-center">
-            {% if page_obj.has_previous %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{page_obj.previous_page_number}}" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            {% else %}
-            <li class="page-item disabled">
-                <a class="page-link" href="" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            {% endif %}
-            {% for page in page_range %}
-            {% if page == page_obj.number %}
-            <li class="page-item active"><a class="page-link" href="?page={{page}}">{{page}}</a></li>
-            {% else %}
-            <li class="page-item"><a class="page-link" href="?page={{page}}">{{page}}</a></li>
-            {% endif %}
-            {% endfor %}
-            {% if page_obj.has_next %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{page_obj.next_page_number}}" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-            {% else %}
-            <li class="page-item disabled">
-                <a class="page-link" href="" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-            {% endif %}
-        </ul>
-    </nav>
 
-</div>
 {% endifequal %}
 
 {% endblock %}
