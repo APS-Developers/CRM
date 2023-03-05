@@ -164,8 +164,12 @@ class Ticket(models.Model):
 
     @property
     def sla_status(self):
-        if self.Status == "Closed":
-            if (self.ResolutionDate - self.DateCreated) > SLA_TIME[self.Priority]:
+        if (
+            self.Status == "Closed"
+            and self.ClosureDate is not None
+            and self.DateCreated is not None
+        ):
+            if (self.ClosureDate - self.DateCreated) > SLA_TIME[self.Priority]:
                 return "outside"
             else:
                 return "within"
