@@ -5,6 +5,7 @@ from customer.models import Customer, Organisation
 from django import forms
 from phonenumber_field.formfields import PhoneNumberField
 from django.db.models import Q
+import datetime
 
 
 class CustomerForm(ModelForm):
@@ -85,11 +86,12 @@ class CreateTicketForm(ModelForm):
 
 
 class UpdateForm(ModelForm):
-    TicketID = forms.CharField(
-        widget=forms.TextInput(attrs={"readonly": "readonly"}), label=""
+    TicketID = forms.IntegerField(
+        widget=forms.TextInput(attrs={"readonly": "readonly", "type": "number"}),
+        label="",
     )
 
-    DateCreated = forms.CharField(
+    DateCreated = forms.DateField(
         widget=forms.TextInput(attrs={"readonly": "readonly"}), label=""
     )
 
@@ -222,7 +224,9 @@ class UpdateForm(ModelForm):
     )
     ClosureDate = forms.DateField(
         required=False,
-        widget=forms.TextInput(attrs={"id": "", "type": "date"}),
+        widget=forms.TextInput(
+            attrs={"id": "", "type": "date", "readonly": "readonly"}
+        ),
         label="",
     )
     ClosureRemarks = forms.CharField(
@@ -269,12 +273,67 @@ class UpdateForm(ModelForm):
             self.fields["HWDispatched"].queryset = Inventory.objects.filter(
                 Organisation=None
             )
+
+        # Form modifications for resolved status
         if self.instance.Status == "Resolved":
-            print("Resolved")
             for field in self.fields:
                 if field not in ["Status", "Notes"]:
-                    self.fields[field].widget.attrs["readonly"] = "readonly"
-            self.fields["Status"].choices = [
-                ("Resolved", "Resolved"),
-                ("Open", "Reopen"),
-            ]
+                    self.fields[field].widget = forms.TextInput(
+                        attrs={"readonly": "readonly"}
+                    )
+            self.fields["Status"].choices = Ticket.statusChoicesAfterResolved
+
+        # Form modifications for closed status
+        if self.instance.Status == "Closed":
+            for field in self.fields:
+                if self.fields[field].widget != forms.Textarea:
+                    self.fields[field].widget = forms.TextInput(
+                        attrs={"readonly": "readonly"}
+                    )
+                else:
+                    self.fields[field].widget = forms.Textarea(
+                        attrs={"readonly": "readonly"}
+                    )
+
+    def clean(self):
+        super().clean()
+
+        # condition if status is changed to resolved
+        if self.cleaned_data["Status"] == "Resolved" and "Status" in self.changed_data:
+            if not self.cleaned_data["ResolutionCode"]:
+                self.add_error("ResolutionCode", "Please select a resolution code")
+            if not self.cleaned_data["ResolutionRemarks"]:
+                self.add_error("ResolutionRemarks", "Please enter resolution remarks")
+            if not self.cleaned_data["FaultFoundCode"]:
+                self.add_error("FaultFoundCode", "Please select a fault found code")
+            self.cleaned_data["ResolutionDate"] = datetime.date.today()
+
+        # condition if status is already resolved
+        if (
+            self.cleaned_data["Status"] == "Resolved"
+            and "Status" not in self.changed_data
+        ):
+            if set(self.changed_data).difference({"Status", "Notes"}):
+                for field in self.changed_data:
+                    if field not in ["Status", "Notes"]:
+                        self.add_error(
+                            field, f"Cannot change {field} field if ticket is resloved"
+                        )
+
+        # condition is status is changed to reopen
+        if self.cleaned_data["Status"] == "Open" and self.instance.Status == "Resolved":
+            self.cleaned_data["ResolutionDate"] = None
+
+        # condition is status is changed to closed
+        if self.cleaned_data["Status"] == "Closed" and "Status" in self.changed_data:
+            self.cleaned_data["ClosureDate"] = datetime.date.today()
+
+        # condition if status is closed
+        if (
+            self.cleaned_data["Status"] == "Closed"
+            and "Status" not in self.changed_data
+        ):
+            for field in self.changed_data:
+                self.add_error(
+                    field, f"Cannot change {field} field if ticket is resloved"
+                )
