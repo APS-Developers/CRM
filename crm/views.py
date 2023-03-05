@@ -219,7 +219,7 @@ def createTicket(request, product_Serial_Number):
 @login_required(login_url="login")
 def showTicket(request):
     if crmPermission(request.user):
-        all_tickets = Ticket.objects.all().order_by("-DateCreated")
+        all_tickets = Ticket.objects.all().order_by("-DateCreated","-TicketID")
         ticket_filter = TicketFilter(request.GET, queryset=all_tickets)
         all_tickets = ticket_filter.qs
         page_number = request.GET.get("page", 1)

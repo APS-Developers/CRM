@@ -48,7 +48,7 @@ def inventory_report(request):
 
 def crm_report(request):
     if request.method == "POST":
-        all_tickets = Ticket.objects.all().order_by("-DateCreated")
+        all_tickets = Ticket.objects.all().order_by("-DateCreated","-TicketID")
         tickets_filter = TicketFilterReport(request.POST, all_tickets)
         rows = tickets_filter.qs
         fields = [
