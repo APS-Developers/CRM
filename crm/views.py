@@ -251,18 +251,6 @@ def updateTicket(request, ticketID):
                 ticket_status = ticket.Status
                 form = UpdateForm(request.POST, instance=ticket)
                 if form.is_valid():
-                    if (
-                        ticket_status == "Resolved"
-                        and request.POST.get("Status") == "Resolved"
-                    ):
-                        ticket.Notes = request.POST.get("Notes")
-                        messages.add_message(
-                            request,
-                            messages.SUCCESS,
-                            'Ticket "%s" updated successfully!' % ticketID,
-                        )
-                        ticket.save()
-                        return redirect("showTicket")
                     update = form.save(commit=False)
                     if "HWDispatched" in form.changed_data:
                         try:
@@ -274,19 +262,7 @@ def updateTicket(request, ticketID):
                             raise Exception(
                                 "Invalid Serial Number for Hardware Dispatched"
                             )
-                    if update.Status == "Resolved":
-                        if not (
-                            update.FaultFoundCode
-                            and update.ResolutionCode
-                            and update.ResolutionRemarks
-                        ):
-                            raise Exception(
-                                "Ticket can be only resolved if Fault Found code, Resolution code and Resolution remarks are filled",
-                            )
-                        date = datetime.date.today()
-                        update.ResolutionDate = date
-                    else:
-                        update.ResolutionDate = None
+
                     update.save()
                     messages.add_message(
                         request,
@@ -295,9 +271,8 @@ def updateTicket(request, ticketID):
                     )
                     return redirect("showTicket")
                 else:
-                    messages.add_message(
-                        request, messages.ERROR, "Please fill all the fields!"
-                    )
+                    for error in form.errors.values():
+                        messages.add_message(request, messages.ERROR, error)
             except Exception as e:
                 messages.add_message(request, messages.ERROR, str(e))
 

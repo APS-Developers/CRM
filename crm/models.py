@@ -49,6 +49,11 @@ class Ticket(models.Model):
         ("Resolved", "Resolved"),
         ("Closed", "Closed"),
     ]
+    statusChoicesAfterResolved = [
+        ("Open", "Reopen"),
+        ("Resolved", "Resolved"),
+        ("Closed", "Closed"),
+    ]
     faultFoundChoices = [
         ("", "---------"),
         ("Power Issue", "Power Issue"),
