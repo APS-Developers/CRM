@@ -133,7 +133,6 @@ def updateCustomer(request, pk):
         else:
             for message in form.errors.values():
                 messages.add_message(request, messages.ERROR, message)
-            return redirect("updateCustomer", pk=pk)
     context = {"form": form, "type": "Customer", "name": "Update"}
     return render(request, "customer/create_update.html", context)
 
